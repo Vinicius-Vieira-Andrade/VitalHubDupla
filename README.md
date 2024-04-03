@@ -1,2 +1,3 @@
 # VitalHubDupla
-Repositorio do projeto vitalhub em dupla
+Repositorio do projeto vitalhub em dupla <br>
+By Vinicius & Mikael
