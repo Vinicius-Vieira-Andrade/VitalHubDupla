@@ -21,14 +21,16 @@ import {
   ButtonLarge,
 } from "../../components/Button/Button";
 import { userDecodeToken, userTokenLogout } from "../../utils/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const PatientProfile = ({ navigation }) => {
   const [cep, setCep] = useState("");
   const [logradouro, setLogradouro] = useState("");
+  const [endereco, setEndereco] = useState("");
   const [cidade, setCidade] = useState("");
   const [user, setUser] = useState({});
   const [paciente, setPaciente] = useState({});
-  const [doctor, setDoctor] = useState({});
+  const [medico, setMedico] = useState({});
 
   //funcao q guarda e carrega os dados trazidos da api
   async function profileLoad() {
@@ -39,6 +41,138 @@ export const PatientProfile = ({ navigation }) => {
       setUser(token);
     }
   }
+
+  // NÃO ESTÁ FUNCIONANDO, MÉTODO EM DESENVOLVIMENTO.
+  // SÓ RETORNA A ROLE DO PACIETE
+  async function searchUser() {
+    console.log(user.role)
+    // if (token.role === "Paciente") {
+    //   console.log('Paci')
+      
+    // } else if (token.role === "Medico") {
+    //   console.log('Medi')
+      
+    // } else {
+    //   console.log('Falhou')
+       
+    // } 
+    // await AsyncStorage.setItem("token", JSON.stringify())
+
+    // const token = await userDecodeToken()
+    // console.log(token)
+
+    // if (token.role === "Paciente") {
+    //     await api.get(`/Pacientes/${user.id}`);
+    //     setPaciente(response.data);
+    //     setCep(response.data.endereco.cep);
+    //     setCidade(response.data.endereco.cidade);
+    //     setLogradouro(response.data.endereco.logradouro);
+    //     console.log('Funcionando!')
+    // }
+    // else{
+    //   console.log("Não funcionou.")
+    // }
+  }
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     if (user.role === "Paciente") {
+  //       const response = await api.get(`Paciente/BuscarPorId?id=${user.id}`);
+  //       // await api.get(`/Pacientes/${user.id}`);
+  //         setPaciente(response.data);
+  //         setCep(response.data.endereco.cep);
+  //         setCidade(response.data.endereco.cidade);
+  //         setLogradouro(response.data.endereco.logradouro);
+  //         console.log('Funcionando!')
+
+  //     } else if (user.role === "Medico") {
+  //       // const response = 
+  //       await api.get(`/Medicos/${user.id}`);
+  //         setMedico(response.data);
+  //         setCep(response.data.endereco.cep);
+  //         setCidade(response.data.endereco.cidade);
+  //         setLogradouro(response.data.endereco.logradouro);
+  //         console.log('Funcionando! agora')
+  //     } else {
+  //       console.log("Error, função não está funcionando.")
+  //       console.log(user)
+  //     }
+  //   }
+  //   fetchUserData();
+  // }, [user]);
+
+
+
+  // useEffect(() => {
+  //   const fetchPatientData = async (id) => {
+  //     //  const response = await api.get(`/Pacientes/${user.id}`);
+  //     if (id !== null && user.role === 'Paciente') {
+  //       try {
+  //         const response = 
+  //         await api.get(`Paciente/BuscarPorId?id=${id}`);
+  //         setPaciente(response.data);
+  //         console.log(user.role)
+  //         setCep(response.data.endereco.cep);
+  //         setCidade(response.data.endereco.cidade);
+  //         setLogradouro(response.data.endereco.logradouro);
+  //        console.log('Funcionando!')
+  //       } catch (error) {
+  //         console.log('Falha de merda')
+  //       }
+
+  //      }
+  //      else{
+  //       console.log("Falhou.")
+  //      }
+  //   };
+
+
+    // const fetchMedicalData = async () => {
+    //    const response = await api.get(`/Medicos/${user.id}`);
+    //    if (response.data) {
+    //      setMedico(response.data);
+    //      setCep(response.data.endereco.cep);
+    //      setCidade(response.data.endereco.cidade);
+    //      setLogradouro(response.data.endereco.logradouro);
+    //      console.log('Funcionando! agora')
+    //     }
+    //     else{
+    //      console.log("Falhou. agora")
+    //     }
+    // };
+   
+    // if (user.role === "Paciente") {
+    //    fetchPatientData();
+    // }
+    // if (user.role === "Medico") {
+    //    fetchMedicalData();
+    // }
+  //   else{
+  //     console.log("Falhou...")
+  //     console.log(user.role)
+  //     // console.log(response.data)
+  //   }
+  //  }, [user]);
+
+  //  useEffect(() => {
+  //   const fetchData = async () => {
+  //      if (user && user.role) {
+  //        if (user.role === "Paciente") {
+  //          await fetchPatientData();
+  //        } else if (user.role === "Medico") {
+  //          await fetchMedicalData();
+  //        } else {
+  //          console.log("Role não reconhecida.");
+  //        }
+  //      } else {
+  //        console.log("User ou user.role não definidos.");
+  //      }
+  //   };
+   
+  //   fetchData();
+  //  }, [user]);
+   
+   
 
   useEffect(() => {
     const getCep = async () => {
@@ -63,6 +197,7 @@ export const PatientProfile = ({ navigation }) => {
 
   useEffect(() => {
     profileLoad();
+    searchUser();
   }, []);
 
   return (
@@ -75,7 +210,7 @@ export const PatientProfile = ({ navigation }) => {
 
         <DescriptionPassword description={user.email} />
 
-        {user == "Paciente" ? (
+        {/* {user == "Paciente" ? (
             <>
               
         <InputBox
@@ -182,13 +317,13 @@ export const PatientProfile = ({ navigation }) => {
           ) : (
             <></>
           ) 
-          }
+          } */}
 
           
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Data de nascimento:"}
-          // placeholder={paciente.IdNavigation.datanascimento}
+          placeholder={paciente.datanascimento}
           // placeholder={"Ex. 04/05/1999"}
           keyboardType="numeric"
           editable={true}
@@ -206,7 +341,7 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
-          // placeholder={paciente.endereco.logradouro}
+          placeholder={endereco.logradouro}
           editable={false}
           fieldValue={logradouro}
           fieldWidth={90}

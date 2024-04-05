@@ -87,21 +87,6 @@ export const Card = ({
         </BoxDateCancel>
       );
     }
-    // return (
-    //     <BoxDateCancel>
-
-    //     <ConsultDateGrey>
-
-    //         <FontAwesome6 name="clock" size={15} color="#4E4B59" />
-
-    //         <HourTextGrey>{hour}</HourTextGrey>
-
-    //     </ConsultDateGrey>
-
-    //     <CancelCard>Ver Prontuario</CancelCard>
-
-    // </BoxDateCancel>
-    // )
   };
 
   return (
