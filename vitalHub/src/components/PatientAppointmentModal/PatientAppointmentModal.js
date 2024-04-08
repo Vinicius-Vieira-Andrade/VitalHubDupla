@@ -13,23 +13,26 @@ import { DescriptionModalRecord } from "../Descriptions/StyledDescriptions";
 import { ImageModalRecord } from "../Images/StyleImages";
 import { TitleModal, TitleModalRecord } from "../Title/StyleTitle";
 import { BoxAgeEmailModal } from "./StylePatientAppointmentModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const PatientAppointmentModal = ({
   navigation,
   visible,
-  consulta,
   roleUsuario,
+  consulta,
   setShowModal = null,
   ...rest
 }) => {
 
-  const [showModalAppointment, setShowModalAppoitment] = useState()
+  // const [showModalAppointment, setShowModalAppoitment] = useState()
 
-function handlePress(rota) {
-  setShowModalAppoitment(false)
-  navigation.navigate(rota, {clinicaId: consulta.medicoClinic.clinicaId})
-}
+
+  function handlePress(rota) {
+    // setShowModalAppoitment(false)
+    navigation.replace(rota, { clinicaId: consulta.clinicaId })
+  }
+
+  console.log(` deu bom?${consulta}`);
 
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
@@ -39,17 +42,17 @@ function handlePress(rota) {
             source={require("../../assets/CardRecordPatient(doctorImage).png")}
           />
 
-          <TitleModalRecord>Dr Claudio</TitleModalRecord>
+          <TitleModalRecord>{consulta.medico.idNavigation.nome}</TitleModalRecord>
 
           <BoxAgeEmailModal>
-            <DescriptionModalRecord>Clínico Geral</DescriptionModalRecord>
-            <DescriptionModalRecord>CRM-15286</DescriptionModalRecord>
+            <DescriptionModalRecord>{}</DescriptionModalRecord>
+            <DescriptionModalRecord>{consulta.medico.crm}</DescriptionModalRecord>
           </BoxAgeEmailModal>
 
           <ButtonLargeConfirmModal
             onPress={() => {
               // navigation.navigate("ConsultLocalization");
-              handlePress(rota)
+              handlePress("ConsultLocalization")
               setShowModal(false);
             }}
             text={"Ver Local da Consulta"}

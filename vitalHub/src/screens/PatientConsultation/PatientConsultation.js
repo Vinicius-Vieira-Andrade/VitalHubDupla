@@ -171,7 +171,7 @@ export const PatientConsultation = ({ navigation }) => {
                 navigation.navigate("ViewPrescription");
               }}
               onPressAppointmentCard={() => {
-                setConsultaSelecionada(item.medicoClinica.medico);
+                setConsultaSelecionada(item.medicoClinica);
                 setShowModal(
                   item.situacao.situacao === "Agendadas" ? true : false
                 );

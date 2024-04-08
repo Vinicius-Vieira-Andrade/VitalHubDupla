@@ -66,7 +66,7 @@ export const PatientProfile = ({ navigation }) => {
   return (
     <ScrollContainer>
       <Container>
-        <ImagemPerfilPaciente source={require("../../assets/ney.webp")} />
+        <ImagemPerfilPaciente source={require("../../assets/sekiro_05-small.jpg")} />
 
         <TitleProfile>{user.name}</TitleProfile>
 
@@ -93,7 +93,7 @@ export const PatientProfile = ({ navigation }) => {
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
           placeholder={"Endereço..."}
-          editable={false}
+          editable={true}
           fieldValue={logradouro}
           fieldWidth={90}
         />
@@ -114,7 +114,7 @@ export const PatientProfile = ({ navigation }) => {
             placeholderTextColor={"#A1A1A1"}
             textLabel={"Cidade"}
             placeholder={"Cidade..."}
-            editable={false}
+            editable={true}
             fieldWidth={40}
             fieldValue={cidade}
           />
