@@ -12,8 +12,6 @@ import {
 import { InputBox } from "../../components/InputBox/InputBox";
 import { ImagemPerfilPaciente } from "../../components/Images/StyleImages";
 import { TitleProfile } from "../../components/Title/StyleTitle";
-import { LargeButton, NormalButton } from "../../components/Button/StyleButton";
-import { ButtonText } from "../../components/ButtonText/StyleButtonText";
 
 import api from "../../services/Services";
 import {
@@ -24,156 +22,99 @@ import { userDecodeToken, userTokenLogout } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const PatientProfile = ({ navigation }) => {
-  const [cep, setCep] = useState("");
-  const [logradouro, setLogradouro] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [user, setUser] = useState({});
+
   const [paciente, setPaciente] = useState({});
   const [medico, setMedico] = useState({});
+  const [datanascimento, setDataNascimento] = useState({});
+  const [cpf, setCpf] = useState({});
+  const [logradouro, setLogradouro] = useState({});
+  const [cep, setCep] = useState({});
+  const [cidade, setCidade] = useState({});
+
+  const [user, setUser] = useState({});
 
   //funcao q guarda e carrega os dados trazidos da api
   async function profileLoad() {
     const token = await userDecodeToken();
 
     if (token) {
-      console.log("funcionou!");
+      // console.log("funcionou!");
       setUser(token);
     }
   }
 
-  // NÃO ESTÁ FUNCIONANDO, MÉTODO EM DESENVOLVIMENTO.
-  // SÓ RETORNA A ROLE DO PACIETE
+  // NÃO ESTÁ CAINDO NO ELSE, MAS ESTÁ DANDO ERRO 401 ( PROVAVELMETE NÃO ESTÁ RECEBENDO O ID DE FORMA CORRETA )
   async function searchUser() {
-    console.log(user.role)
-    // if (token.role === "Paciente") {
-    //   console.log('Paci')
-      
-    // } else if (token.role === "Medico") {
-    //   console.log('Medi')
-      
-    // } else {
-    //   console.log('Falhou')
-       
-    // } 
-    // await AsyncStorage.setItem("token", JSON.stringify())
+    const token = await userDecodeToken();
+    console.log('O usuário atual é -',token.role, '-',token.name);
+    
+    const id = token.id;
 
-    // const token = await userDecodeToken()
-    // console.log(token)
+    // SE O USUÁRIO FOR PACIENTE 
+    if (token.role === "Paciente") {
+      try {
+        console.log('Funcionou, o usuário retornado é paciente') 
+        const response = await api.get(`/Pacientes/BuscarPorId?id=${user.id}`);
 
-    // if (token.role === "Paciente") {
-    //     await api.get(`/Pacientes/${user.id}`);
-    //     setPaciente(response.data);
-    //     setCep(response.data.endereco.cep);
-    //     setCidade(response.data.endereco.cidade);
-    //     setLogradouro(response.data.endereco.logradouro);
-    //     console.log('Funcionando!')
-    // }
-    // else{
-    //   console.log("Não funcionou.")
-    // }
+        console.log(user.id)
+
+        setPaciente(response.data);
+        setDataNascimento(response.data)
+        setCpf(response.data)
+        setLogradouro(response.data.endereco.logradouro);
+        setCep(response.data.endereco.cep);
+        setCidade(response.data.endereco.cidade);
+        
+      } catch (error) {
+        console.error('Paciente',error)
+        console.log(token)
+      }
+    }
+    
+    // SE O USUÁRIO FOR MEDICO 
+    else if (token.role === "Medico") {
+      try {
+        const response = await api.get(`/Medicos/BuscarPorId?id=${user.id}`);
+        console.log('Funcionou, o usuário retornado é medico')
+
+        setMedico(response.data);
+        setDataNascimento(response.data)
+        setCpf(response.data)
+        setLogradouro(response.data.endereco.logradouro);
+        setCep(response.data.endereco.cep);
+        setCidade(response.data.endereco.cidade);
+        
+      } catch (error) {
+        console.error('Medico',error)
+      }
+    } 
+    
+
+    // SE O USUÁRIO FOR INDEFINIDO
+    else {
+      console.error('A função Search User Falhou.', error)
+    }
+    console.log(paciente);
+    console.log(medico);
   }
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (user.role === "Paciente") {
-  //       const response = await api.get(`Paciente/BuscarPorId?id=${user.id}`);
-  //       // await api.get(`/Pacientes/${user.id}`);
-  //         setPaciente(response.data);
-  //         setCep(response.data.endereco.cep);
-  //         setCidade(response.data.endereco.cidade);
-  //         setLogradouro(response.data.endereco.logradouro);
-  //         console.log('Funcionando!')
+  
+  // await AsyncStorage.setItem("token", JSON.stringify())
 
-  //     } else if (user.role === "Medico") {
-  //       // const response = 
-  //       await api.get(`/Medicos/${user.id}`);
-  //         setMedico(response.data);
-  //         setCep(response.data.endereco.cep);
-  //         setCidade(response.data.endereco.cidade);
-  //         setLogradouro(response.data.endereco.logradouro);
-  //         console.log('Funcionando! agora')
-  //     } else {
-  //       console.log("Error, função não está funcionando.")
-  //       console.log(user)
-  //     }
-  //   }
-  //   fetchUserData();
-  // }, [user]);
+  // const token = await userDecodeToken()
+  // console.log(token)
 
-
-
-  // useEffect(() => {
-  //   const fetchPatientData = async (id) => {
-  //     //  const response = await api.get(`/Pacientes/${user.id}`);
-  //     if (id !== null && user.role === 'Paciente') {
-  //       try {
-  //         const response = 
-  //         await api.get(`Paciente/BuscarPorId?id=${id}`);
-  //         setPaciente(response.data);
-  //         console.log(user.role)
-  //         setCep(response.data.endereco.cep);
-  //         setCidade(response.data.endereco.cidade);
-  //         setLogradouro(response.data.endereco.logradouro);
-  //        console.log('Funcionando!')
-  //       } catch (error) {
-  //         console.log('Falha de merda')
-  //       }
-
-  //      }
-  //      else{
-  //       console.log("Falhou.")
-  //      }
-  //   };
-
-
-    // const fetchMedicalData = async () => {
-    //    const response = await api.get(`/Medicos/${user.id}`);
-    //    if (response.data) {
-    //      setMedico(response.data);
-    //      setCep(response.data.endereco.cep);
-    //      setCidade(response.data.endereco.cidade);
-    //      setLogradouro(response.data.endereco.logradouro);
-    //      console.log('Funcionando! agora')
-    //     }
-    //     else{
-    //      console.log("Falhou. agora")
-    //     }
-    // };
-   
-    // if (user.role === "Paciente") {
-    //    fetchPatientData();
-    // }
-    // if (user.role === "Medico") {
-    //    fetchMedicalData();
-    // }
-  //   else{
-  //     console.log("Falhou...")
-  //     console.log(user.role)
-  //     // console.log(response.data)
-  //   }
-  //  }, [user]);
-
-  //  useEffect(() => {
-  //   const fetchData = async () => {
-  //      if (user && user.role) {
-  //        if (user.role === "Paciente") {
-  //          await fetchPatientData();
-  //        } else if (user.role === "Medico") {
-  //          await fetchMedicalData();
-  //        } else {
-  //          console.log("Role não reconhecida.");
-  //        }
-  //      } else {
-  //        console.log("User ou user.role não definidos.");
-  //      }
-  //   };
-   
-  //   fetchData();
-  //  }, [user]);
-   
-   
-
+  // if (token.role === "Paciente") {
+  //     await api.get(`/Pacientes/${user.id}`);
+  //     setPaciente(response.data);
+  //     setCep(response.data.endereco.cep);
+  //     setCidade(response.data.endereco.cidade);
+  //     setLogradouro(response.data.endereco.logradouro);
+  //     console.log('Funcionando!')
+  // }
+  // else{
+  //   console.log("Não funcionou.")
+  // }
   useEffect(() => {
     const getCep = async () => {
       if (cep !== "" && cep.length === 8) {
@@ -323,7 +264,7 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Data de nascimento:"}
-          placeholder={paciente.datanascimento}
+          // placeholder={paciente.datanascimento}
           // placeholder={"Ex. 04/05/1999"}
           keyboardType="numeric"
           editable={true}
@@ -332,7 +273,7 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"CPF"}
-          // placeholder={paciente.IdNavigation.cpf}
+          placeholder={paciente.cpf}
           keyboardType="numeric"
           maxLength={11}
           editable={true}
@@ -341,7 +282,7 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
-          placeholder={endereco.logradouro}
+          // placeholder={endereco.logradouro}
           editable={false}
           fieldValue={logradouro}
           fieldWidth={90}
