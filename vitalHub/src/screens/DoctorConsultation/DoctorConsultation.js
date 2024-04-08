@@ -21,6 +21,7 @@ import { CancellationModal } from "../../components/CancellationModal/Cancellati
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal";
 import moment from "moment";
 import { userDecodeToken } from "../../utils/Auth";
+import api from "../../services/Services";
 
 export const DoctorConsultation = ({ navigation }) => {
   const [user, setUser] = useState([]);
@@ -57,7 +58,7 @@ export const DoctorConsultation = ({ navigation }) => {
 
   async function GetSchedule() {
     await api
-      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
+      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&idMedico=${user.user}`)
       .then((response) => {
         setSchedule(response.data);
 
@@ -77,25 +78,6 @@ export const DoctorConsultation = ({ navigation }) => {
       GetSchedule();
     }
   }, [dataConsulta]);
-
-  // CARD MOCADOS
-
-  //FILTRO PARA CARD
-
-  const Check = (data) => {
-    if (data.status === "a" && selected.agendadas) {
-      return true;
-    }
-    if (data.status === "r" && selected.realizadas) {
-      return true;
-    }
-    if (data.status === "c" && selected.canceladas) {
-      return true;
-    }
-    return false;
-  };
-
-  // const data = dataItens.filter(Check);
 
   // STATES PARA OS MODAIS
 
@@ -123,7 +105,7 @@ export const DoctorConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar /> 
+      <Calendar />
 
       <ButtonHomeContainer>
         <FilterButton
@@ -159,10 +141,11 @@ export const DoctorConsultation = ({ navigation }) => {
               navigation={navigation}
               hour={"14:00"}
               name={item.paciente.idNavigation.nome}
-              age={currentYear - item.paciente.dataNascimento}
+              // age={"20"}
+               age={currentYear - item.paciente.dataNascimento}
               routine={item.situacao.situacao}
               url={image}
-              status={item.status}
+              status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
               onPressAppointment={() => setShowModalAppointment(true)}
             />

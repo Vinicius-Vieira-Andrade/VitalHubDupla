@@ -81,24 +81,6 @@ export const PatientConsultation = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-    // try {
-    //   const token = await userDecodeToken()
-
-    //   if (token) {
-    //     const req = await api.get("/Consultas", {
-    //       headers: { Authorization: `Bearer ${token}` }
-    //     })
-    //     setSchedule(req.data);
-    //     console.log(req.data);
-    //   }
-
-    //   else{
-    //     console.log("token não encontrado!");
-    //   }
-
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
   async function ProfileLoad() {
@@ -176,7 +158,6 @@ export const PatientConsultation = ({ navigation }) => {
         renderItem={({ item }) =>
           item.situacao.situacao == consultaState && (
             <Card
-              // paciente={item}
               navigation={navigation}
               hour={"14:00"}
               name={item.medicoClinica.medico.idNavigation.nome}
