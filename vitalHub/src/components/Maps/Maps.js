@@ -23,15 +23,15 @@ import MapViewDirections from 'react-native-maps-directions';
 import { mapsKey } from '../../utils/MapsKey';
 
 
-export default function Maps() {
+export default function Maps({latitude, longitude}) {
 
   const colorScheme = useColorScheme();
 
   const mapReference = useRef(null);
   const [initialPosition, setInitialPosition] = useState(null);
   const [finalPosition, setFinalPosition] = useState({
-    latitude: -23.629205,
-    longitude: -46.471853
+    latitude,
+    longitude,
   })
 
   async function CapturarLocalizacao() {
@@ -109,8 +109,8 @@ export default function Maps() {
 
               <Marker
                 coordinate={{
-                  latitude: -23.615018,
-                  longitude: -46.570744
+                  latitude: initialPosition.coords.latitude,
+                  longitude: initialPosition.coords.longitude
                 }}
                 title='Exemplo de  outro local'
                 description='Qualquer lugar no meu mapa'
@@ -120,8 +120,8 @@ export default function Maps() {
               <MapViewDirections
                 origin={initialPosition.coords}
                 destination={{
-                  latitude: -23.629205,
-                  longitude: -46.471853,
+                  latitude: finalPosition.latitude,
+                  longitude: finalPosition.longitude,
                   latitudeDelta: 0.001,
                   longitudeDelta: 0.001
                 }}

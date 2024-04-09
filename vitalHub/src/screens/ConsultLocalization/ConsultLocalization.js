@@ -13,30 +13,32 @@ import api from "../../services/Services";
 import { ActivityIndicator } from "react-native";
 
 export const ConsultLocalization = ({ navigation, route }) => {
-
-  const [clinicaSelecionada, setClinicaSelecionada] = useState(null)
+  const [clinicaSelecionada, setClinicaSelecionada] = useState(null);
 
   async function BuscarClinicaId() {
-    await api.get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`).then(response => {
-      setClinicaSelecionada(response.data)
-      console.log(response.data);
-      console.log(clinicaSelecionada.endereco.cidade);
-    }).catch(error => {
-      console.log(error);
-    })
+    await api
+      .get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
+      .then((response) => {
+        setClinicaSelecionada(response.data);
+        console.log(response.data);
+        console.log(clinicaSelecionada.endereco.cidade);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   useEffect(() => {
     if (clinicaSelecionada == null) {
-      BuscarClinicaId()
+      BuscarClinicaId();
     }
-  }, [clinicaSelecionada])
+  }, [clinicaSelecionada]);
   return (
     <Container>
       {
-        clinica != null ? (
+        clinicaSelecionada != null ? (
           <>
-            <Maps />
+            <Maps latitude={clinicaSelecionada.} longitude={clinicaSelecionada}/>
 
             <TitleLocalization>Clínica Natureh</TitleLocalization>
 
@@ -76,7 +78,9 @@ export const ConsultLocalization = ({ navigation, route }) => {
               text={"Voltar"}
             />
           </>
-        ) : (<ActivityIndicator/>) //loading
+        ) : (
+          <ActivityIndicator />
+        ) //loading
       }
     </Container>
   );

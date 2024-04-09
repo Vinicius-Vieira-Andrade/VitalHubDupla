@@ -6,10 +6,11 @@ const porta = '4466';
 
 //declarar o ip da maquina 
 
-const ip = '172.16.39.109';
+const ipSenai = '172.16.39.109';
+const ipCasa = '192.168.10.139';
 
 //definir a url padrao
-const apiUrlLocal = `http://${ip}:${porta}/api`;
+const apiUrlLocal = `http://${ipCasa}:${porta}/api`;
 
 //trazer a configuracao do axios
 

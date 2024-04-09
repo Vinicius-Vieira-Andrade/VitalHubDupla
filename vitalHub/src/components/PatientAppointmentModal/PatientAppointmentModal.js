@@ -1,4 +1,4 @@
-import { Modal } from "react-native";
+import { ActivityIndicator, Modal } from "react-native";
 import {
   ButtonLargeConfirmModal,
   ButtonLargeModal,
@@ -23,47 +23,55 @@ export const PatientAppointmentModal = ({
   setShowModal = null,
   ...rest
 }) => {
-
-  // const [showModalAppointment, setShowModalAppoitment] = useState()
-
+  // if (!consulta) {
+  //   return null;
+  // }
 
   function handlePress(rota) {
     // setShowModalAppoitment(false)
-    navigation.replace(rota, { clinicaId: consulta.clinicaId })
+    navigation.replace(rota, { clinicaId: consulta.clinicaId });
   }
 
   console.log(` deu bom?${consulta}`);
 
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
-      <PatientModal>
-        <ModalContent>
-          <ImageModalRecord
-            source={require("../../assets/CardRecordPatient(doctorImage).png")}
-          />
+      {consulta != null ? (
+        <PatientModal>
+          <ModalContent>
+            <ImageModalRecord
+              source={require("../../assets/CardRecordPatient(doctorImage).png")}
+            />
 
-          <TitleModalRecord>{consulta.medico.idNavigation.nome}</TitleModalRecord>
+            <TitleModalRecord>
+              {consulta.medico.idNavigation.nome}
+            </TitleModalRecord>
 
-          <BoxAgeEmailModal>
-            <DescriptionModalRecord>{}</DescriptionModalRecord>
-            <DescriptionModalRecord>{consulta.medico.crm}</DescriptionModalRecord>
-          </BoxAgeEmailModal>
+            <BoxAgeEmailModal>
+              <DescriptionModalRecord>{}</DescriptionModalRecord>
+              <DescriptionModalRecord>
+                {consulta.medico.crm}
+              </DescriptionModalRecord>
+            </BoxAgeEmailModal>
 
-          <ButtonLargeConfirmModal
-            onPress={() => {
-              // navigation.navigate("ConsultLocalization");
-              handlePress("ConsultLocalization")
-              setShowModal(false);
-            }}
-            text={"Ver Local da Consulta"}
-          />
+            <ButtonLargeConfirmModal
+              onPress={() => {
+                // navigation.navigate("ConsultLocalization");
+                handlePress("ConsultLocalization");
+                setShowModal(false);
+              }}
+              text={"Ver Local da Consulta"}
+            />
 
-          <CardCancelLess
-            onPressCancel={() => setShowModal(false)}
-            text={"Cancelar"}
-          />
-        </ModalContent>
-      </PatientModal>
+            <CardCancelLess
+              onPressCancel={() => setShowModal(false)}
+              text={"Cancelar"}
+            />
+          </ModalContent>
+        </PatientModal>
+      ) : (
+        <ActivityIndicator />
+      )}
     </Modal>
   );
 };
