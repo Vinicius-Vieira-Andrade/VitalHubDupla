@@ -27,7 +27,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
         console.log(error);
       });
   }
-
+  
   useEffect(() => {
     if (clinicaSelecionada == null) {
       BuscarClinicaId();
@@ -37,8 +37,8 @@ export const ConsultLocalization = ({ navigation, route }) => {
     <Container>
       {
         clinicaSelecionada != null ? (
-          <>
-            <Maps latitude={clinicaSelecionada.} longitude={clinicaSelecionada}/>
+          <>          
+            <Maps latitude={clinicaSelecionada.latitude} longitude={clinicaSelecionada.longitude}/>
 
             <TitleLocalization>Clínica Natureh</TitleLocalization>
 

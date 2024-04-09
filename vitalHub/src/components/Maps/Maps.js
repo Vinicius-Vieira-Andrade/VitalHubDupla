@@ -120,8 +120,8 @@ export default function Maps({latitude, longitude}) {
               <MapViewDirections
                 origin={initialPosition.coords}
                 destination={{
-                  latitude: finalPosition.latitude,
-                  longitude: finalPosition.longitude,
+                  latitude: finalPosition,
+                  longitude: finalPosition,
                   latitudeDelta: 0.001,
                   longitudeDelta: 0.001
                 }}

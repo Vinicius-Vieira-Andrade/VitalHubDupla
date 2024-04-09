@@ -44,7 +44,6 @@ export const PatientConsultation = ({ navigation }) => {
   const image = require("../../assets/CardDoctorImage.png");
 
   // STATES PARA OS MODAIS
-  const [state, setState] = useState("");
 
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
@@ -54,17 +53,17 @@ export const PatientConsultation = ({ navigation }) => {
 
   const [role, setRole] = useState("");
 
-  function MostrarModal(modal, consulta) {
-    setConsultaSelecionada(consulta);
+  // function MostrarModal(modal, consulta) {
+  //   setConsultaSelecionada(consulta);
 
-    if (modal == "Canceladas") {
-      setShowModalCancel(true);
-    } else if (modal == "Realizadas") {
-      setShowModalAppointment(true);
-    } else {
-      setShowModalStethoscope(true);
-    }
-  }
+  //   if (modal == "Canceladas") {
+  //     setShowModalCancel(true);
+  //   } else if (modal == "Realizadas") {
+  //     setShowModalAppointment(true);
+  //   } else {
+  //     setShowModalStethoscope(true);
+  //   }
+  // }
 
   async function GetSchedule() {
     // const url = (user.role == 'paciente' ? 'Pacientes' : 'Medicos')
@@ -168,7 +167,10 @@ export const PatientConsultation = ({ navigation }) => {
               status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
               onPressAppointment={() => {
-                navigation.navigate("ViewPrescription");
+                setConsultaSelecionada(item.medicoClinica)
+                navigation.navigate("ViewPrescription", {
+                  consultaId: consulta.id, consultaMedico: consulta.medicoClinica.medico
+                });
               }}
               onPressAppointmentCard={() => {
                 setConsultaSelecionada(item.medicoClinica);

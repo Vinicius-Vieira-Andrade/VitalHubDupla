@@ -30,6 +30,7 @@ export const CreateAccount = ({ navigation }) => {
         }).then(response => {
             console.log(response.data);
             alert('cadastrado com sucesso!')
+            navigation.replace("Login")
         })
     }
 
