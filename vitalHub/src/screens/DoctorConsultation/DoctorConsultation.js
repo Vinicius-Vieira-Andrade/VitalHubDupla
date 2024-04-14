@@ -105,7 +105,7 @@ export const DoctorConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar />
+      <Calendar setDataConsulta={setDataConsulta}/>
 
       <ButtonHomeContainer>
         <FilterButton

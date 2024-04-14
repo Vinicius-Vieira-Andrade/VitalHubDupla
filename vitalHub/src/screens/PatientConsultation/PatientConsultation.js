@@ -169,8 +169,9 @@ export const PatientConsultation = ({ navigation }) => {
               onPressAppointment={() => {
                 setConsultaSelecionada(item.medicoClinica)
                 navigation.navigate("ViewPrescription", {
-                  consultaId: consulta.id, consultaMedico: consulta.medicoClinica.medico
+                  consultaId: item.id, consultaMedico: item.medicoClinica.medico, consulta: item
                 });
+                console.log("item" + item.receita);
               }}
               onPressAppointmentCard={() => {
                 setConsultaSelecionada(item.medicoClinica);

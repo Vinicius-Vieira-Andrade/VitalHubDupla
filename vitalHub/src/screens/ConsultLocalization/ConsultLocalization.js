@@ -20,8 +20,8 @@ export const ConsultLocalization = ({ navigation, route }) => {
       .get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
       .then((response) => {
         setClinicaSelecionada(response.data);
-        console.log(response.data);
-        console.log(clinicaSelecionada.endereco.cidade);
+        console.log("data", response.data);
+        // console.log(clinicaSelecionada.endereco.cidade);
       })
       .catch((error) => {
         console.log(error);
@@ -33,24 +33,28 @@ export const ConsultLocalization = ({ navigation, route }) => {
       BuscarClinicaId();
     }
   }, [clinicaSelecionada]);
+
+
+
   return (
     <Container>
       {
         clinicaSelecionada != null ? (
           <>          
-            <Maps latitude={clinicaSelecionada.latitude} longitude={clinicaSelecionada.longitude}/>
+            <Maps latitude={clinicaSelecionada.endereco.latitude} longitude={clinicaSelecionada.endereco.longitude}/>
 
-            <TitleLocalization>Clínica Natureh</TitleLocalization>
+            <TitleLocalization>{clinicaSelecionada.nomeFantasia}</TitleLocalization>
 
-            <AgeTextCard>São Paulo, SP</AgeTextCard>
+            <AgeTextCard>{clinicaSelecionada.endereco.cidade}</AgeTextCard>
 
             <InputBox
               placeholderTextColor={"#33303E"}
-              textLabel={"Endreço"}
+              textLabel={"Endereço"}
               placeholder={"Ex. Rua Vicenso Silva, 58"}
               // keyboardType="numeric"
               editable={true}
               fieldWidth={90}
+              fieldValue={clinicaSelecionada.endereco.logradouro}
             />
 
             <ContainerCepCidade>
@@ -61,6 +65,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
                 keyboardType="numeric"
                 editable={true}
                 fieldWidth={40}
+                fieldValue={`${clinicaSelecionada.endereco.numero}`}
               />
               <InputBox
                 placeholderTextColor={"#33303E"}
@@ -68,6 +73,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
                 placeholder={"Ex. Vila Ema"}
                 editable={true}
                 fieldWidth={40}
+                fieldValue={clinicaSelecionada.endereco.cidade}
               />
             </ContainerCepCidade>
 
