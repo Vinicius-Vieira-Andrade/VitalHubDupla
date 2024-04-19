@@ -90,7 +90,7 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Descrição da consulta"}
               placeholder={"Descricão"}
-              editable={false}
+              editable={true}
               fieldWidth={90}
               fieldValue={route.params.consulta.descricao}
             />

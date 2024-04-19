@@ -33,11 +33,13 @@ export const DoctorConsultation = ({ navigation }) => {
   const currentYear = currentDate.year();
 
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
-  const [selected, setSelected] = useState({
-    agendadas: true,
-    realizadas: false,
-    canceladas: false,
-  });
+  // const [selected, setSelected] = useState({
+  //   agendadas: true,
+  //   realizadas: false,
+  //   canceladas: false,
+  // });
+
+  const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
   const image = require("../../assets/ImageCard.png");
 
@@ -58,7 +60,7 @@ export const DoctorConsultation = ({ navigation }) => {
 
   async function GetSchedule() {
     await api
-      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&idMedico=${user.user}`)
+      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
         setSchedule(response.data);
 
@@ -105,7 +107,7 @@ export const DoctorConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar setDataConsulta={setDataConsulta}/>
+      <Calendar setDataConsulta={setDataConsulta} />
 
       <ButtonHomeContainer>
         <FilterButton
@@ -142,12 +144,17 @@ export const DoctorConsultation = ({ navigation }) => {
               hour={"14:00"}
               name={item.paciente.idNavigation.nome}
               // age={"20"}
-               age={currentYear - item.paciente.dataNascimento}
+              age={currentYear - item.paciente.dataNascimento}
               routine={item.situacao.situacao}
               url={image}
               status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
-              onPressAppointment={() => setShowModalAppointment(true)}
+              onPressAppointment={() => {
+                setConsultaSelecionada(item.medicoClinica);
+                
+                console.log("receba" + consultaSelecionada);
+                setShowModalAppointment(true)
+              }}
             />
           )
         }

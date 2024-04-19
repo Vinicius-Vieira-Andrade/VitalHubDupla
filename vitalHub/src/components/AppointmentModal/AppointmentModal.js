@@ -20,7 +20,7 @@ export const AppointmentModal = ({
             visible={visible}
             transparent={true}
             animationType="fade">
-                
+
             <PatientModal>
 
                 <ModalContent>
@@ -36,7 +36,7 @@ export const AppointmentModal = ({
 
                     </BoxAgeEmailModal>
 
-                    <ButtonLargeSelect onPress={() => {navigation.navigate("MedicalRecords")}} text={"Inserir Prontuário"} />
+                    <ButtonLargeSelect onPress={() => { navigation.navigate("MedicalRecords") }} text={"Inserir Prontuário"} />
 
                     <CardCancelLess onPressCancel={() => setShowModalAppointment(false)} text={"Cancelar"} />
 

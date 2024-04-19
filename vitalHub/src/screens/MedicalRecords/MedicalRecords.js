@@ -5,10 +5,33 @@ import { CancelButtonRecords } from "../../components/Descriptions/StyledDescrip
 import { HighInputBox, LargeInputTextBox } from "../../components/InputBox/InputBox"
 import { ImagemPerfilPaciente } from "../../components/Images/StyleImages"
 import { TitleProfile } from "../../components/Title/StyleTitle"
+import { useEffect, useState } from "react"
+import api from "../../services/Services"
 
 
 
-export const MedicalRecords = ({ navigation }) => {
+export const MedicalRecords = ({ navigation, route }) => {
+
+
+    const [user, setUser] = useState();
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null);
+
+    async function BuscarProntuario() {
+        await api
+            .get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
+            .then((response) => {
+                console.log(response.data);
+                setConsultaSelecionada(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    useEffect(() => {
+        BuscarProntuario()
+    }, [route])
+
     return (
 
         <ScrollContainer>
