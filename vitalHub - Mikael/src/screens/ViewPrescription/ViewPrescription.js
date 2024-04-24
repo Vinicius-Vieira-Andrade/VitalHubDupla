@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { SendButton } from "../../components/Button/Button"
 import { ButtonSend } from "../../components/Button/StyleButton"
 import { BoxAgeEmail, BoxBtn, BoxDescription, BoxViewImageImport, Container, ScrollContainer, ViewImageImport } from "../../components/Container/StyleContainer"
@@ -9,12 +9,16 @@ import { Label } from "../../components/Label/Label"
 import { TitleProfile } from "../../components/Title/StyleTitle"
 import { ImportImages, Line, TitleImage } from "./Style"
 
+import { CameraModal } from '../../components/Camera/CameraModal'
+
 import * as MediaLibrary from "expo-media-library"
 
 // import { useRoute } from '@react-navigation/native';
 
 export const ViewPrescription = ({ navigation, route }) => {
-
+    const [photo, setPhoto] = useState( false )
+    const [uriCameraCapture, setUriCameraCapture] = useState( false )
+    const [showCameraModal, setShowCameraModal] = useState( false )
     // const { photoUri } = route.params;
 
     useEffect(() => {
@@ -74,8 +78,16 @@ export const ViewPrescription = ({ navigation, route }) => {
 
                     </BoxViewImageImport>
 
+                    <CameraModal
+                        getMediaLibrary={true}
+                        visible={showCameraModal}
+                        setUriCameraCapture={setUriCameraCapture}
+                        // setShowCameraModal={setShowCameraModal}
+                        setShowModalCancel={setShowCameraModal}
+                    />
+
                     <BoxBtn>
-                        <SendButton onPress={() => { navigation.navigate("Camera") }} text={"Enviar"} />
+                        <SendButton onPress={ () => setShowCameraModal(true)} text={"Enviar"} />
                         <CardCancel onPressCancel={() => {navigation.replace("Main") }} text={"Cancelar"} />
                     </BoxBtn>
 

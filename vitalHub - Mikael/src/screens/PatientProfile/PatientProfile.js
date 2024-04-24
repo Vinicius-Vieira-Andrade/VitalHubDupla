@@ -22,6 +22,12 @@ import { userDecodeToken, userTokenLogout } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { ButtonCamera, ViewImageProfile } from "./style";
+import { View } from "react-native";
+import { CameraModal } from "../../components/Camera/CameraModal";
+import { err } from "react-native-svg";
+
 export const PatientProfile = ({ navigation }) => {
 
   const [paciente, setPaciente] = useState({});
@@ -34,114 +40,41 @@ export const PatientProfile = ({ navigation }) => {
 
   const [user, setUser] = useState({});
 
+  const [photo, setPhoto] = useState( false )
+  const [uriCameraCapture, setUriCameraCapture] = useState( false )
+  const [showCameraModal, setShowCameraModal] = useState( false )
+
   //funcao q guarda e carrega os dados trazidos da api
   async function profileLoad() {
     const token = await userDecodeToken();
 
-    if (token !== null) {
-      
-      // await searchUser(token);
-      setUser(token);
+    if ( token !== null ) {
+      // console.log(token)
+      setUser( token );
     }
 
     else{
-      console.error(error);
-      // searchUser
+      console.error(error, "Function Profile Load");
     }
   }
 
-  // 
-  // async function searchUser(token) {
-  //   const url = (token.role == "Medico" ? "Medicos" : "Pacientes");
-  //   console.log('O usuário atual é -',token.role, '-',token.name, '-', token.id);
+  async function GetUser() {
+    try {
+      const token = await userDecodeToken();
+      console.log(token.role)
+      if (token.role !== null) {
+        console.log("Deu Certo!", token);
+        const url = await token.role === "Medico" ? "Medicos" :  "Pacientes";
+        const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
+        setUser(response.data);
+      } else {
+        console.error('ELSE','Erro ao buscar dados do usuário:', error);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+    }
+  }
 
-  //   console.log(token)
-
-  //   if (token.role !== null) {
-  //     const response = await api.get(`/${url}/BuscarPorId?id=${token.id}`)
-  
-  //     setPaciente(response.data)
-  //     // setMedico(responseData)
-  //     // setDataNascimento(responseData.paciente.datanascimento)
-  //     // setCpf(responseData)
-  //     setLogradouro(response.data.logradouro)
-  //     // setCep(responseData.endereco.cep)
-  //     setCidade(response.data.localidade)
-  //   } else {
-  //     console.log('Error');
-  //   }
-    
-  // }
-    
-    // SE O USUÁRIO FOR PACIENTE 
-    // if (token.role === "Paciente") {
-    //   try {
-    //     // console.log('Funcionou, o usuário retornado é Paciente') 
-    //     // console.log('-', token.role, '-',user.id)
-    //     // const response = 
-    //     await api.get(`/${url}/BuscarPorId?id=${user.id}`)
-    //     .then( response => {
-    //       setPaciente(response.data);
-          
-    //     })
-
-
-    //     // setDataNascimento(response.data)
-    //     // setCpf(response.data)
-    //     // setLogradouro(response.data.endereco.logradouro);
-    //     // setCep(response.data.endereco.cep);
-    //     // setCidade(response.data.endereco.cidade);
-        
-    //   } catch (error) {
-    //     console.error('Paciente',error)
-    //     // console.log(token)
-    //   }
-    // }
-    
-    // // SE O USUÁRIO FOR MEDICO 
-    // else if (token.role === "Medico") {
-    //   try {
-    //     const response = await api.get(`/Medicos/BuscarPorId?id=${user.id}`);
-    //     console.log('Funcionou, o usuário retornado é medico')
-
-    //     setMedico(response.data);
-    //     setDataNascimento(response.data)
-    //     setCpf(response.data)
-    //     setLogradouro(response.data.endereco.logradouro);
-    //     setCep(response.data.endereco.cep);
-    //     setCidade(response.data.endereco.cidade);
-        
-    //   } catch (error) {
-    //     console.error('Medico',error)
-    //   }
-    // } 
-    
-
-    // // SE O USUÁRIO FOR INDEFINIDO
-    // else {
-    //   console.error('A função Search User Falhou.', error)
-    // }
-    // // console.log(paciente);
-    // // console.log(medico);
-
-
-  
-  // await AsyncStorage.setItem("token", JSON.stringify())
-
-  // const token = await userDecodeToken()
-  // console.log(token)
-
-  // if (token.role === "Paciente") {
-  //     await api.get(`/Pacientes/${user.id}`);
-  //     setPaciente(response.data);
-  //     setCep(response.data.endereco.cep);
-  //     setCidade(response.data.endereco.cidade);
-  //     setLogradouro(response.data.endereco.logradouro);
-  //     console.log('Funcionando!')
-  // }
-  // else{
-  //   console.log("Não funcionou.")
-  // }
   useEffect(() => {
     const getCep = async () => {
       if (cep !== "" && cep.length === 8) {
@@ -163,45 +96,66 @@ export const PatientProfile = ({ navigation }) => {
     getCep();
   }, [cep]);
 
-  const BuscarDadosUsuario = () => {
-    const [usuario, setUsuario] = useState({});
-   
-    useEffect(() => {
-       const buscarDados = async () => {
-         try {
-           const token = await userDecodeToken(); // Supondo que userDecodeToken é uma função que retorna o token do usuário
-           const url = token.role === "Medico" ? "Medicos" : "Pacientes";
-           const response = await axios.get(`/${url}/BuscarPorId?id=${token.id}`);
-           setUsuario(response.data);
-         } catch (error) {
-           console.error('Erro ao buscar dados do usuário:', error);
-         }
-       };
-   
-       buscarDados();
-    }, []);
+  useEffect(() => {
+    profileLoad();
+    GetUser();
+  }, []);
+
+  async function AlterarFotoPerfil() {
+    const formData = new FormData()
+    formData.append("Arquivo", {
+      uri : uriCameraCapture,
+      name : `image.${uriCameraCapture.split(".")[1]}`,
+      type : `image/${uriCameraCapture.split(".")[1]}`,
+    })
+
+    // console.log(user)
+    await api.put(`/Usuario/AlterarFotoPerfil?id=${token.id}`, FormData, {
+      headers : {
+        "Content-Type" : "multipart/form-data"
+      }
+    }).then( response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {
-    profileLoad();
-    // searchUser();
-  }, []);
+    if ( uriCameraCapture != null ) {
+      AlterarFotoPerfil();
+    }
+  },[uriCameraCapture])
 
   return (
     <ScrollContainer>
       <Container>
 
+        <CameraModal
+          getMediaLibrary={true}
+          visible={showCameraModal}
+          setUriCameraCapture={setUriCameraCapture}
+          setShowModalCancel={setShowCameraModal}
+        />
+
+        <ViewImageProfile>
         <ImagemPerfilPaciente source={require("../../assets/ney.webp")} />
 
-        <TitleProfile>{user.name}</TitleProfile>
+        <ButtonCamera onPress={ () => setShowCameraModal(true)}>
+          <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB'/>
+        </ButtonCamera>
+        </ViewImageProfile>
+        
 
-        <DescriptionPassword description={user.email} />
+
+        {/* <TitleProfile>{user.idNavigation.nome}</TitleProfile> */}
+
+        {/* <DescriptionPassword description={user.idNavigation.email} /> */}
 
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Data de nascimento:"}
-          // placeholder={token.paciente.datanascimento}
-          // placeholder={"Ex. 04/05/1999"}
+          placeholder={user.dataNascimento}
           keyboardType="numeric"
           editable={true}
           fieldWidth={90}
@@ -218,9 +172,8 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
-          placeholder={logradouro}
+          // placeholder={user.endereco.logradouro}
           editable={false}
-          fieldValue={logradouro}
           fieldWidth={90}
         />
 
@@ -228,21 +181,19 @@ export const PatientProfile = ({ navigation }) => {
           <InputBox
             placeholderTextColor={"#A1A1A1"}
             textLabel={"CEP"}
-            // placeholder={paciente.endereco.cep}
+            // placeholder={user.endereco.cep}
             maxLength={8}
             onChangeText={(text) => setCep(text)}
             keyboardType="numeric"
             editable={true}
             fieldWidth={40}
-            fieldValue={cep}
           />
           <InputBox
             placeholderTextColor={"#49B3BA"}
             textLabel={"Cidade"}
-            // placeholder={paciente.endereco.cidade}
+            // placeholder={user.endereco.cidade}
             editable={false}
             fieldWidth={40}
-            fieldValue={cidade}
           />
         </ContainerCepCidade>
 
