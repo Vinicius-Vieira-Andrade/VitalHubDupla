@@ -12,6 +12,7 @@ import { ImportImages, Line, TitleImage } from "./Style"
 import { CameraModal } from '../../components/Camera/CameraModal'
 
 import * as MediaLibrary from "expo-media-library"
+import api from "../../services/Services"
 
 // import { useRoute } from '@react-navigation/native';
 
@@ -26,6 +27,63 @@ export const ViewPrescription = ({ navigation, route }) => {
         console.log("sada") 
         console.log(route.params)
     }, [route])
+
+    async function AlterarFotoPerfil() {
+        const formData = new FormData();
+        formData.append("Arquivo", {
+          uri: uriCameraCapture,
+          name: `image.${uriCameraCapture.split(".")[1]}`,
+          type: `image/${uriCameraCapture.split(".")[1]}`,
+        });
+      
+        try {
+          const response = await api.put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+      
+          // Se a alteração da foto for bem-sucedida, buscar os dados atualizados do usuário
+          if (response.status === 200) {
+            console.log(response, "Funcionou!")
+            GetUser(); // Chamada para buscar os dados atualizados do usuário
+          }
+        } catch (error) {
+          console.error("Erro ao alterar foto de perfil:", error);
+        }
+      }
+      
+      // No useEffect que monitora uriCameraCapture, remova a verificação para AlterarFotoPerfil()
+      useEffect(() => {
+        if (uriCameraCapture !== null) {
+          AlterarFotoPerfil();
+        }
+      }, [uriCameraCapture]);
+
+      const [descricaoExame ,setDescricaoExame] = useState()
+
+      async function InserirExame() {
+        const formData = new FormData()
+        formData.append("ConsultaId", prontuario.id)
+        formData.append("Imagem", {
+            uri : uriCameraCapture,
+            name :  `image.${ uriCameraCapture.split('.').pop() }`,
+            type :  `image/${ uriCameraCapture.split('.').pop() }`,
+        });
+        await api.post('/Exame', formData, {
+            "Content-Type": "multipart/form-data"
+        }).then(response => {
+            setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
+        }).catch(error => {
+            console.log(error);
+        })
+      }
+
+      useEffect(() => {
+        if ( uriCameraCapture ) {
+          InserirExame();
+        }
+      }, [uriCameraCapture]);
 
     return (
         <>

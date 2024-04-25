@@ -26,7 +26,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { ButtonCamera, ViewImageProfile } from "./style";
 import { View } from "react-native";
 import { CameraModal } from "../../components/Camera/CameraModal";
-import { err } from "react-native-svg";
 
 export const PatientProfile = ({ navigation }) => {
 
@@ -40,20 +39,20 @@ export const PatientProfile = ({ navigation }) => {
 
   const [user, setUser] = useState({});
 
-  const [photo, setPhoto] = useState( false )
-  const [uriCameraCapture, setUriCameraCapture] = useState( false )
-  const [showCameraModal, setShowCameraModal] = useState( false )
+  const [photo, setPhoto] = useState(false)
+  const [uriCameraCapture, setUriCameraCapture] = useState(false)
+  const [showCameraModal, setShowCameraModal] = useState(false)
 
   //funcao q guarda e carrega os dados trazidos da api
   async function profileLoad() {
     const token = await userDecodeToken();
 
-    if ( token !== null ) {
+    if (token !== null) {
       // console.log(token)
-      setUser( token );
+      setUser(token);
     }
 
-    else{
+    else {
       console.error(error, "Function Profile Load");
     }
   }
@@ -64,11 +63,11 @@ export const PatientProfile = ({ navigation }) => {
       console.log(token.role)
       if (token.role !== null) {
         console.log("Deu Certo!", token);
-        const url = await token.role === "Medico" ? "Medicos" :  "Pacientes";
+        const url = await token.role === "Medico" ? "Medicos" : "Pacientes";
         const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
         setUser(response.data);
       } else {
-        console.error('ELSE','Erro ao buscar dados do usuário:', error);
+        console.error('ELSE', 'Erro ao buscar dados do usuário:', error);
       }
     } catch (error) {
       console.error('Erro ao buscar dados do usuário:', error);
@@ -102,30 +101,39 @@ export const PatientProfile = ({ navigation }) => {
   }, []);
 
   async function AlterarFotoPerfil() {
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append("Arquivo", {
-      uri : uriCameraCapture,
-      name : `image.${uriCameraCapture.split(".")[1]}`,
-      type : `image/${uriCameraCapture.split(".")[1]}`,
-    })
+      uri: uriCameraCapture,
+      name: `image.${uriCameraCapture.split(".")[1]}`,
+      type: `image/${uriCameraCapture.split(".")[1]}`,
+    });
 
-    // console.log(user)
-    await api.put(`/Usuario/AlterarFotoPerfil?id=${token.id}`, FormData, {
-      headers : {
-        "Content-Type" : "multipart/form-data"
+    const response = await api.put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
       }
-    }).then( response => {
-      console.log(response)
+    }).then(async response => {
+      await setUser({
+        ...user,
+        foto: uriCameraCapture
+      })
     }).catch(error => {
-      console.log(error)
-    })
+      console.log(error);
+    });
+
+    // if (response.status === 200) {
+    //   console.log(response, "Funcionou!")
+    //   setUser();
+
+    // }
+
   }
 
   useEffect(() => {
-    if ( uriCameraCapture != null ) {
+    if (uriCameraCapture !== null) {
       AlterarFotoPerfil();
     }
-  },[uriCameraCapture])
+  }, [uriCameraCapture]);
 
   return (
     <ScrollContainer>
@@ -139,18 +147,18 @@ export const PatientProfile = ({ navigation }) => {
         />
 
         <ViewImageProfile>
-        <ImagemPerfilPaciente source={require("../../assets/ney.webp")} />
+          <ImagemPerfilPaciente source={user.foto} />
 
-        <ButtonCamera onPress={ () => setShowCameraModal(true)}>
-          <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB'/>
-        </ButtonCamera>
+          <ButtonCamera onPress={() => setShowCameraModal(true)}>
+            <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB' />
+          </ButtonCamera>
         </ViewImageProfile>
-        
 
 
-        {/* <TitleProfile>{user.idNavigation.nome}</TitleProfile> */}
 
-        {/* <DescriptionPassword description={user.idNavigation.email} /> */}
+        <TitleProfile>{user.name}</TitleProfile>
+
+        <DescriptionPassword description={user.email} />
 
         <InputBox
           placeholderTextColor={"#A1A1A1"}
