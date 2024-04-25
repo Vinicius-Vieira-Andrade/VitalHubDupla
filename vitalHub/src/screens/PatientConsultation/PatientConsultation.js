@@ -66,10 +66,7 @@ export const PatientConsultation = ({ navigation }) => {
   // }
 
   async function GetSchedule() {
-    // const url = (user.role == 'paciente' ? 'Pacientes' : 'Medicos')
-
-    // console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${user.user}`);
-
+  
     await api
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {

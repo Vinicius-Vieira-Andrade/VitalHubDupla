@@ -1,4 +1,4 @@
-import { Modal } from "react-native"
+import { ActivityIndicator, Modal } from "react-native"
 import { ButtonLargeSelect } from "../Button/Button"
 import { ModalContent, PatientModal } from "../CancellationModal/StyleCancelationModal"
 import { CardCancelLess } from "../Descriptions/Descriptions"
@@ -6,14 +6,20 @@ import { DescriptionModalRecord } from "../Descriptions/StyledDescriptions"
 import { ImageModalRecord } from "../Images/StyleImages"
 import { TitleModal, TitleModalRecord } from "../Title/StyleTitle"
 import { BoxAgeEmailModal } from "./StyleAppointmentModal"
+import { useEffect, useState } from "react"
 
 
 export const AppointmentModal = ({
     navigation,
+    consultaSelecionada,
     visible,
     setShowModalAppointment = null,
     ...rest
 }) => {
+    const [consultaAtt, setConsultaAtt] = useState()
+
+
+    
     return (
         <Modal
             {...rest}
@@ -24,21 +30,24 @@ export const AppointmentModal = ({
             <PatientModal>
 
                 <ModalContent>
+                    {consultaSelecionada != null ? (<>
+                        <ImageModalRecord source={require('../../assets/ImageModalRecord.png')} />
 
-                    <ImageModalRecord source={require('../../assets/ImageModalRecord.png')} />
+                        <TitleModalRecord>{consultaSelecionada.paciente.idNavigation.nome}</TitleModalRecord>
 
-                    <TitleModalRecord>Niccole Sarga</TitleModalRecord>
+                        <BoxAgeEmailModal>
 
-                    <BoxAgeEmailModal>
+                            <DescriptionModalRecord>22 anos</DescriptionModalRecord>
+                            <DescriptionModalRecord>{consultaSelecionada.paciente.idNavigation.email}</DescriptionModalRecord>
 
-                        <DescriptionModalRecord>22 anos</DescriptionModalRecord>
-                        <DescriptionModalRecord>niccole.sarga@gmail.com</DescriptionModalRecord>
+                        </BoxAgeEmailModal>
 
-                    </BoxAgeEmailModal>
+                        <ButtonLargeSelect onPress={() => { navigation.navigate("MedicalRecords") }} text={"Inserir Prontuário"} />
 
-                    <ButtonLargeSelect onPress={() => { navigation.navigate("MedicalRecords") }} text={"Inserir Prontuário"} />
+                        <CardCancelLess onPressCancel={() => setShowModalAppointment(false)
 
-                    <CardCancelLess onPressCancel={() => setShowModalAppointment(false)} text={"Cancelar"} />
+                        } text={"Cancelar"} /></>) : (ActivityIndicator)}
+
 
                 </ModalContent>
 

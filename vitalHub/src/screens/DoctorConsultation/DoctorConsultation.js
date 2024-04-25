@@ -39,7 +39,7 @@ export const DoctorConsultation = ({ navigation }) => {
   //   canceladas: false,
   // });
 
-  const [consultaSelecionada, setConsultaSelecionada] = useState(null)
+  const [consultaSelecionada, setConsultaSelecionada] = useState()
 
   const image = require("../../assets/ImageCard.png");
 
@@ -86,10 +86,12 @@ export const DoctorConsultation = ({ navigation }) => {
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
 
+
   // RETURN
 
   return (
     <Container>
+
       <StatusBar translucent backgroundColor="transparent" />
       <Header>
         <BoxHome>
@@ -150,10 +152,10 @@ export const DoctorConsultation = ({ navigation }) => {
               status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
               onPressAppointment={() => {
-                setConsultaSelecionada(item.medicoClinica);
-                
-                console.log("receba" + consultaSelecionada);
+                setConsultaSelecionada(item)
                 setShowModalAppointment(true)
+                console.log("oi" + item);
+                console.log(consultaSelecionada);
               }}
             />
           )
@@ -171,6 +173,7 @@ export const DoctorConsultation = ({ navigation }) => {
         navigation={navigation}
         visible={showModalAppointment}
         setShowModalAppointment={setShowModalAppointment}
+        consultaSelecionada={consultaSelecionada}
       />
 
       {/* <Card url={require('../../assets/ImageCard.png')} name={"Niccole Sarge"} age={"22 anos"} routine={"Rotina"} hour={"14:00"}/>
