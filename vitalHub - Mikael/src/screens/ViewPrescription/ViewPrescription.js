@@ -4,7 +4,7 @@ import { ButtonSend } from "../../components/Button/StyleButton"
 import { BoxAgeEmail, BoxBtn, BoxDescription, BoxViewImageImport, Container, ScrollContainer, ViewImageImport } from "../../components/Container/StyleContainer"
 import { CardBackLess, CardCancel, CardCancelLess, DescriptionDoc, DescriptionPassword } from "../../components/Descriptions/Descriptions"
 import { ImagePrescription, ImagePrescriptionNull, ViewImage } from "../../components/Images/StyleImages"
-import { HighInputBox, HighInputBoxGrey, InputBox, LargeInputTextBox } from "../../components/InputBox/InputBox"
+import { HighInputBox, HighInputBoxGrey, InputBox } from "../../components/InputBox/InputBox"
 import { Label } from "../../components/Label/Label"
 import { TitleProfile } from "../../components/Title/StyleTitle"
 import { ImportImages, Line, TitleImage } from "./Style"
@@ -14,54 +14,14 @@ import { CameraModal } from '../../components/Camera/CameraModal'
 import * as MediaLibrary from "expo-media-library"
 import api from "../../services/Services"
 
-// import { useRoute } from '@react-navigation/native';
-
 export const ViewPrescription = ({ navigation, route }) => {
     const [photo, setPhoto] = useState( false )
     const [uriCameraCapture, setUriCameraCapture] = useState( false )
     const [showCameraModal, setShowCameraModal] = useState( false )
-    // const { photoUri } = route.params;
 
-    useEffect(() => {
-        // console.log(photoUri)
-        console.log("sada") 
-        console.log(route.params)
-    }, [route])
+    const [descricaoExame ,setDescricaoExame] = useState()
 
-    async function AlterarFotoPerfil() {
-        const formData = new FormData();
-        formData.append("Arquivo", {
-          uri: uriCameraCapture,
-          name: `image.${uriCameraCapture.split(".")[1]}`,
-          type: `image/${uriCameraCapture.split(".")[1]}`,
-        });
-      
-        try {
-          const response = await api.put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          });
-      
-          // Se a alteração da foto for bem-sucedida, buscar os dados atualizados do usuário
-          if (response.status === 200) {
-            console.log(response, "Funcionou!")
-            GetUser(); // Chamada para buscar os dados atualizados do usuário
-          }
-        } catch (error) {
-          console.error("Erro ao alterar foto de perfil:", error);
-        }
-      }
-      
-      // No useEffect que monitora uriCameraCapture, remova a verificação para AlterarFotoPerfil()
-      useEffect(() => {
-        if (uriCameraCapture !== null) {
-          AlterarFotoPerfil();
-        }
-      }, [uriCameraCapture]);
-
-      const [descricaoExame ,setDescricaoExame] = useState()
-
+    // Inserir imagem no prontuário
       async function InserirExame() {
         const formData = new FormData()
         formData.append("ConsultaId", prontuario.id)
@@ -73,6 +33,7 @@ export const ViewPrescription = ({ navigation, route }) => {
         await api.post('/Exame', formData, {
             "Content-Type": "multipart/form-data"
         }).then(response => {
+            console.log(response)
             setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
         }).catch(error => {
             console.log(error);

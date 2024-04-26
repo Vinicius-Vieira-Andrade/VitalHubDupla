@@ -37,9 +37,9 @@ export const userDecodeToken = async ( procurarFoto = false ) => {
     name: decode.name,
     email: decode.email,
     role: decode.role,
-    token: token,
     id: decode.jti,
     foto: fotoUsuario,
+    token: token,
   };
   
 };

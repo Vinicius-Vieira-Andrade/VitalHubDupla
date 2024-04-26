@@ -39,8 +39,9 @@ export const PatientProfile = ({ navigation }) => {
 
   const [user, setUser] = useState({});
 
-  const [photo, setPhoto] = useState(false)
-  const [uriCameraCapture, setUriCameraCapture] = useState(false)
+  const [photoo, setPhotoo] = useState(null);
+
+  const [uriCameraCapture, setUriCameraCapture] = useState("")
   const [showCameraModal, setShowCameraModal] = useState(false)
 
   //funcao q guarda e carrega os dados trazidos da api
@@ -48,7 +49,6 @@ export const PatientProfile = ({ navigation }) => {
     const token = await userDecodeToken();
 
     if (token !== null) {
-      // console.log(token)
       setUser(token);
     }
 
@@ -60,9 +60,9 @@ export const PatientProfile = ({ navigation }) => {
   async function GetUser() {
     try {
       const token = await userDecodeToken();
-      console.log(token.role)
+      // console.log(token.role)
       if (token.role !== null) {
-        console.log("Deu Certo!", token);
+        // console.log("Deu Certo!", token);
         const url = await token.role === "Medico" ? "Medicos" : "Pacientes";
         const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
         setUser(response.data);
@@ -102,31 +102,25 @@ export const PatientProfile = ({ navigation }) => {
 
   async function AlterarFotoPerfil() {
     const formData = new FormData();
-    formData.append("Arquivo", {
-      uri: uriCameraCapture,
-      name: `image.${uriCameraCapture.split(".")[1]}`,
-      type: `image/${uriCameraCapture.split(".")[1]}`,
-    });
+      formData.append("Arquivo", {
+        uri: uriCameraCapture,
+        name: `image.${uriCameraCapture.split(".")[1]}`,
+        type: `image/${uriCameraCapture.split(".")[1]}`,
+      });
 
-    const response = await api.put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
+    await api.put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     }).then(async response => {
+      console.log(response)
       await setUser({
         ...user,
         foto: uriCameraCapture
       })
     }).catch(error => {
-      console.log(error);
+      console.log(error, "Não funcionou!");
     });
-
-    // if (response.status === 200) {
-    //   console.log(response, "Funcionou!")
-    //   setUser();
-
-    // }
-
   }
 
   useEffect(() => {
@@ -147,7 +141,7 @@ export const PatientProfile = ({ navigation }) => {
         />
 
         <ViewImageProfile>
-          <ImagemPerfilPaciente source={user.foto} />
+          <ImagemPerfilPaciente source={{uri: user.foto}} />
 
           <ButtonCamera onPress={() => setShowCameraModal(true)}>
             <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB' />

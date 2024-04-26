@@ -142,10 +142,18 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
    }
  
    // FUNÇÃO DE RETOMAR PARA A CÂMERA
-   function ClearPhoto() {
-     setPhoto( null )
+  //  function ClearPhoto() {
+  //    setPhoto( null )
  
-     setOpenModal( false )
+  //    setOpenModal( false )
+  //  }
+
+   // FUNÇÃO DE RETOMAR PARA A CÂMERA
+   function PhotoUri() {
+    setUriCameraCapture(photo)
+
+    setOpenModal(false)
+    setShowModalCancel(false)
    }
  
    // FUNÇÃO DE RETOMAR PARA A CÂMERA
@@ -278,7 +286,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
     <View style={{ marginTop: 30, margin: 10,  flexDirection: 'row', gap: 60}}>
 
     {/* BOTÃO DE FECHAR MODAL */}
-    <TouchableOpacity onPress={ () => ClearPhoto() } style={ styles.btnClear }>
+    <TouchableOpacity onPress={ () => { PhotoUri() } } style={ styles.btnClear }>
     <MaterialIcons name='cancel-presentation' size={20} color='#FFFFFF' />
     </TouchableOpacity>
 
