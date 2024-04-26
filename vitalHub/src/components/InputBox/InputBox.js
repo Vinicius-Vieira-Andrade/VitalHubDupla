@@ -46,7 +46,7 @@ export const HighInputBox = ({
     onChangeText = null,
     keyboardType = "default",
     maxLength,
-    placeholderTextColor
+    placeholderTextColor,
 }) => {
     return (
 
@@ -62,6 +62,7 @@ export const HighInputBox = ({
                 fieldValue={fieldValue}
                 onChangeText={onChangeText}
                 placeholderTextColor={placeholderTextColor}
+                
             />
 
         </BoxInput>

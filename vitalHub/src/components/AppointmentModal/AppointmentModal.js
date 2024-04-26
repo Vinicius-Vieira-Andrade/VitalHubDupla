@@ -7,6 +7,7 @@ import { ImageModalRecord } from "../Images/StyleImages"
 import { TitleModal, TitleModalRecord } from "../Title/StyleTitle"
 import { BoxAgeEmailModal } from "./StyleAppointmentModal"
 import { useEffect, useState } from "react"
+import moment from "moment"
 
 
 export const AppointmentModal = ({
@@ -19,39 +20,41 @@ export const AppointmentModal = ({
     const [consultaAtt, setConsultaAtt] = useState()
 
 
-    
+
     return (
         <Modal
             {...rest}
             visible={visible}
             transparent={true}
             animationType="fade">
+            {consultaSelecionada != null && (
+                <PatientModal>
 
-            <PatientModal>
+                    <ModalContent>
 
-                <ModalContent>
-                    {consultaSelecionada != null ? (<>
                         <ImageModalRecord source={require('../../assets/ImageModalRecord.png')} />
 
                         <TitleModalRecord>{consultaSelecionada.paciente.idNavigation.nome}</TitleModalRecord>
 
                         <BoxAgeEmailModal>
 
-                            <DescriptionModalRecord>22 anos</DescriptionModalRecord>
+                            <DescriptionModalRecord>{`${moment().year() - moment(consultaSelecionada.paciente.dataNascimento).format("YYYY")} anos`}</DescriptionModalRecord>
                             <DescriptionModalRecord>{consultaSelecionada.paciente.idNavigation.email}</DescriptionModalRecord>
 
                         </BoxAgeEmailModal>
 
-                        <ButtonLargeSelect onPress={() => { navigation.navigate("MedicalRecords") }} text={"Inserir Prontuário"} />
+                        <ButtonLargeSelect onPress={() => { navigation.navigate("MedicalRecords", { consultaSelecionada: consultaSelecionada }) }} text={"Inserir Prontuário"} />
 
                         <CardCancelLess onPressCancel={() => setShowModalAppointment(false)
 
-                        } text={"Cancelar"} /></>) : (ActivityIndicator)}
+                        } text={"Cancelar"} />
 
 
-                </ModalContent>
+                    </ModalContent>
 
-            </PatientModal>
+                </PatientModal>
+            )}
+
 
         </Modal>
     )
