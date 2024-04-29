@@ -13,59 +13,15 @@ import { CardCancelLess } from "../../components/Descriptions/Descriptions";
 import { useEffect, useState } from "react";
 import api from "../../services/Services";
 
-export const SelectCLinic = ({ navigation, onCardClick }) => {
-  // const dataItens = [
-  //   {
-  //     id: "fsdfsfsdasdf",
-  //     localization: "São Paulo, SP",
-  //     openTime: "Seg-Sex",
-  //     rate: "4,8",
-  //     name: "Clínica Natureh",
-  //   },
-  //   {
-  //     id: "fsdfsfsdaf",
-  //     localization: "São Paulo, SP",
-  //     openTime: "Seg-Sex",
-  //     rate: "4,5",
-  //     name: "Diamond Pró-Mulher",
-  //   },
-  //   {
-  //     id: "fasdsdfsfsdf",
-  //     localization: "Taboão, SP",
-  //     openTime: "Seg-Sab",
-  //     rate: "4,2",
-  //     name: "Clínica Villa Lobos",
-  //   },
-  //   {
-  //     id: "fsdffsfsdf",
-  //     localization: "Taboão, SP",
-  //     openTime: "Seg-Sab",
-  //     rate: "4,0",
-  //     name: "SP Oncologia Clínica",
-  //   },
-  //   {
-  //     id: "fsdfsfassdf",
-  //     localization: "São Paulo, SP",
-  //     openTime: "Seg-Sab",
-  //     rate: "3,9",
-  //     name: "Clínica Tolstói",
-  //   },
-  //   {
-  //     id: "fsdfsacafsdf",
-  //     localization: "São Paulo, SP",
-  //     openTime: "Seg-Sab",
-  //     rate: "3,9",
-  //     name: "Clínica Vila Alpina",
-  //   },
-  // ];
-
-
+export const SelectCLinic = ({ navigation, route }) => {
 
   const [clinics, setClinics] = useState([]); // Lista de clínicas
 
+  const [clinica, setClinica] = useState();
+
 
   async function getAllClinics() {
-    await api.get("/Clinica/ListarTodas")
+    await api.get(`/Clinica/BuscarPorCidade?cidade=${route.params.agendamento.localizacao}`)
       .then(response => {
         setClinics(response.data);
       })
@@ -75,7 +31,13 @@ export const SelectCLinic = ({ navigation, onCardClick }) => {
   }
 
 
-  
+  useEffect(() => {
+    console.log("recebaa");
+    console.log(route);
+  }, [route]) // vendo se recebemos os dados do route, do modal que guardamos os dados de agendamento
+
+
+
   useEffect(() => {
     getAllClinics();
   }, []);
@@ -85,9 +47,16 @@ export const SelectCLinic = ({ navigation, onCardClick }) => {
   // funcao q guarda o id da clínica selecionada no state
   const handleSelectedCard = (id) => {
     setSelectedCardId(id); //altera state q irá armazenar o id da clinica
-     
-    console.log(clinics);
+
+    // console.log(clinics);
   };
+
+  async function handleContinue() {
+    navigation.replace("SelectDoctor", {
+      ...route.params.agendamento,
+      ...clinica
+    })
+  }
 
 
   return (
@@ -108,6 +77,7 @@ export const SelectCLinic = ({ navigation, onCardClick }) => {
             clinic={item}
             selectedCardId={selectedCardId}
             onCardPress={handleSelectedCard}
+            setClinica={setClinica}
           />
         )}
         showsVerticalScrollIndicator={false}
@@ -115,7 +85,8 @@ export const SelectCLinic = ({ navigation, onCardClick }) => {
 
       <ButtonLargeSelect
         onPress={() => {
-          navigation.navigate("SelectDoctor");
+          handleContinue();
+          // navigation.navigate("SelectDoctor");
         }}
         text={"Continuar"}
       />

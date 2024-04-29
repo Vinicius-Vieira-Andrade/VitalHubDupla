@@ -123,9 +123,9 @@ export const MedicalRecords = ({ navigation, route }) => {
                         <ButtonNormal onPress={() => { setStateEdit(false), Update() }} text={"Salvar"} />
 
                         {stateEdit == false ? (
-                            <BlockedButton onPress={() => { stateEdit == false ? (setStateEdit(true)) : (setStateEdit(false)) }} text={"Editar"} />
+                            <ButtonNormal onPress={() => { stateEdit == false ? (setStateEdit(true)) : (setStateEdit(false)) }} text={"Editar"} />
                         ) : (
-                            <ButtonNormal onPress={() => { setStateEdit(false) }}
+                            <BlockedButton onPress={() => { setStateEdit(false) }}
                                 text={"Editar"}
                             />
                         )}

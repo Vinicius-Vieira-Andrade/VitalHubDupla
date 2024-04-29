@@ -114,12 +114,16 @@ export const Card = ({
   );
 };
 
-export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress }) => {
+export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedico}) => {
   return (
     <CardContainerClinic
       isSelected={selectedCardId == doctor.id ? true : false} //se o id do medico bater com o id passado ao clicar no card do medico, retorna true, se n false
       onPress={() => {
-        onCardPress(doctor.id);
+        setMedico({
+          medicoId: doctor.id,
+          medicoLabel: doctor.idNavigation.nome
+        })
+        onCardPress(doctor.id, doctor.idNavigation.nome);
       }}
     >
       <BoxCardDoctor>
@@ -137,12 +141,18 @@ export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress }) => {
   );
 };
 
-export const CardSelectClinic = ({ clinic, selectedCardId, onCardPress }) => {
+export const CardSelectClinic = ({ clinic, selectedCardId, onCardPress, setClinica }) => {
   return (
     <CardContainerClinic
       isSelected={selectedCardId == clinic.id ? true : false}
       onPress={() => {
-        onCardPress(clinic.id);
+        setClinica({
+          clinicaId: clinic.id,
+          clinicaLabel: clinic.nomeFantasia
+        })
+          //funfando select card
+         onCardPress(clinic.id, clinic.nomeFantasia);
+        
       }}
     >
       <BoxCard>

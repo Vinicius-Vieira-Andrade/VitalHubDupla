@@ -9,41 +9,21 @@ import { useEffect, useState } from "react"
 import api from "../../services/Services"
 
 
-export const SelectDoctor = ({ navigation }) => {
-    // const dataItens = [
-    //     {
-    //         id: 'fsdfsfsdf',
-    //         area: 'Dermatóloga, Esteticista',
-    //         url: 'aar',
-    //         name: 'Dr Alessandra'
-    //     },
-    //     {
-    //         id: 'fsdfsf',
-    //         area: 'Cirurgião, Cardiologista',
-    //         url: 'siu',
-    //         name: 'Dr Kumushiro'
-    //     },
-    //     {
-    //         id: 'fsdf',
-    //         area: 'Clínico, Pediatra',
-    //         url: 'aha',
-    //         name: 'Dr Rodrigo Santos'
-    //     },
-    // ]
-
-
+export const SelectDoctor = ({ navigation, route }) => {
 
     // Criar o state para receber a lista de médicos (Array)
     const [doctorList, setDoctorList] = useState([]); // Lista de medicos
 
+    const [medico, setMedico] = useState();
+
     // Criar a função para obter a lista de médicos da api e setar no state
     async function getAllDoctors() {
         // Instanciação da nossa conexão da api
-        await api.get("/Medicos")
+        await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.clinicaId}`)
             // Quando houver uma resposta...
             .then(response => {
                 setDoctorList(response.data)
-                console.log(doctorList)
+
             })
             .catch((error) => {
                 console.log(error)
@@ -54,6 +34,10 @@ export const SelectDoctor = ({ navigation }) => {
     useEffect(() => {
         getAllDoctors();
     }, [])
+
+    useEffect(() => {
+        console.log(route);
+    }, [route])
 
 
 
@@ -66,6 +50,16 @@ export const SelectDoctor = ({ navigation }) => {
     const handleSelectedCard = (id) => {
         setSelectedCardId(id); //setando o id recebido no state
     };
+
+
+    async function handleContinue() {
+        navigation.replace("SelectDate", {
+            agendamento: {
+                ...route.params.agendamento,
+                ...medico
+            }
+        })
+    }
 
     return (
         <Container>
@@ -82,13 +76,19 @@ export const SelectDoctor = ({ navigation }) => {
                         doctor={item}
                         selectedCardId={selectedCardId}
                         onCardPress={handleSelectedCard} // ao clicar do card aciona a funcao que guardara o id do mesmo
+                        setMedico={setMedico}
                     />
                 )}
 
                 showsVerticalScrollIndicator={false}
             />
 
-            <ButtonLargeSelect onPress={() => { navigation.navigate("SelectDate") }} text={"Continuar"} />
+            <ButtonLargeSelect onPress={() => {
+                handleContinue();
+                // navigation.navigate("SelectDate")
+            }
+            }
+                text={"Continuar"} />
 
             <CardCancelLessLocal
                 onPressCancel={() => navigation.replace("Main")}
