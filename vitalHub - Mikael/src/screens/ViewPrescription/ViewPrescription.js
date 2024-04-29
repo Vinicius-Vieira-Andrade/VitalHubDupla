@@ -13,18 +13,37 @@ import { CameraModal } from '../../components/Camera/CameraModal'
 
 import * as MediaLibrary from "expo-media-library"
 import api from "../../services/Services"
+import { userDecodeToken } from "../../utils/Auth"
 
 export const ViewPrescription = ({ navigation, route }) => {
     const [photo, setPhoto] = useState( false )
     const [uriCameraCapture, setUriCameraCapture] = useState( false )
     const [showCameraModal, setShowCameraModal] = useState( false )
+    const [prescription, setPrescription] = useState({})
 
     const [descricaoExame ,setDescricaoExame] = useState()
+
+    async function profileLoad() {
+        const token = await userDecodeToken();
+        console.log(token)
+    
+        if (token !== null) {
+          setPrescription(token);
+        }
+    
+        else {
+          console.error(error, "Function Profile Load");
+        }
+      }
+
+      useEffect(() => {
+          profileLoad();
+      }, []);
 
     // Inserir imagem no prontuário
       async function InserirExame() {
         const formData = new FormData()
-        formData.append("ConsultaId", prontuario.id)
+        // formData.append("ConsultaId", prescription.id)
         formData.append("Imagem", {
             uri : uriCameraCapture,
             name :  `image.${ uriCameraCapture.split('.').pop() }`,
@@ -32,11 +51,11 @@ export const ViewPrescription = ({ navigation, route }) => {
         });
         await api.post('/Exame', formData, {
             "Content-Type": "multipart/form-data"
-        }).then(response => {
+        }).then( response => {
             console.log(response)
-            setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
+            setDescricaoExame( descricao + "/n" + response.data.descricao )
         }).catch(error => {
-            console.log(error);
+            console.log(error, 'Falha ao Inserir');
         })
       }
 
@@ -54,7 +73,7 @@ export const ViewPrescription = ({ navigation, route }) => {
 
                     <ViewImage source={require("../../assets/ney.webp")} />
 
-                    <TitleProfile>Dr. Ney</TitleProfile>
+                    <TitleProfile>{prescription.name}</TitleProfile>
 
                     <BoxDescription>
                         <DescriptionDoc description={"Cliníco geral"} />
@@ -66,7 +85,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Descrição da consulta"}
                         placeholder={"Descrição"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
@@ -74,7 +93,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Diagnóstico do paciente"}
                         placeholder={"Diagnóstico"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
@@ -83,7 +102,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Prescrição médica"}
                         placeholder={"Prescrição"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
@@ -92,7 +111,8 @@ export const ViewPrescription = ({ navigation, route }) => {
                         <Label textLabel={"Exames médicos"} />
 
                         <ImportImages>
-                            {route.params ? <ImagePrescription source={{ uri : route.params.photoUri }} /> : <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>}
+                        <ImagePrescription source={{ uri : prescription.foto }} />
+                            {/* {route.params ? <ImagePrescription source={{ uri : prescription.foto }} /> : <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>} */}
                         </ImportImages>
 
                     </BoxViewImageImport>

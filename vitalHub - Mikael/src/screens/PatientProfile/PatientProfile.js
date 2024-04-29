@@ -159,7 +159,7 @@ export const PatientProfile = ({ navigation }) => {
           textLabel={"Data de nascimento:"}
           placeholder={user.dataNascimento}
           keyboardType="numeric"
-          editable={true}
+          editable={false}
           fieldWidth={90}
         />
         <InputBox
@@ -168,13 +168,13 @@ export const PatientProfile = ({ navigation }) => {
           placeholder={user.cpf}
           keyboardType="numeric"
           maxLength={11}
-          editable={true}
+          editable={false}
           fieldWidth={90}
         />
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
-          // placeholder={user.endereco.logradouro}
+          placeholder={user.enderecoId} // Não está retornando
           editable={false}
           fieldWidth={90}
         />
@@ -187,7 +187,7 @@ export const PatientProfile = ({ navigation }) => {
             maxLength={8}
             onChangeText={(text) => setCep(text)}
             keyboardType="numeric"
-            editable={true}
+            editable={false}
             fieldWidth={40}
           />
           <InputBox

@@ -20,12 +20,10 @@ import { useState } from "react";
 import { Label } from "../Label/Label";
 import { CardCancelLess } from "../Descriptions/Descriptions";
 
-import api from "../../services/Services";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-
 // EXPO NOTIFICATIONS
-  import * as Notifications from 'expo-notifications' 
+import * as Notifications from 'expo-notifications' 
 
 // SOLICITA PERMISSÕES DE NOTIFICAÇÃO AO INICIAR O APP
   Notifications.requestPermissionsAsync(); 

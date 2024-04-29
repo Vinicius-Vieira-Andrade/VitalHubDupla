@@ -22,8 +22,8 @@ margin: 15px;
 `
 
 export const EndCamera = styled.Text`
-margin: 15px;
-font-size: 13px;
+margin: 20px;
+font-size: 16px;
 font-family: 'MontserratAlternates_600SemiBold';
 color: #C81D25;
 `

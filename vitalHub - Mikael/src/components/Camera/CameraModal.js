@@ -67,9 +67,9 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
    }
 
    async function requestGalery() {
-    await MediaLibrary.requestPermissionsAsync
+    await MediaLibrary.requestPermissionsAsync()
   
-    await ImagePicker.requestMediaLibraryPermissionsAsync
+    await ImagePicker.requestMediaLibraryPermissionsAsync()
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
     if (assets.length > 0) {
       setLastPhoto( assets[0].uri )
     }
-    console.log( assets )
+    // console.log( assets )
    }
 
    async function SelectImageGallery() {
@@ -101,11 +101,12 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
        // PERMIÇÃO USO DE CAMERA
        const { status : cameraStatus } = await Camera.requestCameraPermissionsAsync()
  
+       // PERMISSÃO DE GRAVAR ÁUDIO
+       const { status : microphoneStatus } = await Camera.requestMicrophonePermissionsAsync()
+
        // PERMISSÃO DE ARMAZENAR FOTO
        const { status : mediaStatus } = await MediaLibrary.requestPermissionsAsync()
  
-       // PERMISSÃO DE GRAVAR ÁUDIO
-       const { status : microphoneStatus } = await Camera.requestMicrophonePermissionsAsync()
 
        if (getMediaLibrary) {
         GetLatestPhoto()
@@ -258,17 +259,6 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
   <FontAwesome name='flash' size={15} color='#FFFFFF' />
 </TouchableOpacity>
 
-{/* <TouchableOpacity>
-  {
-      lastPhoto != null
-      ? (
-        <LastPhoto 
-          source={{ uri : lastPhoto }}
-        />
-      ) : null
-  }
-</TouchableOpacity> */}
-
 
 </View>
 <EndCamera onPress={() => setShowModalCancel(false)}>Sair</EndCamera>
@@ -350,16 +340,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center', // Alterarção
   },
   btnFlip: {
     padding: 20,
   },
   txtFlip: {
     alignSelf: 'center',
-    fontSize: 20,
+    fontFamily: 'MontserratAlternates_600SemiBold',
+    fontSize: 16,
     color: '#FFFFFF',
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   btnCapture: {
     width: 60,
