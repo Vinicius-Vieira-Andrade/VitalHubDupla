@@ -14,15 +14,16 @@ import { useEffect, useState } from "react";
 import api from "../../services/Services";
 
 export const SelectCLinic = ({ navigation, route }) => {
-
   const [clinics, setClinics] = useState([]); // Lista de clínicas
 
   const [clinica, setClinica] = useState();
 
-
   async function getAllClinics() {
-    await api.get(`/Clinica/BuscarPorCidade?cidade=${route.params.agendamento.localizacao}`)
-      .then(response => {
+    await api
+      .get(
+        `/Clinica/BuscarPorCidade?cidade=${route.params.agendamento.localizacao}`
+      )
+      .then((response) => {
         setClinics(response.data);
       })
       .catch((error) => {
@@ -30,13 +31,10 @@ export const SelectCLinic = ({ navigation, route }) => {
       });
   }
 
-
   useEffect(() => {
     console.log("recebaa");
     console.log(route);
-  }, [route]) // vendo se recebemos os dados do route, do modal que guardamos os dados de agendamento
-
-
+  }, [route]); // vendo se recebemos os dados do route, do modal que guardamos os dados de agendamento
 
   useEffect(() => {
     getAllClinics();
@@ -53,11 +51,12 @@ export const SelectCLinic = ({ navigation, route }) => {
 
   async function handleContinue() {
     navigation.replace("SelectDoctor", {
-      ...route.params.agendamento,
-      ...clinica
-    })
+      agendamento: {
+        ...route.params.agendamento,
+        ...clinica,
+      }
+    });
   }
-
 
   return (
     <Container>
@@ -95,7 +94,6 @@ export const SelectCLinic = ({ navigation, route }) => {
         onPressCancel={() => navigation.replace("Main")}
         text={"Cancelar"}
       />
-
     </Container>
   );
 };

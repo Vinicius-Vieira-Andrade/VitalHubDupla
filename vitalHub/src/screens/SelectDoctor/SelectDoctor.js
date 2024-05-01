@@ -19,7 +19,7 @@ export const SelectDoctor = ({ navigation, route }) => {
     // Criar a função para obter a lista de médicos da api e setar no state
     async function getAllDoctors() {
         // Instanciação da nossa conexão da api
-        await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.clinicaId}`)
+        await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.agendamento.clinicaId}`)
             // Quando houver uma resposta...
             .then(response => {
                 setDoctorList(response.data)
