@@ -110,7 +110,7 @@ export const BoxCardDoctor = styled(BoxCard)`
 export const BoxTextCard = styled.SafeAreaView`
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 `;
 export const BoxTextDoctorCard = styled(BoxTextCard)`
   margin-left: 10px;
@@ -127,6 +127,7 @@ export const BoxRateTime = styled.SafeAreaView`
   margin-top: 4px;
   /* border: 1px solid black; */
   margin-left: -39%;
+  
 `;
 
 export const BoxDateCancel = styled.SafeAreaView`

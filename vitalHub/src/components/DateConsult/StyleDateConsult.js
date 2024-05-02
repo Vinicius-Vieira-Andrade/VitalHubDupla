@@ -14,4 +14,5 @@ export const ConsultDate = styled.SafeAreaView`
 
 export const ConsultDateGray = styled(ConsultDate)`
     background-color: #F1F0F5;
+    
 `

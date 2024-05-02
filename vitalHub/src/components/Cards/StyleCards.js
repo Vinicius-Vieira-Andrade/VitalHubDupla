@@ -44,6 +44,7 @@ export const CardContentDoctor = styled`
 
 export const AgeCard = styled.SafeAreaView`
   margin-left: 9%;
+  /* background-color: red; */
   margin-bottom: 0px;
   flex-direction: row;
   width: 100px;
@@ -55,6 +56,7 @@ export const AgeCard = styled.SafeAreaView`
 export const BoxRate = styled.SafeAreaView`
   flex-direction: row;
   align-items: flex-end;
+  /* background-color: red; */
   justify-content: flex-end;
   margin-left: 65px;
   height: 22px;

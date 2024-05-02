@@ -29,8 +29,6 @@ export const DoctorConsultation = ({ navigation }) => {
   const [schedule, setSchedule] = useState([]);
   const [consultaState, setConsultaState] = useState("Agendadas");
 
-  const currentDate = moment();
-  const currentYear = currentDate.year();
 
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
   // const [selected, setSelected] = useState({
@@ -145,8 +143,7 @@ export const DoctorConsultation = ({ navigation }) => {
               navigation={navigation}
               hour={"14:00"}
               name={item.paciente.idNavigation.nome}
-              // age={"20"}
-              age={currentYear - item.paciente.dataNascimento}
+              age={item.paciente.dataNascimento != null ? `${moment().diff(item.paciente.dataNascimento, 'years')} anos` : "--"}
               routine={item.situacao.situacao}
               url={image}
               status={consultaState}
