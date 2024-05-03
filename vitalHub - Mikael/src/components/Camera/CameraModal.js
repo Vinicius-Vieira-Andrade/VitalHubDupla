@@ -81,8 +81,11 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
 
     if (assets.length > 0) {
       setLastPhoto( assets[0].uri )
+      console.log('Funcionou!');
+    } else{
+      console.log('Falhou!');
     }
-    // console.log( assets )
+    console.log( assets )
    }
 
    async function SelectImageGallery() {
@@ -91,7 +94,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
       quality : 1
      });
 
-     if( !result.canceled ){
+     if( !result.cancelled ){
       setOpenModal( result.assets[0].uri )
      }
    }
@@ -115,6 +118,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
  
      })();
    },[])
+
  
    // FUNÇÃO DE CAPTURAR FOTO
    async function CapturePhoto () {
@@ -141,13 +145,6 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
        await MediaLibrary.createAssetAsync(video.uri);
      }
    }
- 
-   // FUNÇÃO DE RETOMAR PARA A CÂMERA
-  //  function ClearPhoto() {
-  //    setPhoto( null )
- 
-  //    setOpenModal( false )
-  //  }
 
    // FUNÇÃO DE RETOMAR PARA A CÂMERA
    function PhotoUri() {

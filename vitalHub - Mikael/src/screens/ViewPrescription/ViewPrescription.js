@@ -17,7 +17,7 @@ import { userDecodeToken } from "../../utils/Auth"
 
 export const ViewPrescription = ({ navigation, route }) => {
     const [photo, setPhoto] = useState( false )
-    const [uriCameraCapture, setUriCameraCapture] = useState( false )
+    const [uriCameraCapture, setUriCameraCapture] = useState( "" )
     const [showCameraModal, setShowCameraModal] = useState( false )
     const [prescription, setPrescription] = useState({})
 
@@ -43,12 +43,13 @@ export const ViewPrescription = ({ navigation, route }) => {
     // Inserir imagem no prontuário
       async function InserirExame() {
         const formData = new FormData()
-        // formData.append("ConsultaId", prescription.id)
+        formData.append("ConsultaId", prescription.id)
         formData.append("Imagem", {
             uri : uriCameraCapture,
-            name :  `image.${ uriCameraCapture.split('.').pop() }`,
-            type :  `image/${ uriCameraCapture.split('.').pop() }`,
+            name :  `image.${uriCameraCapture.split('.').pop()}`,
+            type :  `image/${uriCameraCapture.split('.').pop()}`,
         });
+
         await api.post('/Exame', formData, {
             "Content-Type": "multipart/form-data"
         }).then( response => {

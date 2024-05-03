@@ -27,6 +27,8 @@ import { ButtonCamera, ViewImageProfile } from "./style";
 import { View } from "react-native";
 import { CameraModal } from "../../components/Camera/CameraModal";
 
+import moment from "moment";
+
 export const PatientProfile = ({ navigation }) => {
 
   const [paciente, setPaciente] = useState({});
@@ -48,7 +50,7 @@ export const PatientProfile = ({ navigation }) => {
   async function profileLoad() {
     const token = await userDecodeToken();
 
-    if (token !== null) {
+    if (token != null) {
       setUser(token);
     }
 
@@ -61,7 +63,7 @@ export const PatientProfile = ({ navigation }) => {
     try {
       const token = await userDecodeToken();
       // console.log(token.role)
-      if (token.role !== null) {
+      if (token.role != null) {
         // console.log("Deu Certo!", token);
         const url = await token.role === "Medico" ? "Medicos" : "Pacientes";
         const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
@@ -98,6 +100,7 @@ export const PatientProfile = ({ navigation }) => {
   useEffect(() => {
     profileLoad();
     GetUser();
+    console.log(user.role);
   }, []);
 
   async function AlterarFotoPerfil() {
@@ -129,6 +132,10 @@ export const PatientProfile = ({ navigation }) => {
     }
   }, [uriCameraCapture]);
 
+  useEffect(() => {
+    console.log(user.role);
+  }, [])
+
   return (
     <ScrollContainer>
       <Container>
@@ -141,7 +148,7 @@ export const PatientProfile = ({ navigation }) => {
         />
 
         <ViewImageProfile>
-          <ImagemPerfilPaciente source={{uri: user.foto}} />
+          <ImagemPerfilPaciente source={{uri: user && user.idNavigation? user.idNavigation.foto: 'Foto não encontrada!' }} />
 
           <ButtonCamera onPress={() => setShowCameraModal(true)}>
             <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB' />
@@ -150,14 +157,14 @@ export const PatientProfile = ({ navigation }) => {
 
 
 
-        <TitleProfile>{user.name}</TitleProfile>
+        <TitleProfile>{user && user.idNavigation? user.idNavigation.nome: 'Nome não encontrado!' }</TitleProfile>
 
-        <DescriptionPassword description={user.email} />
+        <DescriptionPassword description={user && user.idNavigation? user.idNavigation.email: 'Email não encontrado!' } />
 
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Data de nascimento:"}
-          placeholder={user.dataNascimento}
+          placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
           keyboardType="numeric"
           editable={false}
           fieldWidth={90}
@@ -165,16 +172,17 @@ export const PatientProfile = ({ navigation }) => {
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"CPF"}
-          placeholder={user.cpf}
+          placeholder={user.role == 'Paciente' ? user.cpf : user.crm}
           keyboardType="numeric"
           maxLength={11}
           editable={false}
           fieldWidth={90}
         />
+
         <InputBox
           placeholderTextColor={"#A1A1A1"}
           textLabel={"Endereço"}
-          placeholder={user.enderecoId} // Não está retornando
+          placeholder={user && user.endereco? user.endereco.logradouro : 'endereço não encontrado!' }
           editable={false}
           fieldWidth={90}
         />
@@ -183,7 +191,7 @@ export const PatientProfile = ({ navigation }) => {
           <InputBox
             placeholderTextColor={"#A1A1A1"}
             textLabel={"CEP"}
-            // placeholder={user.endereco.cep}
+            placeholder={user && user.endereco? user.endereco.cep : 'Cep não encontrado!'}
             maxLength={8}
             onChangeText={(text) => setCep(text)}
             keyboardType="numeric"
@@ -191,11 +199,12 @@ export const PatientProfile = ({ navigation }) => {
             fieldWidth={40}
           />
           <InputBox
-            placeholderTextColor={"#49B3BA"}
+            placeholderTextColor={"#A1A1A1"}
+            placeholder={user.endereco? user.endereco.cidade : 'Cidade não encontrada!'}
             textLabel={"Cidade"}
-            // placeholder={user.endereco.cidade}
             editable={false}
             fieldWidth={40}
+            // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}
           />
         </ContainerCepCidade>
 
