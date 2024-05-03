@@ -8,6 +8,7 @@ import { TitleModal, TitleModalRecord } from "../Title/StyleTitle"
 import { BoxAgeEmailModal } from "./StyleAppointmentModal"
 import { useEffect, useState } from "react"
 import moment from "moment"
+import { LargeInputGray } from "../InputBox/InputBox"
 
 
 export const AppointmentModal = ({

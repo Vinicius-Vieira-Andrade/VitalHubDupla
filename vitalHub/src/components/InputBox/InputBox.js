@@ -1,4 +1,5 @@
 import { HighInput, HighInputGrey, LargeInput, ProfileInput } from "../Input/Input"
+import { InputTextLargeGray } from "../Input/StyleInput"
 import { Label } from "../Label/Label"
 import { BoxInput } from "./StyleInputBox"
 
@@ -19,7 +20,7 @@ export const InputBox = ({
 
         <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
 
-            <Label textLabel={textLabel}/>
+            <Label textLabel={textLabel} />
 
             <ProfileInput
                 placeholder={placeholder}
@@ -52,7 +53,7 @@ export const HighInputBox = ({
 
         <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
 
-            <Label textLabel={textLabel}/>
+            <Label textLabel={textLabel} />
 
             <HighInput
                 placeholder={placeholder}
@@ -62,7 +63,7 @@ export const HighInputBox = ({
                 fieldValue={fieldValue}
                 onChangeText={onChangeText}
                 placeholderTextColor={placeholderTextColor}
-                
+
             />
 
         </BoxInput>
@@ -86,7 +87,7 @@ export const HighInputBoxGrey = ({
 
         <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
 
-            <Label textLabel={textLabel}/>
+            <Label textLabel={textLabel} />
 
             <HighInputGrey
                 placeholder={placeholder}
@@ -120,7 +121,7 @@ export const LargeInputTextBox = ({
 
         <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
 
-            <Label textLabel={textLabel}/>
+            <Label textLabel={textLabel} />
 
             <LargeInput
                 placeholder={placeholder}
@@ -139,6 +140,39 @@ export const LargeInputTextBox = ({
 }
 
 
+export const LargeInputGray = ({
+    fieldWidth = 100,
+    fieldHeight = 90,
+    editable = false,
+    textLabel,
+    placeholder,
+    fieldValue = null,
+    onChangeText = null,
+    keyboardType = "default",
+    maxLength,
+    placeholderTextColor,
+    isInsertedInputValid = true
+}) => {
+    return (
+    <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
+
+        <Label textLabel={textLabel} />
+
+        <InputTextLargeGray
+            placeholder={placeholder}
+            editable={editable}
+            keyboardType={keyboardType}
+            maxLength={maxLength}
+            fieldValue={fieldValue}
+            onChangeText={onChangeText}
+            placeholderTextColor={placeholderTextColor}
+            isInsertedInputValid={isInsertedInputValid}
+        />
+
+    </BoxInput>
+    )
+}
+
 
 export const LargeInputTextBoxStet = ({
     fieldWidth = 100,
@@ -156,7 +190,7 @@ export const LargeInputTextBoxStet = ({
 
         <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
 
-            <Label textLabel={textLabel}/>
+            <Label textLabel={textLabel} />
 
             <LargeInput
                 placeholder={placeholder}

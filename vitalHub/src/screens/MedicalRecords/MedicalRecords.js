@@ -2,13 +2,15 @@ import { BlockedButton, ButtonNormal } from "../../components/Button/Button"
 import { BoxAgeEmail, Container, ScrollContainer } from "../../components/Container/StyleContainer"
 import { DescriptionPassword, RecordsCancelButton } from "../../components/Descriptions/Descriptions"
 import { CancelButtonRecords } from "../../components/Descriptions/StyledDescriptions"
-import { HighInputBox, LargeInputTextBox } from "../../components/InputBox/InputBox"
+import { HighInputBox, HighInputBoxGrey, LargeInputGray, LargeInputTextBox, } from "../../components/InputBox/InputBox"
 import { ImagemPerfilPaciente } from "../../components/Images/StyleImages"
 import { TitleProfile } from "../../components/Title/StyleTitle"
 import { useEffect, useState } from "react"
 import api from "../../services/Services"
-import { ActivityIndicator } from "react-native"
+import { ActivityIndicator, TouchableOpacity } from "react-native"
 import moment from "moment"
+import { InputHighGrey } from "../../components/Input/StyleInput"
+import { Text } from "react-native-svg"
 
 
 
@@ -22,21 +24,21 @@ export const MedicalRecords = ({ navigation, route }) => {
     const [prescription, setPrescription] = useState('');
     const [stateEdit, setStateEdit] = useState(false);
 
-    // async function BuscarProntuario() {
-    //     await api
-    //         .get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
-    //         .then((response) => {
-    //             console.log(response.data);
-    //             setConsultaSelecionada(response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // }
+    async function BuscarProntuario() {
+        await api
+            .get(`/Consultas/BuscarPorId?id=${route.params.consultaSelecionada.id}`)
+            .then((response) => {
+                console.log(response.data);
+                setConsultaSelecionada(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
-    // useEffect(() => {
-    //     // BuscarProntuario()
-    // }, [route])
+    useEffect(() => {
+        // BuscarProntuario()
+    }, [route])
 
     useEffect(() => {
         if (route.params) {
@@ -66,6 +68,10 @@ export const MedicalRecords = ({ navigation, route }) => {
 
     }
 
+    useEffect(() => {
+        BuscarProntuario()
+    }, [])
+
     return (
 
         <ScrollContainer>
@@ -88,37 +94,68 @@ export const MedicalRecords = ({ navigation, route }) => {
 
 
 
-                        <HighInputBox
-                            fieldHeight={350}
-                            placeholderTextColor={"#34898F"}
-                            textLabel={"Descrição da consulta"}
-                            placeholder={consultaSelecionada.descricao}
-                            editable={stateEdit}
-                            fieldWidth={90}
+                        {/* primeiro ternario dos inputs */}
+                        {stateEdit == false ? (
+                            <>
+                                <HighInputBoxGrey
+                                    fieldHeight={350}
+                                    placeholderTextColor={"#4E4B59"}
+                                    textLabel={'Descrição da consulta'}
+                                    placeholder={consultaSelecionada.descricao}
+                                    editable={false}
+                                    fieldWidth={90}
+                                />
 
-                            onChangeText={p => setDescription(p)}
-                        />
+                                <LargeInputGray
+                                    placeholderTextColor={"#4E4B59"}
+                                    textLabel={"Diagnóstico do paciente"}
+                                    placeholder={consultaSelecionada.diagnostico}
+                                    editable={false}
+                                    fieldWidth={90}
+                                />
 
-                        <LargeInputTextBox
-                            placeholderTextColor={"#34898F"}
-                            textLabel={"Diagnóstico do paciente"}
-                            placeholder={consultaSelecionada.diagnostico}
-                            editable={stateEdit}
-                            fieldWidth={90}
+                                <HighInputBoxGrey
+                                    fieldHeight={350}
+                                    placeholderTextColor={"#4E4B59"}
+                                    textLabel={'Prescrição médica'}
+                                    placeholder={'Prescrição médica'}
+                                    editable={false}
+                                    fieldWidth={90}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <HighInputBox
+                                    fieldHeight={350}
+                                    placeholderTextColor={"#34898F"}
+                                    textLabel={"Descrição da consulta"}
+                                    placeholder={consultaSelecionada.descricao}
+                                    editable={true}
+                                    fieldWidth={90}
 
-                            onChangeText={p => setDiagnosis(p)}
-                        />
+                                    onChangeText={p => setDescription(p)}
+                                />
 
-                        <HighInputBox
-                            fieldHeight={350}
-                            placeholderTextColor={"#34898F"}
-                            textLabel={"Prescrição médica"}
-                            placeholder={"Prescriçao médica"}
-                            editable={stateEdit}
-                            fieldWidth={90}
-                            
+                                <LargeInputTextBox
+                                    placeholderTextColor={"#34898F"}
+                                    textLabel={"Diagnóstico do paciente"}
+                                    placeholder={consultaSelecionada.diagnostico}
+                                    editable={true}
+                                    fieldWidth={90}
 
-                        />
+                                    onChangeText={p => setDiagnosis(p)}
+                                />
+
+                                <HighInputBox
+                                    fieldHeight={350}
+                                    placeholderTextColor={"#34898F"}
+                                    textLabel={"Prescrição médica"}
+                                    placeholder={"Prescrição médica"}
+                                    editable={true}
+                                    fieldWidth={90}
+                                />
+                            </>
+                        )}
 
                         <ButtonNormal onPress={() => { setStateEdit(false), Update() }} text={"Salvar"} />
 
