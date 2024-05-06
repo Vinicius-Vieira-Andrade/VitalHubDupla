@@ -1,17 +1,19 @@
 import LottieView from "lottie-react-native";
 import styled from "styled-components";
-import heartBeat from "../../assets/heartBeat.json";
+import clinicLottie from "../../assets/lottieCross.json";
 
-export const HeartAnimatedStyle = styled(LottieView).attrs({
-  source: heartBeat,
+
+export const LottieHeart = styled(LottieView).attrs({
+  source: clinicLottie,
   autoPlay: true,
   loop: true,
+  
 })`
-  width: 400px;
+  width: 250px;
   height: 300px;
 `;
 
 export const ContainerLottieStyle = styled.View`
-  width: 400px;
+  width: 250px;
   height: 300px;
 `;

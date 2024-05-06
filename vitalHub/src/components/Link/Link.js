@@ -1,18 +1,20 @@
 import { CancelButton } from "../Descriptions/StyledDescriptions"
-import { TextLink, TextLinkAccount } from "./StyleLink"
+import { TextLink, TextLinkAccount, ViewLink } from "./StyleLink"
 
 export const LinkAccount = ({
     onPress
 }) => {
-    return(
-        <TextLink>Não tem uma conta? <TextLinkAccount onPress={onPress}>Crie uma conta agora!</TextLinkAccount></TextLink>
+    return (
+        <ViewLink>
+            <TextLink>Não tem uma conta? <TextLinkAccount onPress={onPress}>Crie uma conta agora!</TextLinkAccount></TextLink>
+        </ViewLink>
     )
 }
 
 export const Cancel = ({
     onPress
 }) => {
-    return(
+    return (
         <CancelButton onPress={onPress}>Cancelar</CancelButton>
     )
 }

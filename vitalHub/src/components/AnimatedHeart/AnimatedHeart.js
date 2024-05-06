@@ -1,9 +1,9 @@
-import { ContainerLottieStyle, HeartAnimatedStyle } from "./StyleAnimatedHeart"
+import { ContainerLottieStyle, LottieHeart } from "./StyleAnimatedHeart"
 
 export const HeartAnimated = () => {
     return (
       <ContainerLottieStyle>
-        <HeartAnimatedStyle/>
+        <LottieHeart/>
       </ContainerLottieStyle>
     )
   }

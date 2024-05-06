@@ -7,9 +7,16 @@ export const TextLink = styled.Text`
     font-family: 'MontserratAlternates_600SemiBold';
     font-size: 14px;
     color: #4E4B59;
+    
 
 `
 export const TextLinkAccount = styled(TextLink)`
     text-decoration: underline;
     color: #4D659D;
+`
+
+export const ViewLink = styled.View`
+    background-color: red;
+    justify-content: baseline;
+    justify-self: baseline;
 `

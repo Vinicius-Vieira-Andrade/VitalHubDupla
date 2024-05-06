@@ -58,6 +58,7 @@ export const Login = ({ navigation }) => {
         barStyle="dark-content"
       />
 
+
       <Logo source={require("../../assets/VitalHub_Logo1.png")} />
 
       <Title>Entrar ou criar conta</Title>

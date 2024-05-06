@@ -26,7 +26,7 @@ export default function Splash({ navigation }) {
       <BrandLogoWhite source={require('../../assets/VitalHub_LogoWhite.png')}/>
       <HeartAnimated/>
       <TextSplash>
-        Ajudando você a cuidar da sua saúde!
+      Saúde e bem-estar em um só lugar.
       </TextSplash>
     </GradientScreen>
   )

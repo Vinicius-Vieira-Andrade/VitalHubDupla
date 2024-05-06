@@ -62,7 +62,7 @@ export const CancelButton = styled(ResendCode)`
   text-decoration: underline;
   color: #344f8f;
   font-family: MontserratAlternates_600SemiBold;
-  margin-top: 40px;
+  margin-top: 0px;
   margin-left: 40%;
 `;
 
