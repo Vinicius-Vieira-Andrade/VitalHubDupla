@@ -16,12 +16,7 @@ import { userDecodeToken } from "../../utils/Auth";
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Login = ({ navigation }) => {
-<<<<<<< HEAD
-   const [email, setEmail] = useState("matheus@gmail.com");
-  //  const [email, setEmail] = useState("vini@gmail.com");
-=======
   const [email, setEmail] = useState("Leticia@gmail.com");
->>>>>>> origin/mikael
   const [senha, setSenha] = useState("Senai@134");
   const [isLoading, setIsLoading] = useState(false);
   const [isInputDataValid, setIsInputDataValid] = useState(true); // Guardo o estado do input (se estiver errado, mostrar mensagem de erro)
@@ -32,14 +27,14 @@ export const Login = ({ navigation }) => {
       email: email,
       senha: senha
     }).then(async response => {
-      // setIsInputDataValid(true);
+      setIsInputDataValid(true);
       console.log(response.data.token)
 
       await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
       const token = await userDecodeToken()
 
-      if (token.role === "paciente") {
+      if (token.role === "Paciente") {
         navigation.replace("Main")
       }
       else {
@@ -49,7 +44,7 @@ export const Login = ({ navigation }) => {
     }).catch(error => {
       // Ativa o retorno de input inválido
       setIsInputDataValid(false);
-      // console.log(error)
+      console.log(error)
     })
 
   }
@@ -62,12 +57,16 @@ export const Login = ({ navigation }) => {
         barStyle="dark-content"
       />
 
-
       <Logo source={require("../../assets/VitalHub_Logo1.png")} />
 
       <Title>Entrar ou criar conta</Title>
 
-
+      {
+        isInputDataValid === false ?
+          <TitleInvalidInputAlert>Email ou senha inválidos!</TitleInvalidInputAlert>
+          :
+          null
+      }
 
       <Input
         placeholder={"Usuário ou E-mail"}
@@ -76,7 +75,7 @@ export const Login = ({ navigation }) => {
         fieldValue={email}
         onChangeText={txt => setEmail(txt)}
 
-        // isInsertedInputValid={isInputDataValid}
+        isInsertedInputValid={isInputDataValid}
       />
 
       <Input
@@ -87,15 +86,8 @@ export const Login = ({ navigation }) => {
         fieldValue={senha}
         onChangeText={(txt) => setSenha(txt)}
 
-        // isInsertedInputValid={isInputDataValid}
+        isInsertedInputValid={isInputDataValid}
       />
-
-      {/* {
-        isInputDataValid === false ?
-          <TitleInvalidInputAlert>Email ou senha inválidos!</TitleInvalidInputAlert>
-          :
-          null
-      } */}
 
       <LinkMedium
         textLink={"Esqueceu sua senha ?"}
