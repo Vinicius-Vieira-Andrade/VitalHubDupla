@@ -1,7 +1,7 @@
 import { ViewBoxCode } from "../Container/StyleContainer";
 import {CancelBackMargin, CancelButtonRecords, CancelCard, CancelLessMargin, CancelLocal, DescripritionDoctor, DescripritionEmail, DescripritionForgot, EmailText, ResendCode, SeeMedicalRecord, SmallDescriptionModal, SmallDescriptionModal2 } from "./StyledDescriptions";
 
-export const DescriptionPassword = ({ description }) => {
+export const DescriptionPassword = ({ description, route}) => {
 
     return (
         <DescripritionForgot>
@@ -19,11 +19,13 @@ export const DescriptionDoc = ({ description }) => {
     )
 }
 
-export const EmailDescription = () => {
+// export const EmailDescription = () => {
+export const EmailDescription = ({  }) => {
 
     return(
-
-        <DescripritionEmail>Digite o código de 4 dígitos enviado para <EmailText>username@email.com</EmailText></DescripritionEmail>
+        <>
+        </>
+        // <DescripritionEmail>Digite o código de 4 dígitos enviado para <EmailText>{route.params.emailRecuperacao}</EmailText></DescripritionEmail>
 
     )
 

@@ -13,24 +13,13 @@ import { DescriptionModalRecord } from "../Descriptions/StyledDescriptions";
 import { ImageModalRecord } from "../Images/StyleImages";
 import { TitleModal, TitleModalRecord } from "../Title/StyleTitle";
 import { BoxAgeEmailModal } from "./StylePatientAppointmentModal";
-import { useState } from "react";
 
 export const PatientAppointmentModal = ({
   navigation,
   visible,
-  consulta,
-  roleUsuario,
   setShowModal = null,
   ...rest
 }) => {
-
-  const [showModalAppointment, setShowModalAppoitment] = useState()
-
-function handlePress(rota) {
-  setShowModalAppoitment(false)
-  navigation.navigate(rota, {clinicaId: consulta.medicoClinic.clinicaId})
-}
-
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <PatientModal>
@@ -48,8 +37,7 @@ function handlePress(rota) {
 
           <ButtonLargeConfirmModal
             onPress={() => {
-              // navigation.navigate("ConsultLocalization");
-              handlePress(rota)
+              navigation.navigate("ConsultLocalization");
               setShowModal(false);
             }}
             text={"Ver Local da Consulta"}

@@ -42,6 +42,25 @@ border-radius: 8px;
 margin-top: 10px;
 margin-bottom: 5px; */
 font-size: 16px;
+border: solid 2px #49B3BA;
+`
+
+
+export const InputProfileGray = styled.TextInput`
+
+background-color: #F5F3F3;
+padding-left: 15px;
+text-align: left;
+/* width:90%; */
+height: 55px;
+border:1px solid #F5F3F3;
+font-family: MontserratAlternates_500Medium;
+color: #33303E;
+border-radius: 8px;
+/* padding: 20px;
+margin-top: 10px;
+margin-bottom: 5px; */
+font-size: 16px;
 `
 export const InputHigh = styled(InputText)`
     padding-bottom: 82px;

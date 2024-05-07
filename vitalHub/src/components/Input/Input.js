@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { InputHigh, InputHighGrey, InputNumeric, InputProfile, InputText, InputTextLarge } from "./StyleInput";
+import { InputHigh, InputHighGrey, InputNumeric, InputProfile, InputProfileGray, InputText, InputTextLarge } from "./StyleInput";
 import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
@@ -144,6 +144,28 @@ export function ProfileInput({
 }) {
     return (
         <InputProfile
+            editable={editable}
+            placeholder={placeholder}
+            keyboardType={keyboardType}
+            placeholderTextColor={placeholderTextColor}
+            maxLength={maxLength}
+            value={fieldValue}
+            onChangeText={onChangeText}
+        />
+    )
+}
+
+export function ProfileInputGray({
+    placeholder,
+    fieldValue,
+    onChangeText,
+    keyboardType,
+    maxLength,
+    placeholderTextColor,
+    editable = true
+}) {
+    return (
+        <InputProfileGray
             editable={editable}
             placeholder={placeholder}
             keyboardType={keyboardType}

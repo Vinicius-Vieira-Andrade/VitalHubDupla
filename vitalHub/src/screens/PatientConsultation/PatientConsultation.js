@@ -22,14 +22,25 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { Stethoscope } from "../../components/Stethoscope/StyleSthetoscope";
 import { ModalStethoscope } from "../../components/Stethoscope/ModalStethoscope";
 import { PatientAppointmentModal } from "../../components/PatientAppointmentModal/PatientAppointmentModal";
-import { userDecodeToken, userDecodeTokenClean } from "../../utils/Auth";
-import api from "../../services/Services";
-import moment from "moment";
+import { userDecodeToken } from "../../utils/Auth";
 
 export const PatientConsultation = ({ navigation }) => {
-  const [user, setUser] = useState([]);
-  const [dataConsulta, setDataConsulta] = useState("");
-  const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
+  const [user, setUser] = useState({
+    name: '',
+  });
+
+  async function profileLoad() {
+    const token = await userDecodeToken();
+
+    if (token) {
+      console.log("funcinou!");
+      setUser(token);
+    }
+  }
+
+  useEffect(() => {
+    profileLoad();
+  }, []);
 
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
   const [selected, setSelected] = useState({
@@ -37,14 +48,50 @@ export const PatientConsultation = ({ navigation }) => {
     realizadas: false,
     canceladas: false,
   });
-  const [consultaState, setConsultaState] = useState("Agendadas");
-
-  const [schedule, setSchedule] = useState([]);
 
   const image = require("../../assets/CardDoctorImage.png");
 
+  
+
+  const dataItens = [
+    {
+      id: 1,
+      hour: "14:00",
+      image: image,
+      name: "Dr Claudio",
+      age: "22 anos",
+      routine: "Urgência",
+      status: "a",
+    },
+    {
+      id: 1,
+      hour: "14:00",
+      image: image,
+      name: "Dr josé",
+      age: "23 anos",
+      routine: "Urgência",
+      status: "r",
+    },
+  ];
+
+  //FILTRO PARA CARD
+
+  const Check = (data) => {
+    if (data.status === "a" && selected.agendadas) {
+      return true;
+    }
+    if (data.status === "r" && selected.realizadas) {
+      return true;
+    }
+    if (data.status === "c" && selected.canceladas) {
+      return true;
+    }
+    return false;
+  };
+
+  const data = dataItens.filter(Check);
+
   // STATES PARA OS MODAIS
-  const [state, setState] = useState("");
 
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
@@ -52,76 +99,7 @@ export const PatientConsultation = ({ navigation }) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const [role, setRole] = useState("");
-
-  function MostrarModal(modal, consulta) {
-    setConsultaSelecionada(consulta);
-
-    if (modal == "Canceladas") {
-      setShowModalCancel(true);
-    } else if (modal == "Realizadas") {
-      setShowModalAppointment(true);
-    } else {
-      setShowModalStethoscope(true);
-    }
-  }
-
-  async function GetSchedule() {
-    // const url = (user.role == 'paciente' ? 'Pacientes' : 'Medicos')
-
-    // console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${user.user}`);
-
-    await api
-      .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
-      .then((response) => {
-        setSchedule(response.data);
-
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // try {
-    //   const token = await userDecodeToken()
-
-    //   if (token) {
-    //     const req = await api.get("/Consultas", {
-    //       headers: { Authorization: `Bearer ${token}` }
-    //     })
-    //     setSchedule(req.data);
-    //     console.log(req.data);
-    //   }
-
-    //   else{
-    //     console.log("token não encontrado!");
-    //   }
-
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  }
-
-  async function ProfileLoad() {
-    const token = await userDecodeToken();
-
-    if (token) {
-      console.log(token);
-      setUser(token);
-
-      setDataConsulta(moment().format("YYYY-MM-DD"));
-    }
-  }
-
-  useEffect(() => {
-    ProfileLoad();
-  }, []);
-
-  useEffect(() => {
-    if (dataConsulta != "") {
-      //essa verificacao serve para ser feita depois que o profileload for carregado, como o effect n é async, é sync, se as duas ocorrem ao mesmo tempo  da um bug satanico na mente do computadorkkkkkk
-      GetSchedule();
-    }
-  }, [dataConsulta]);
+  // RETURN
 
   return (
     <Container>
@@ -143,61 +121,54 @@ export const PatientConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar setDataConsulta={setDataConsulta} />
+      <Calendar />
 
       <ButtonHomeContainer>
         <FilterButton
           onPress={() => {
-            setConsultaState("Agendadas");
+            setSelected({ agendadas: true });
           }}
-          selected={consultaState == "Agendadas" ? true : false}
+          selected={selected.agendadas}
           text={"Agendadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Realizadas");
+            setSelected({ realizadas: true });
           }}
-          selected={consultaState == "Realizadas" ? true : false}
+          selected={selected.realizadas}
           text={"Realizadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Canceladas");
+            setSelected({ canceladas: true });
           }}
-          selected={consultaState == "Canceladas" ? true : false}
+          selected={selected.canceladas}
           text={"Canceladas"}
         />
       </ButtonHomeContainer>
 
       <FlatContainer
-        data={schedule}
-        renderItem={({ item }) =>
-          item.situacao.situacao == consultaState && (
-            <Card
-              // paciente={item}
-              navigation={navigation}
-              hour={"14:00"}
-              name={item.medicoClinica.medico.idNavigation.nome}
-              // date={item.dataConsulta}
-              age={item.medicoClinica.medico.crm}
-              routine={item.situacao.situacao}
-              url={image}
-              status={consultaState}
-              onPressCancel={() => setShowModalCancel(true)}
-              onPressAppointment={() => {
-                navigation.navigate("ViewPrescription");
-              }}
-              onPressAppointmentCard={() => {
-                setConsultaSelecionada(item.medicoClinica.medico);
-                setShowModal(
-                  item.situacao.situacao === "Agendadas" ? true : false
-                );
-              }}
-            />
-          )
-        }
+        data={data}
+        renderItem={({ item }) => (
+          <Card
+            navigation={navigation}
+            hour={item.hour}
+            name={item.id}
+            age={item.age}
+            routine={item.routine}
+            url={image}
+            status={item.status}
+            onPressCancel={() => setShowModalCancel(true)}
+            onPressAppointment={() => {
+              navigation.navigate("ViewPrescription", {prescriptionId : item.id});
+            }}
+            onPressAppointmentCard={() =>
+              setShowModal(item.status === "a" ? true : false)
+            }
+          />
+        )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
@@ -221,8 +192,6 @@ export const PatientConsultation = ({ navigation }) => {
         navigation={navigation}
         visible={showModal}
         setShowModal={setShowModal}
-        consulta={ConsultaSelecionada}
-        roleUsuario={user.role}
       />
 
       {/* <Main />  */}

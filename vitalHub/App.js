@@ -29,9 +29,22 @@ import { ConsultLocalization } from "./src/screens/ConsultLocalization/ConsultLo
 import { ViewPrescription } from "./src/screens/ViewPrescription/ViewPrescription";
 import Splash from "./src/screens/Splash/Splash";
 import { DoctorMain, Main } from "./src/components/Main/Main";
-import Camera from "./src/components/Camera/Camera";
+
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
+
+// async function requestGalery() {
+//   await MediaLibrary.requestPermissionsAsync
+
+//   await ImagePicker.requestMediaLibraryPermissionsAsync
+// }
+
+// useEffect(() => {
+//   requestGalery();
+// },[])
 
 
 export default function App() {
@@ -172,11 +185,6 @@ export default function App() {
           name="ViewPrescription"
           component={ViewPrescription}
           options={{ title: "ViewPrescription" }}
-        />
-        <Stack.Screen
-          name="Camera"
-          component={Camera}
-          options={{ title: "Camera" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

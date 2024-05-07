@@ -1,27 +1,73 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { SendButton } from "../../components/Button/Button"
 import { ButtonSend } from "../../components/Button/StyleButton"
 import { BoxAgeEmail, BoxBtn, BoxDescription, BoxViewImageImport, Container, ScrollContainer, ViewImageImport } from "../../components/Container/StyleContainer"
 import { CardBackLess, CardCancel, CardCancelLess, DescriptionDoc, DescriptionPassword } from "../../components/Descriptions/Descriptions"
 import { ImagePrescription, ImagePrescriptionNull, ViewImage } from "../../components/Images/StyleImages"
-import { HighInputBox, HighInputBoxGrey, InputBox, LargeInputTextBox } from "../../components/InputBox/InputBox"
+import { HighInputBox, HighInputBoxGrey, InputBox, InputBoxGray } from "../../components/InputBox/InputBox"
 import { Label } from "../../components/Label/Label"
 import { TitleProfile } from "../../components/Title/StyleTitle"
 import { ImportImages, Line, TitleImage } from "./Style"
 
-import * as MediaLibrary from "expo-media-library"
+import { CameraModal } from '../../components/Camera/CameraModal'
 
-// import { useRoute } from '@react-navigation/native';
+import * as MediaLibrary from "expo-media-library"
+import api from "../../services/Services"
+import { userDecodeToken } from "../../utils/Auth"
 
 export const ViewPrescription = ({ navigation, route }) => {
+    const [photo, setPhoto] = useState( false )
+    const [showCameraModal, setShowCameraModal] = useState( false )
+    
+    const [prescription, setPrescription] = useState({})
+    const [descricaoExame ,setDescricaoExame] = useState()
+    const [uriCameraCapture, setUriCameraCapture] = useState( "" )
 
-    // const { photoUri } = route.params;
+    async function profileLoad() {
+        const token = await userDecodeToken();
+    
+        if (token !== null) {
+            setPrescription(token);
+        }
+    
+        else {
+          console.error(error, "Function Profile Load");
+        }
+      }
 
-    useEffect(() => {
-        // console.log(photoUri)
-        console.log("sada") 
-        console.log(route.params)
-    }, [route])
+      useEffect(() => {
+          profileLoad();
+      }, []);
+
+    // Inserir imagem no prontuário
+      async function InserirExame() {
+        const formData = new FormData()
+        // formData.append("ConsultaId", prescription.id)
+        formData.append("ConsultaId", '94DF9F3D-576A-40D4-ACB5-4FEBE3AE220C')
+        formData.append("Image", {
+            uri : uriCameraCapture,
+            name :  `image.${uriCameraCapture.split('.').pop()}`,
+            type :  `image/${uriCameraCapture.split('.').pop()}`,
+        });
+
+        await api.post('/Exame', formData, {
+            headers : {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then( response => {
+            setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
+
+            console.log(descricaoExame + "/n" + response.data.descricao)
+        }).catch(error => {
+            console.log(error, 'Falha ao Inserir');
+        })
+      }
+
+      useEffect(() => {
+        if ( uriCameraCapture ) {
+          InserirExame();
+        }
+      }, [uriCameraCapture]);
 
     return (
         <>
@@ -31,7 +77,7 @@ export const ViewPrescription = ({ navigation, route }) => {
 
                     <ViewImage source={require("../../assets/ney.webp")} />
 
-                    <TitleProfile>Dr. Ney</TitleProfile>
+                    <TitleProfile>{prescription.name}</TitleProfile>
 
                     <BoxDescription>
                         <DescriptionDoc description={"Cliníco geral"} />
@@ -43,15 +89,15 @@ export const ViewPrescription = ({ navigation, route }) => {
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Descrição da consulta"}
                         placeholder={"Descrição"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
-                    <InputBox
+                    <InputBoxGray
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Diagnóstico do paciente"}
                         placeholder={"Diagnóstico"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
@@ -60,7 +106,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Prescrição médica"}
                         placeholder={"Prescrição"}
-                        editable={true}
+                        editable={false}
                         fieldWidth={90}
                     />
 
@@ -69,13 +115,22 @@ export const ViewPrescription = ({ navigation, route }) => {
                         <Label textLabel={"Exames médicos"} />
 
                         <ImportImages>
-                            {route.params ? <ImagePrescription source={{ uri : route.params.photoUri }} /> : <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>}
+                        <ImagePrescription source={{ uri : prescription.foto }} />
+                            {/* {route.params ? <ImagePrescription source={{ uri : prescription.foto }} /> : <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>} */}
                         </ImportImages>
 
                     </BoxViewImageImport>
 
+                    <CameraModal
+                        getMediaLibrary={true}
+                        visible={showCameraModal}
+                        setUriCameraCapture={setUriCameraCapture}
+                        // setShowCameraModal={setShowCameraModal}
+                        setShowModalCancel={setShowCameraModal}
+                    />
+
                     <BoxBtn>
-                        <SendButton onPress={() => { navigation.navigate("Camera") }} text={"Enviar"} />
+                        <SendButton onPress={ () => setShowCameraModal(true)} text={"Enviar"} />
                         <CardCancel onPressCancel={() => {navigation.replace("Main") }} text={"Cancelar"} />
                     </BoxBtn>
 
@@ -84,7 +139,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                     <HighInputBoxGrey
                         // fieldHeight={350}
                         placeholderTextColor={"#A1A1A1"}
-                        placeholder={"Resultado do exame"}
+                        placeholder={descricaoExame}
                         editable={true}
                         fieldWidth={90}
                     />

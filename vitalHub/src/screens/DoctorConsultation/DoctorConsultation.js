@@ -19,18 +19,8 @@ import { useEffect, useState } from "react";
 import { Card } from "../../components/Cards/Cards";
 import { CancellationModal } from "../../components/CancellationModal/CancellationModal";
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal";
-import moment from "moment";
-import { userDecodeToken } from "../../utils/Auth";
 
 export const DoctorConsultation = ({ navigation }) => {
-  const [user, setUser] = useState([]);
-  const [dataConsulta, setDataConsulta] = useState("");
-  const [schedule, setSchedule] = useState([]);
-  const [consultaState, setConsultaState] = useState("Agendadas");
-
-  const currentDate = moment();
-  const currentYear = currentDate.year();
-
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
   const [selected, setSelected] = useState({
     agendadas: true,
@@ -44,41 +34,50 @@ export const DoctorConsultation = ({ navigation }) => {
   //   2 - dados na tela de perfil
   //   3 - dados no Header quando logar
 
-  async function ProfileLoad() {
+  async function profileLoad() {
     const token = await userDecodeToken();
 
-    console.log("boa");
+    console.log("BANANAAA!");
     if (token) {
-      console.log(token);
-      setUser(token);
-      setDataConsulta(moment().format("YYYY-MM-DD"));
+      console.log(token.name);
     }
   }
 
-  async function GetSchedule() {
-    await api
-      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
-      .then((response) => {
-        setSchedule(response.data);
-
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
   useEffect(() => {
-    ProfileLoad();
+    profileLoad();
   }, []);
 
-  useEffect(() => {
-    if (dataConsulta != "") {
-      GetSchedule();
-    }
-  }, [dataConsulta]);
-
   // CARD MOCADOS
+
+  const dataItens = [
+    {
+      id: 1,
+      hour: "14:00",
+      image: image,
+      name: "Niccole Sarga",
+      age: "22 anos",
+      routine: "Rotina",
+      status: "r",
+    },
+    {
+      id: 2,
+      hour: "15:00",
+      image: image,
+      name: "Richard Kosta",
+      age: "28 anos",
+      routine: "Urgência",
+      status: "a",
+    },
+    {
+      id: 3,
+      hour: "17:00",
+      image: image,
+      name: "Neymar Jr",
+      age: "28 anos",
+      routine: "Rotina",
+      status: "c",
+    },
+  ];
 
   //FILTRO PARA CARD
 
@@ -95,7 +94,7 @@ export const DoctorConsultation = ({ navigation }) => {
     return false;
   };
 
-  // const data = dataItens.filter(Check);
+  const data = dataItens.filter(Check);
 
   // STATES PARA OS MODAIS
 
@@ -114,7 +113,7 @@ export const DoctorConsultation = ({ navigation }) => {
           <BoxDataHome>
             <WelcomeTitle textTitle={"Bem vindo"} />
 
-            <NameTitle textTitle={user.name} />
+            <NameTitle textTitle={"Dr. Claudio"} />
           </BoxDataHome>
         </BoxHome>
 
@@ -123,51 +122,49 @@ export const DoctorConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar /> 
+      <Calendar />
 
       <ButtonHomeContainer>
         <FilterButton
           onPress={() => {
-            setConsultaState("Agendadas");
+            setSelected({ agendadas: true });
           }}
-          selected={consultaState == "Agendadas" ? true : false}
+          selected={selected.agendadas}
           text={"Agendadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Realizadas");
+            setSelected({ realizadas: true });
           }}
-          selected={consultaState == "Realizadas" ? true : false}
+          selected={selected.realizadas}
           text={"Realizadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Canceladas");
+            setSelected({ canceladas: true });
           }}
-          selected={consultaState == "Canceladas" ? true : false}
+          selected={selected.canceladas}
           text={"Canceladas"}
         />
       </ButtonHomeContainer>
 
       <FlatContainer
-        data={schedule}
-        renderItem={({ item }) =>
-          item.situacao.situacao == consultaState && (
-            <Card
-              navigation={navigation}
-              hour={"14:00"}
-              name={item.paciente.idNavigation.nome}
-              age={currentYear - item.paciente.dataNascimento}
-              routine={item.situacao.situacao}
-              url={image}
-              status={item.status}
-              onPressCancel={() => setShowModalCancel(true)}
-              onPressAppointment={() => setShowModalAppointment(true)}
-            />
-          )
-        }
+        data={data}
+        renderItem={({ item }) => (
+          <Card
+            navigation={navigation}
+            hour={item.hour}
+            name={item.name}
+            age={item.age}
+            routine={item.routine}
+            url={image}
+            status={item.status}
+            onPressCancel={() => setShowModalCancel(true)}
+            onPressAppointment={() => setShowModalAppointment(true) }
+          />
+        )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />

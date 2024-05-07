@@ -2,7 +2,8 @@ import styled, { css } from "styled-components";
 
 
 export const NormalButton = styled.TouchableOpacity`
-    margin-top: 32px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     border-radius: 8px;
     width: 90%;
     background-color: #496BBA;
@@ -45,7 +46,8 @@ export const LargeButton = styled(NormalButton)`
 export const ButtonBlocked = styled(NormalButton)`
     background-color: #ACABB7;
     border-color: #ACABB7;
-    margin-top: 33px;
+    margin-top: 5px;
+    margin-bottom: 15px;
 `
 export const SmallButtonBlocked = styled(NormalButton)`
     background-color: #ACABB7;
