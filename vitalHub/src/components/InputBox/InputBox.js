@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { HighInput, HighInputGrey, LargeInput, ProfileInput } from "../Input/Input"
 import { InputTextLargeGray } from "../Input/StyleInput"
+=======
+import { HighInput, HighInputGrey, LargeInput, ProfileInput, ProfileInputGray } from "../Input/Input"
+>>>>>>> origin/mikael
 import { Label } from "../Label/Label"
 import { BoxInput } from "./StyleInputBox"
 
@@ -13,6 +17,7 @@ export const InputBox = ({
     fieldValue = null,
     onChangeText = null,
     keyboardType = "default",
+    style,
     maxLength,
     placeholderTextColor
 }) => {
@@ -23,6 +28,40 @@ export const InputBox = ({
             <Label textLabel={textLabel} />
 
             <ProfileInput
+                placeholder={placeholder}
+                editable={editable}
+                keyboardType={keyboardType}
+                maxLength={maxLength}
+                fieldValue={fieldValue}
+                onChangeText={onChangeText}
+                placeholderTextColor={placeholderTextColor}
+            />
+
+        </BoxInput>
+
+    )
+}
+
+export const InputBoxGray = ({
+    fieldWidth = 100,
+    fieldHeight = 90,
+    editable = false,
+    textLabel,
+    placeholder,
+    fieldValue = null,
+    onChangeText = null,
+    keyboardType = "default",
+    style,
+    maxLength,
+    placeholderTextColor
+}) => {
+    return (
+
+        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
+
+            <Label textLabel={textLabel} />
+
+            <ProfileInputGray
                 placeholder={placeholder}
                 editable={editable}
                 keyboardType={keyboardType}

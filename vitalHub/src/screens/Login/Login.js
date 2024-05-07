@@ -28,14 +28,14 @@ export const Login = ({ navigation }) => {
       email: email,
       senha: senha
     }).then(async response => {
-      // setIsInputDataValid(true);
+      setIsInputDataValid(true);
       console.log(response.data.token)
 
       await AsyncStorage.setItem("token", JSON.stringify(response.data))
 
       const token = await userDecodeToken()
 
-      if (token.role === "paciente") {
+      if (token.role === "Paciente") {
         navigation.replace("Main")
       }
       else {
@@ -45,7 +45,7 @@ export const Login = ({ navigation }) => {
     }).catch(error => {
       // Ativa o retorno de input inválido
       setIsInputDataValid(false);
-      // console.log(error)
+      console.log(error)
     })
 
   }
@@ -63,7 +63,12 @@ export const Login = ({ navigation }) => {
 
       <Title>Entrar ou criar conta</Title>
 
-
+      {
+        isInputDataValid === false ?
+          <TitleInvalidInputAlert>Email ou senha inválidos!</TitleInvalidInputAlert>
+          :
+          null
+      }
 
       <Input
         placeholder={"Usuário ou E-mail"}
@@ -72,7 +77,7 @@ export const Login = ({ navigation }) => {
         fieldValue={email}
         onChangeText={txt => setEmail(txt)}
 
-        // isInsertedInputValid={isInputDataValid}
+        isInsertedInputValid={isInputDataValid}
       />
 
       <Input
@@ -83,15 +88,8 @@ export const Login = ({ navigation }) => {
         fieldValue={senha}
         onChangeText={(txt) => setSenha(txt)}
 
-        // isInsertedInputValid={isInputDataValid}
+        isInsertedInputValid={isInputDataValid}
       />
-
-      {/* {
-        isInputDataValid === false ?
-          <TitleInvalidInputAlert>Email ou senha inválidos!</TitleInvalidInputAlert>
-          :
-          null
-      } */}
 
       <LinkMedium
         textLink={"Esqueceu sua senha ?"}

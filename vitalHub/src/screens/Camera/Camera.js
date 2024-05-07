@@ -13,8 +13,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Entypo } from '@expo/vector-icons';
 
-import { ButtonLargeConfirmModal } from '../Button/Button';
-import { CardCancelLess } from '../Descriptions/Descriptions';
+import { ButtonLargeConfirmModal } from '../../components/Button/Button';
+import { CardCancelLess } from '../../components/Descriptions/Descriptions';
 
 
 export default function Cam({ navigation }) {

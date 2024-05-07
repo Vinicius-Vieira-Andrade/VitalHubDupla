@@ -22,14 +22,25 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { Stethoscope } from "../../components/Stethoscope/StyleSthetoscope";
 import { ModalStethoscope } from "../../components/Stethoscope/ModalStethoscope";
 import { PatientAppointmentModal } from "../../components/PatientAppointmentModal/PatientAppointmentModal";
-import { userDecodeToken, userDecodeTokenClean } from "../../utils/Auth";
-import api from "../../services/Services";
-import moment from "moment";
+import { userDecodeToken } from "../../utils/Auth";
 
 export const PatientConsultation = ({ navigation }) => {
-  const [user, setUser] = useState([]);
-  const [dataConsulta, setDataConsulta] = useState("");
-  const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
+  const [user, setUser] = useState({
+    name: '',
+  });
+
+  async function profileLoad() {
+    const token = await userDecodeToken();
+
+    if (token) {
+      console.log("funcinou!");
+      setUser(token);
+    }
+  }
+
+  useEffect(() => {
+    profileLoad();
+  }, []);
 
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
   const [selected, setSelected] = useState({
@@ -37,11 +48,48 @@ export const PatientConsultation = ({ navigation }) => {
     realizadas: false,
     canceladas: false,
   });
-  const [consultaState, setConsultaState] = useState("Agendadas");
-
-  const [schedule, setSchedule] = useState([]);
 
   const image = require("../../assets/CardDoctorImage.png");
+
+  
+
+  const dataItens = [
+    {
+      id: 1,
+      hour: "14:00",
+      image: image,
+      name: "Dr Claudio",
+      age: "22 anos",
+      routine: "Urgência",
+      status: "a",
+    },
+    {
+      id: 1,
+      hour: "14:00",
+      image: image,
+      name: "Dr josé",
+      age: "23 anos",
+      routine: "Urgência",
+      status: "r",
+    },
+  ];
+
+  //FILTRO PARA CARD
+
+  const Check = (data) => {
+    if (data.status === "a" && selected.agendadas) {
+      return true;
+    }
+    if (data.status === "r" && selected.realizadas) {
+      return true;
+    }
+    if (data.status === "c" && selected.canceladas) {
+      return true;
+    }
+    return false;
+  };
+
+  const data = dataItens.filter(Check);
 
   // STATES PARA OS MODAIS
 
@@ -51,6 +99,7 @@ export const PatientConsultation = ({ navigation }) => {
 
   const [showModal, setShowModal] = useState(false);
 
+<<<<<<< HEAD
   const [role, setRole] = useState("");
 
   // function MostrarModal(modal, consulta) {
@@ -100,6 +149,9 @@ export const PatientConsultation = ({ navigation }) => {
       GetSchedule();
     }
   }, [dataConsulta]);
+=======
+  // RETURN
+>>>>>>> origin/mikael
 
   return (
     <Container>
@@ -121,35 +173,36 @@ export const PatientConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar setDataConsulta={setDataConsulta} />
+      <Calendar />
 
       <ButtonHomeContainer>
         <FilterButton
           onPress={() => {
-            setConsultaState("Agendadas");
+            setSelected({ agendadas: true });
           }}
-          selected={consultaState == "Agendadas" ? true : false}
+          selected={selected.agendadas}
           text={"Agendadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Realizadas");
+            setSelected({ realizadas: true });
           }}
-          selected={consultaState == "Realizadas" ? true : false}
+          selected={selected.realizadas}
           text={"Realizadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setConsultaState("Canceladas");
+            setSelected({ canceladas: true });
           }}
-          selected={consultaState == "Canceladas" ? true : false}
+          selected={selected.canceladas}
           text={"Canceladas"}
         />
       </ButtonHomeContainer>
 
       <FlatContainer
+<<<<<<< HEAD
         data={schedule}
         renderItem={({ item }) =>
           item.situacao.situacao == consultaState && (
@@ -179,6 +232,27 @@ export const PatientConsultation = ({ navigation }) => {
             />
           )
         }
+=======
+        data={data}
+        renderItem={({ item }) => (
+          <Card
+            navigation={navigation}
+            hour={item.hour}
+            name={item.id}
+            age={item.age}
+            routine={item.routine}
+            url={image}
+            status={item.status}
+            onPressCancel={() => setShowModalCancel(true)}
+            onPressAppointment={() => {
+              navigation.navigate("ViewPrescription", {prescriptionId : item.id});
+            }}
+            onPressAppointmentCard={() =>
+              setShowModal(item.status === "a" ? true : false)
+            }
+          />
+        )}
+>>>>>>> origin/mikael
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
@@ -202,8 +276,6 @@ export const PatientConsultation = ({ navigation }) => {
         navigation={navigation}
         visible={showModal}
         setShowModal={setShowModal}
-        consulta={ConsultaSelecionada}
-        roleUsuario={user.role}
       />
 
       {/* <Main />  */}

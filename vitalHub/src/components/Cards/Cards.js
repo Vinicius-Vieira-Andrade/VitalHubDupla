@@ -34,7 +34,7 @@ import {
 import { FontAwesome6 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { endEvent } from "react-native/Libraries/Performance/Systrace";
 
 export const Card = ({
   url,
@@ -46,12 +46,10 @@ export const Card = ({
   onPressCancel,
   onPressAppointment,
   onPressAppointmentCard,
-  paciente,
   navigation,
 }) => {
-  const [situacao, setSituacao] = useState([]);
   const Check = () => {
-    if (status === "Agendadas") {
+    if (status === "a") {
       return (
         <BoxDateCancel>
           <ConsultDate>
@@ -63,7 +61,7 @@ export const Card = ({
           <CardCancel onPressCancel={onPressCancel} text={"Cancelar"} />
         </BoxDateCancel>
       );
-    } else if (status === "Realizadas") {
+    } else if (status === "r") {
       return (
         <BoxDateCancel>
           <ConsultDateGray>
@@ -78,7 +76,7 @@ export const Card = ({
           />
         </BoxDateCancel>
       );
-    } else if (status === "Canceladas") {
+    } else if (status === "c") {
       return (
         <BoxDateCancel>
           <ConsultDateGray>
@@ -118,6 +116,7 @@ export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedic
   return (
     <CardContainerClinic
       isSelected={selectedCardId == doctor.id ? true : false} //se o id do medico bater com o id passado ao clicar no card do medico, retorna true, se n false
+      
       onPress={() => {
         setMedico({
           medicoId: doctor.id,
@@ -164,11 +163,6 @@ export const CardSelectClinic = ({ clinic, selectedCardId, onCardPress, setClini
         </BoxTextClinicCard>
 
         <BoxRateTime>
-          {/* <BoxRate>
-                        <AntDesign name="star" size={18} color="#F9A620" />
-
-                        <RateText>{rate}</RateText> 
-                    </BoxRate> */}
 
           <ConsultDate>
             <MaterialCommunityIcons
