@@ -155,7 +155,7 @@ export const PatientConsultation = ({ navigation }) => {
           item.situacao.situacao == consultaState && (
             <Card
               navigation={navigation}
-              hour={"14:00"}
+              hour={moment().format("LT")}
               name={item.medicoClinica.medico.idNavigation.nome}
               // date={item.dataConsulta}
               age={item.medicoClinica.medico.crm}

@@ -16,7 +16,7 @@ export const TextLinkAccount = styled(TextLink)`
 `
 
 export const ViewLink = styled.View`
-    background-color: red;
+    /* background-color: red; */
     justify-content: baseline;
     justify-self: baseline;
 `
