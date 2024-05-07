@@ -1,10 +1,6 @@
-<<<<<<< HEAD
+
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { InputHigh, InputHighGrey, InputNumeric, InputProfile, InputText, InputTextLarge } from "./StyleInput";
-=======
-import { StyleSheet, View } from "react-native";
 import { InputHigh, InputHighGrey, InputNumeric, InputProfile, InputProfileGray, InputText, InputTextLarge } from "./StyleInput";
->>>>>>> origin/mikael
 import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";

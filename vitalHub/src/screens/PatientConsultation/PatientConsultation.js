@@ -23,24 +23,26 @@ import { Stethoscope } from "../../components/Stethoscope/StyleSthetoscope";
 import { ModalStethoscope } from "../../components/Stethoscope/ModalStethoscope";
 import { PatientAppointmentModal } from "../../components/PatientAppointmentModal/PatientAppointmentModal";
 import { userDecodeToken } from "../../utils/Auth";
+import api from "../../services/Services";
+import moment from "moment";
 
 export const PatientConsultation = ({ navigation }) => {
-  const [user, setUser] = useState({
-    name: '',
-  });
+  const [user, setUser] = useState({});
+  const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
+  const [dataConsulta, setDataConsulta] = useState("");
 
-  async function profileLoad() {
-    const token = await userDecodeToken();
+  // async function profileLoad() {
+  //   const token = await userDecodeToken();
 
-    if (token) {
-      console.log("funcinou!");
-      setUser(token);
-    }
-  }
+  //   if (token) {
+  //     console.log("funcinou!");
+  //     setUser(token);
+  //   }
+  // }
 
-  useEffect(() => {
-    profileLoad();
-  }, []);
+  // useEffect(() => {
+  //   profileLoad();
+  // }, []);
 
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
   const [selected, setSelected] = useState({
@@ -49,47 +51,12 @@ export const PatientConsultation = ({ navigation }) => {
     canceladas: false,
   });
 
+
+  const [consultaState, setConsultaState] = useState("Agendadas");
+
+  const [schedule, setSchedule] = useState([]);
+
   const image = require("../../assets/CardDoctorImage.png");
-
-  
-
-  const dataItens = [
-    {
-      id: 1,
-      hour: "14:00",
-      image: image,
-      name: "Dr Claudio",
-      age: "22 anos",
-      routine: "Urgência",
-      status: "a",
-    },
-    {
-      id: 1,
-      hour: "14:00",
-      image: image,
-      name: "Dr josé",
-      age: "23 anos",
-      routine: "Urgência",
-      status: "r",
-    },
-  ];
-
-  //FILTRO PARA CARD
-
-  const Check = (data) => {
-    if (data.status === "a" && selected.agendadas) {
-      return true;
-    }
-    if (data.status === "r" && selected.realizadas) {
-      return true;
-    }
-    if (data.status === "c" && selected.canceladas) {
-      return true;
-    }
-    return false;
-  };
-
-  const data = dataItens.filter(Check);
 
   // STATES PARA OS MODAIS
 
@@ -99,23 +66,9 @@ export const PatientConsultation = ({ navigation }) => {
 
   const [showModal, setShowModal] = useState(false);
 
-<<<<<<< HEAD
-  const [role, setRole] = useState("");
-
-  // function MostrarModal(modal, consulta) {
-  //   setConsultaSelecionada(consulta);
-
-  //   if (modal == "Canceladas") {
-  //     setShowModalCancel(true);
-  //   } else if (modal == "Realizadas") {
-  //     setShowModalAppointment(true);
-  //   } else {
-  //     setShowModalStethoscope(true);
-  //   }
-  // }
 
   async function GetSchedule() {
-  
+
     await api
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
@@ -149,9 +102,6 @@ export const PatientConsultation = ({ navigation }) => {
       GetSchedule();
     }
   }, [dataConsulta]);
-=======
-  // RETURN
->>>>>>> origin/mikael
 
   return (
     <Container>
@@ -173,36 +123,35 @@ export const PatientConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-      <Calendar />
+      <Calendar setDataConsulta={setDataConsulta}/>
 
       <ButtonHomeContainer>
         <FilterButton
           onPress={() => {
-            setSelected({ agendadas: true });
+            setConsultaState("Agendadas");
           }}
-          selected={selected.agendadas}
+          selected={consultaState == "Agendadas" ? true : false}
           text={"Agendadas"}
         />
 
         <FilterButton
-          onPress={() => {
-            setSelected({ realizadas: true });
-          }}
-          selected={selected.realizadas}
-          text={"Realizadas"}
+         onPress={() => {
+          setConsultaState("Realizadas");
+        }}
+        selected={consultaState == "Realizadas" ? true : false}
+        text={"Realizadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setSelected({ canceladas: true });
+            setConsultaState("Canceladas");
           }}
-          selected={selected.canceladas}
+          selected={consultaState == "Canceladas" ? true : false}
           text={"Canceladas"}
         />
       </ButtonHomeContainer>
 
       <FlatContainer
-<<<<<<< HEAD
         data={schedule}
         renderItem={({ item }) =>
           item.situacao.situacao == consultaState && (
@@ -232,27 +181,6 @@ export const PatientConsultation = ({ navigation }) => {
             />
           )
         }
-=======
-        data={data}
-        renderItem={({ item }) => (
-          <Card
-            navigation={navigation}
-            hour={item.hour}
-            name={item.id}
-            age={item.age}
-            routine={item.routine}
-            url={image}
-            status={item.status}
-            onPressCancel={() => setShowModalCancel(true)}
-            onPressAppointment={() => {
-              navigation.navigate("ViewPrescription", {prescriptionId : item.id});
-            }}
-            onPressAppointmentCard={() =>
-              setShowModal(item.status === "a" ? true : false)
-            }
-          />
-        )}
->>>>>>> origin/mikael
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
@@ -276,6 +204,8 @@ export const PatientConsultation = ({ navigation }) => {
         navigation={navigation}
         visible={showModal}
         setShowModal={setShowModal}
+        consulta={ConsultaSelecionada}
+        roleUsuario={user.role}
       />
 
       {/* <Main />  */}

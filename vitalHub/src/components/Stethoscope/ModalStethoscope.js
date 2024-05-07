@@ -54,49 +54,12 @@ export const ModalStethoscope = ({
     urgencia: false,
   });
 
-<<<<<<< HEAD
-  const loc = "Sao Paulo";
-
   const [agendamento, setAgendamento] = useState(null);
 
   async function handleContinue() {
     setShowModalStethoscope(false);
     navigation.replace("SelectClinic", { agendamento: agendamento }); // passando os dados de agendamento para a proxima tela
   }
-=======
-
-  // FUNCÃO RESPONSAVEL POR GUARDAR O DADO CIDADE PARA FILTRAR NA HORA DA LISTAGEM ( async storage )
-  const storeCity = async (cidade) => {
-    try {
-      await AsyncStorage.setItem('selectedCity', cidade);
-      
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // FUNÇÃO PARA LIDAR COM CHAMADA DE NOTIFICAÇÃO
-  const handleCallNotifications = async () => {
-    // OBTEM STATUS DA PERMISSÃO
-    const {status} = await Notifications.getPermissionsAsync();
-    // VERIFICA SE O USUÁRIO CONCEDEU PERMISSÃO
-    if (status !== "granted") {
-      alert("Você não deixou as notificações ativas.")
-      return;
-    }
-
-    // AGENDA UMA NOTIFICAÇÃO 
-    await Notifications.scheduleNotificationAsync({
-      content : {
-        title : "Notificação recebida.",
-        body : "Selecione a clínica mais próxima de você!",
-        color: '#49B3BA'
-      },
-      trigger : null,
-    })
-  }
- 
->>>>>>> origin/mikael
 
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
@@ -161,9 +124,6 @@ export const ModalStethoscope = ({
           </ContainerLabel>
 
           <LargeInputTextBoxStet
-            // fieldValue={clinics}
-            // onChangeText={(txt) => setClinics(txt)}
-            onChangeText={storeCity}
             placeholderTextColor={"#34898F"}
             textLabel={"Informe a localização desejada"}
             placeholder={"Informe a localização"}
@@ -178,21 +138,12 @@ export const ModalStethoscope = ({
           />
 
           <FlexButtons>
-<<<<<<< HEAD
             <ButtonLargeSelect
               onPress={() => {
                 // navigation.navigate("SelectClinic");
                 // setShowModalStethoscope(false);
                 handleContinue();
               }}
-=======
-          <ButtonLargeSelect
-            onPress={() => {
-              navigation.navigate("SelectClinic");
-              setShowModalStethoscope(false);
-              handleCallNotifications();
-            }}
->>>>>>> origin/mikael
               text={"Continuar"}
             />
 

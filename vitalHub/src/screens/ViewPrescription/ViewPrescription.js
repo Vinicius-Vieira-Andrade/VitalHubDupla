@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { SendButton } from "../../components/Button/Button";
 import { ButtonSend } from "../../components/Button/StyleButton";
@@ -57,78 +56,6 @@ export const ViewPrescription = ({ navigation, route }) => {
     console.log(`route ${route.params}`);
     console.log(`/Consultas/BuscarPorId?id=${route.params.consultaId}`);
   }, [route]);
-=======
-import { useEffect, useState } from "react"
-import { SendButton } from "../../components/Button/Button"
-import { ButtonSend } from "../../components/Button/StyleButton"
-import { BoxAgeEmail, BoxBtn, BoxDescription, BoxViewImageImport, Container, ScrollContainer, ViewImageImport } from "../../components/Container/StyleContainer"
-import { CardBackLess, CardCancel, CardCancelLess, DescriptionDoc, DescriptionPassword } from "../../components/Descriptions/Descriptions"
-import { ImagePrescription, ImagePrescriptionNull, ViewImage } from "../../components/Images/StyleImages"
-import { HighInputBox, HighInputBoxGrey, InputBox, InputBoxGray } from "../../components/InputBox/InputBox"
-import { Label } from "../../components/Label/Label"
-import { TitleProfile } from "../../components/Title/StyleTitle"
-import { ImportImages, Line, TitleImage } from "./Style"
-
-import { CameraModal } from '../../components/Camera/CameraModal'
-
-import * as MediaLibrary from "expo-media-library"
-import api from "../../services/Services"
-import { userDecodeToken } from "../../utils/Auth"
-
-export const ViewPrescription = ({ navigation, route }) => {
-    const [photo, setPhoto] = useState( false )
-    const [showCameraModal, setShowCameraModal] = useState( false )
-    
-    const [prescription, setPrescription] = useState({})
-    const [descricaoExame ,setDescricaoExame] = useState()
-    const [uriCameraCapture, setUriCameraCapture] = useState( "" )
-
-    async function profileLoad() {
-        const token = await userDecodeToken();
-    
-        if (token !== null) {
-            setPrescription(token);
-        }
-    
-        else {
-          console.error(error, "Function Profile Load");
-        }
-      }
-
-      useEffect(() => {
-          profileLoad();
-      }, []);
-
-    // Inserir imagem no prontuário
-      async function InserirExame() {
-        const formData = new FormData()
-        // formData.append("ConsultaId", prescription.id)
-        formData.append("ConsultaId", '94DF9F3D-576A-40D4-ACB5-4FEBE3AE220C')
-        formData.append("Image", {
-            uri : uriCameraCapture,
-            name :  `image.${uriCameraCapture.split('.').pop()}`,
-            type :  `image/${uriCameraCapture.split('.').pop()}`,
-        });
-
-        await api.post('/Exame', formData, {
-            headers : {
-                "Content-Type": "multipart/form-data"
-            }
-        }).then( response => {
-            setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
-
-            console.log(descricaoExame + "/n" + response.data.descricao)
-        }).catch(error => {
-            console.log(error, 'Falha ao Inserir');
-        })
-      }
-
-      useEffect(() => {
-        if ( uriCameraCapture ) {
-          InserirExame();
-        }
-      }, [uriCameraCapture]);
->>>>>>> origin/mikael
 
   useEffect(() => {
     if (consultaSelecionada == null) {
@@ -147,7 +74,6 @@ export const ViewPrescription = ({ navigation, route }) => {
               {route.params.consultaMedico.idNavigation.nome}
             </TitleProfile>
 
-<<<<<<< HEAD
             <BoxDescription>
               <DescriptionDoc
                 description={
@@ -158,9 +84,6 @@ export const ViewPrescription = ({ navigation, route }) => {
                 description={route.params.consulta.medicoClinica.medico.crm}
               />
             </BoxDescription>
-=======
-                    <TitleProfile>{prescription.name}</TitleProfile>
->>>>>>> origin/mikael
 
             <HighInputBoxGrey
               fieldHeight={350}
@@ -172,7 +95,6 @@ export const ViewPrescription = ({ navigation, route }) => {
               fieldValue={route.params.consulta.descricao}
             />
 
-<<<<<<< HEAD
             <InputBox
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Diagnóstico do paciente"}
@@ -194,33 +116,6 @@ export const ViewPrescription = ({ navigation, route }) => {
 
             <BoxViewImageImport>
               <Label textLabel={"Exames médicos"} />
-=======
-                    <HighInputBoxGrey
-                        fieldHeight={350}
-                        placeholderTextColor={"#A1A1A1"}
-                        textLabel={"Descrição da consulta"}
-                        placeholder={"Descrição"}
-                        editable={false}
-                        fieldWidth={90}
-                    />
-
-                    <InputBoxGray
-                        placeholderTextColor={"#A1A1A1"}
-                        textLabel={"Diagnóstico do paciente"}
-                        placeholder={"Diagnóstico"}
-                        editable={false}
-                        fieldWidth={90}
-                    />
-
-                    <HighInputBoxGrey
-                        // fieldHeight={350}
-                        placeholderTextColor={"#A1A1A1"}
-                        textLabel={"Prescrição médica"}
-                        placeholder={"Prescrição"}
-                        editable={false}
-                        fieldWidth={90}
-                    />
->>>>>>> origin/mikael
 
               <ImportImages>
                 {route.params ? (
@@ -246,14 +141,7 @@ export const ViewPrescription = ({ navigation, route }) => {
               />
             </BoxBtn>
 
-<<<<<<< HEAD
             <Line />
-=======
-                        <ImportImages>
-                        <ImagePrescription source={{ uri : prescription.foto }} />
-                            {/* {route.params ? <ImagePrescription source={{ uri : prescription.foto }} /> : <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>} */}
-                        </ImportImages>
->>>>>>> origin/mikael
 
             <HighInputBoxGrey
               // fieldHeight={350}
@@ -263,7 +151,6 @@ export const ViewPrescription = ({ navigation, route }) => {
               fieldWidth={90}
             />
 
-<<<<<<< HEAD
             <CardBackLess
               onPressCancel={() => {
                 navigation.navigate("PatientConsultation");
@@ -278,36 +165,3 @@ export const ViewPrescription = ({ navigation, route }) => {
     </>
   );
 };
-=======
-                    <CameraModal
-                        getMediaLibrary={true}
-                        visible={showCameraModal}
-                        setUriCameraCapture={setUriCameraCapture}
-                        // setShowCameraModal={setShowCameraModal}
-                        setShowModalCancel={setShowCameraModal}
-                    />
-
-                    <BoxBtn>
-                        <SendButton onPress={ () => setShowCameraModal(true)} text={"Enviar"} />
-                        <CardCancel onPressCancel={() => {navigation.replace("Main") }} text={"Cancelar"} />
-                    </BoxBtn>
-
-                    <Line />
-
-                    <HighInputBoxGrey
-                        // fieldHeight={350}
-                        placeholderTextColor={"#A1A1A1"}
-                        placeholder={descricaoExame}
-                        editable={true}
-                        fieldWidth={90}
-                    />
-
-                    <CardBackLess onPressCancel={() => { navigation.navigate("PatientConsultation") }} text={"Voltar"} />
-
-                </Container>
-
-            </ScrollContainer>
-        </>
-    )
-}
->>>>>>> origin/mikael

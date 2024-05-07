@@ -13,15 +13,10 @@ import { DescriptionModalRecord } from "../Descriptions/StyledDescriptions";
 import { ImageModalRecord } from "../Images/StyleImages";
 import { TitleModal, TitleModalRecord } from "../Title/StyleTitle";
 import { BoxAgeEmailModal } from "./StylePatientAppointmentModal";
-<<<<<<< HEAD
-import { useEffect, useState } from "react";
-=======
->>>>>>> origin/mikael
 
 export const PatientAppointmentModal = ({
   navigation,
   visible,
-<<<<<<< HEAD
   roleUsuario,
   consulta,
   setShowModal = null,
@@ -38,11 +33,6 @@ export const PatientAppointmentModal = ({
 
   console.log(` deu bom?${consulta}`);
 
-=======
-  setShowModal = null,
-  ...rest
-}) => {
->>>>>>> origin/mikael
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       {consulta != null ? (
@@ -63,7 +53,6 @@ export const PatientAppointmentModal = ({
               </DescriptionModalRecord>
             </BoxAgeEmailModal>
 
-<<<<<<< HEAD
             <ButtonLargeConfirmModal
               onPress={() => {
                 // navigation.navigate("ConsultLocalization");
@@ -72,15 +61,6 @@ export const PatientAppointmentModal = ({
               }}
               text={"Ver Local da Consulta"}
             />
-=======
-          <ButtonLargeConfirmModal
-            onPress={() => {
-              navigation.navigate("ConsultLocalization");
-              setShowModal(false);
-            }}
-            text={"Ver Local da Consulta"}
-          />
->>>>>>> origin/mikael
 
             <CardCancelLess
               onPressCancel={() => setShowModal(false)}

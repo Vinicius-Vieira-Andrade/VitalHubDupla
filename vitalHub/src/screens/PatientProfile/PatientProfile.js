@@ -84,7 +84,7 @@ export const PatientProfile = ({ navigation }) => {
       // console.log(token.role)
       if (token.role != null) {
         // console.log("Deu Certo!", token);
-        const url = await token.role === "Medico" ? "Medicos" : "Pacientes";
+        const url = await token.role === "medico" ? "Medicos" : "Pacientes";
         const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
         setUser(response.data);
       } else {
@@ -162,45 +162,12 @@ export const PatientProfile = ({ navigation }) => {
   return (
     <ScrollContainer>
       <Container>
-<<<<<<< HEAD
-        <ImagemPerfilPaciente source={require("../../assets/sekiro_05-small.jpg")} />
-
-        <TitleProfile>{user.name}</TitleProfile>
-
-        <DescriptionPassword description={user.email} />
-
-        <InputBox
-          placeholderTextColor={"#A1A1A1"}
-          textLabel={"Data de nascimento:"}
-          placeholder={"Ex. 04/05/1999"}
-          keyboardType="numeric"
-          editable={true}
-          fieldWidth={90}
-        />
-        <InputBox
-          placeholderTextColor={"#A1A1A1"}
-          textLabel={"CPF"}
-          placeholder={"CPF..."}
-          keyboardType="numeric"
-          maxLength={11}
-          editable={true}
-          fieldWidth={90}
-        />
-        <InputBox
-          placeholderTextColor={"#A1A1A1"}
-          textLabel={"Endereço"}
-          placeholder={"Endereço..."}
-          editable={true}
-          fieldValue={logradouro}
-          fieldWidth={90}
-=======
 
         <CameraModal
           getMediaLibrary={true}
           visible={showCameraModal}
           setUriCameraCapture={setUriCameraCapture}
           setShowModalCancel={setShowCameraModal}
->>>>>>> origin/mikael
         />
 
         <ViewImageProfile>
@@ -332,19 +299,7 @@ export const PatientProfile = ({ navigation }) => {
           <BlockedButton onPress={() => { setEdit(false) }}
             text={"Editar"}
           />
-<<<<<<< HEAD
-          <InputBox
-            placeholderTextColor={"#A1A1A1"}
-            textLabel={"Cidade"}
-            placeholder={"Cidade..."}
-            editable={true}
-            fieldWidth={40}
-            fieldValue={cidade}
-          />
-        </ContainerCepCidade>
-=======
         )}
->>>>>>> origin/mikael
 
 
         {/* <ButtonLarge text={"Editar"} onPress={() => { EditProfile() }} /> */}

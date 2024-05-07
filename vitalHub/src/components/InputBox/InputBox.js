@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { HighInput, HighInputGrey, LargeInput, ProfileInput } from "../Input/Input"
 import { InputTextLargeGray } from "../Input/StyleInput"
-=======
 import { HighInput, HighInputGrey, LargeInput, ProfileInput, ProfileInputGray } from "../Input/Input"
->>>>>>> origin/mikael
 import { Label } from "../Label/Label"
 import { BoxInput } from "./StyleInputBox"
 

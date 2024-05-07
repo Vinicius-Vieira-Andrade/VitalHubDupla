@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import { Card } from "../../components/Cards/Cards";
 import { CancellationModal } from "../../components/CancellationModal/CancellationModal";
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal";
-<<<<<<< HEAD
 import moment from "moment";
 import { userDecodeToken } from "../../utils/Auth";
 import api from "../../services/Services";
@@ -31,24 +30,17 @@ export const DoctorConsultation = ({ navigation }) => {
   const [consultaState, setConsultaState] = useState("Agendadas");
 
 
-=======
-
-export const DoctorConsultation = ({ navigation }) => {
->>>>>>> origin/mikael
   //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
-  // const [selected, setSelected] = useState({
-  //   agendadas: true,
-  //   realizadas: false,
-  //   canceladas: false,
-  // });
+   const [selected, setSelected] = useState({
+     agendadas: true,
+     realizadas: false,
+     canceladas: false,
+   });
 
   const [consultaSelecionada, setConsultaSelecionada] = useState()
 
   const image = require("../../assets/ImageCard.png");
 
-  //   1 - Logout === ok
-  //   2 - dados na tela de perfil
-  //   3 - dados no Header quando logar
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -63,62 +55,11 @@ export const DoctorConsultation = ({ navigation }) => {
     profileLoad();
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
     if (dataConsulta != "") {
       GetSchedule();
     }
   }, [dataConsulta]);
-=======
-  // CARD MOCADOS
-
-  const dataItens = [
-    {
-      id: 1,
-      hour: "14:00",
-      image: image,
-      name: "Niccole Sarga",
-      age: "22 anos",
-      routine: "Rotina",
-      status: "r",
-    },
-    {
-      id: 2,
-      hour: "15:00",
-      image: image,
-      name: "Richard Kosta",
-      age: "28 anos",
-      routine: "Urgência",
-      status: "a",
-    },
-    {
-      id: 3,
-      hour: "17:00",
-      image: image,
-      name: "Neymar Jr",
-      age: "28 anos",
-      routine: "Rotina",
-      status: "c",
-    },
-  ];
-
-  //FILTRO PARA CARD
-
-  const Check = (data) => {
-    if (data.status === "a" && selected.agendadas) {
-      return true;
-    }
-    if (data.status === "r" && selected.realizadas) {
-      return true;
-    }
-    if (data.status === "c" && selected.canceladas) {
-      return true;
-    }
-    return false;
-  };
-
-  const data = dataItens.filter(Check);
->>>>>>> origin/mikael
 
   // STATES PARA OS MODAIS
 
@@ -148,11 +89,7 @@ export const DoctorConsultation = ({ navigation }) => {
         </MoveIconBell>
       </Header>
 
-<<<<<<< HEAD
       <Calendar setDataConsulta={setDataConsulta} />
-=======
-      <Calendar />
->>>>>>> origin/mikael
 
       <ButtonHomeContainer>
         <FilterButton
@@ -181,7 +118,6 @@ export const DoctorConsultation = ({ navigation }) => {
       </ButtonHomeContainer>
 
       <FlatContainer
-<<<<<<< HEAD
         data={schedule}
         renderItem={({ item }) =>
           item.situacao.situacao == consultaState && (
@@ -203,22 +139,6 @@ export const DoctorConsultation = ({ navigation }) => {
             />
           )
         }
-=======
-        data={data}
-        renderItem={({ item }) => (
-          <Card
-            navigation={navigation}
-            hour={item.hour}
-            name={item.name}
-            age={item.age}
-            routine={item.routine}
-            url={image}
-            status={item.status}
-            onPressCancel={() => setShowModalCancel(true)}
-            onPressAppointment={() => setShowModalAppointment(true) }
-          />
-        )}
->>>>>>> origin/mikael
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />

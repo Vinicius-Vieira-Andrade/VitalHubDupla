@@ -16,8 +16,8 @@ import { userDecodeToken } from "../../utils/Auth";
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Login = ({ navigation }) => {
-   const [email, setEmail] = useState("matheus@gmail.com");
-  //  const [email, setEmail] = useState("vini@gmail.com");
+  //  const [email, setEmail] = useState("matheus@gmail.com");
+   const [email, setEmail] = useState("vini@gmail.com");
   const [senha, setSenha] = useState("Senai@134");
   const [isLoading, setIsLoading] = useState(false);
   const [isInputDataValid, setIsInputDataValid] = useState(true); // Guardo o estado do input (se estiver errado, mostrar mensagem de erro)
@@ -35,7 +35,7 @@ export const Login = ({ navigation }) => {
 
       const token = await userDecodeToken()
 
-      if (token.role === "Paciente") {
+      if (token.role === "paciente") {
         navigation.replace("Main")
       }
       else {
