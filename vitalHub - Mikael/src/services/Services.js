@@ -6,7 +6,7 @@ const porta = '4466';
 
 //declarar o ip da maquina 
 
-const ip = '172.16.39.88';
+const ip = '192.168.21.50';
 
 //definir a url padrao
 const apiUrlLocal = `http://${ip}:${porta}/api`;

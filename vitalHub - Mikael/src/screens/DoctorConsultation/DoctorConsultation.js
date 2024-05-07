@@ -162,7 +162,7 @@ export const DoctorConsultation = ({ navigation }) => {
             url={image}
             status={item.status}
             onPressCancel={() => setShowModalCancel(true)}
-            onPressAppointment={() => setShowModalAppointment(true)}
+            onPressAppointment={() => setShowModalAppointment(true) }
           />
         )}
         keyExtractor={(item) => item.id}

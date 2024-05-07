@@ -4,7 +4,7 @@ import { ButtonSend } from "../../components/Button/StyleButton"
 import { BoxAgeEmail, BoxBtn, BoxDescription, BoxViewImageImport, Container, ScrollContainer, ViewImageImport } from "../../components/Container/StyleContainer"
 import { CardBackLess, CardCancel, CardCancelLess, DescriptionDoc, DescriptionPassword } from "../../components/Descriptions/Descriptions"
 import { ImagePrescription, ImagePrescriptionNull, ViewImage } from "../../components/Images/StyleImages"
-import { HighInputBox, HighInputBoxGrey, InputBox } from "../../components/InputBox/InputBox"
+import { HighInputBox, HighInputBoxGrey, InputBox, InputBoxGray } from "../../components/InputBox/InputBox"
 import { Label } from "../../components/Label/Label"
 import { TitleProfile } from "../../components/Title/StyleTitle"
 import { ImportImages, Line, TitleImage } from "./Style"
@@ -17,18 +17,17 @@ import { userDecodeToken } from "../../utils/Auth"
 
 export const ViewPrescription = ({ navigation, route }) => {
     const [photo, setPhoto] = useState( false )
-    const [uriCameraCapture, setUriCameraCapture] = useState( "" )
     const [showCameraModal, setShowCameraModal] = useState( false )
+    
     const [prescription, setPrescription] = useState({})
-
     const [descricaoExame ,setDescricaoExame] = useState()
+    const [uriCameraCapture, setUriCameraCapture] = useState( "" )
 
     async function profileLoad() {
         const token = await userDecodeToken();
-        console.log(token)
     
         if (token !== null) {
-          setPrescription(token);
+            setPrescription(token);
         }
     
         else {
@@ -43,18 +42,22 @@ export const ViewPrescription = ({ navigation, route }) => {
     // Inserir imagem no prontuário
       async function InserirExame() {
         const formData = new FormData()
-        formData.append("ConsultaId", prescription.id)
-        formData.append("Imagem", {
+        // formData.append("ConsultaId", prescription.id)
+        formData.append("ConsultaId", '94DF9F3D-576A-40D4-ACB5-4FEBE3AE220C')
+        formData.append("Image", {
             uri : uriCameraCapture,
             name :  `image.${uriCameraCapture.split('.').pop()}`,
             type :  `image/${uriCameraCapture.split('.').pop()}`,
         });
 
         await api.post('/Exame', formData, {
-            "Content-Type": "multipart/form-data"
+            headers : {
+                "Content-Type": "multipart/form-data"
+            }
         }).then( response => {
-            console.log(response)
-            setDescricaoExame( descricao + "/n" + response.data.descricao )
+            setDescricaoExame( descricaoExame + "/n" + response.data.descricao )
+
+            console.log(descricaoExame + "/n" + response.data.descricao)
         }).catch(error => {
             console.log(error, 'Falha ao Inserir');
         })
@@ -90,7 +93,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                         fieldWidth={90}
                     />
 
-                    <InputBox
+                    <InputBoxGray
                         placeholderTextColor={"#A1A1A1"}
                         textLabel={"Diagnóstico do paciente"}
                         placeholder={"Diagnóstico"}
@@ -136,7 +139,7 @@ export const ViewPrescription = ({ navigation, route }) => {
                     <HighInputBoxGrey
                         // fieldHeight={350}
                         placeholderTextColor={"#A1A1A1"}
-                        placeholder={"Resultado do exame"}
+                        placeholder={descricaoExame}
                         editable={true}
                         fieldWidth={90}
                     />

@@ -36,7 +36,7 @@ export const AppointmentModal = ({
 
                     </BoxAgeEmailModal>
 
-                    <ButtonLargeSelect onPress={() => {navigation.navigate("MedicalRecords")}} text={"Inserir Prontuário"} />
+                    <ButtonLargeSelect onPress={() => {navigation.navigate("MedicalRecords") , {prescriptionId : item.id}}} text={"Inserir Prontuário"} />
 
                     <CardCancelLess onPressCancel={() => setShowModalAppointment(false)} text={"Cancelar"} />
 

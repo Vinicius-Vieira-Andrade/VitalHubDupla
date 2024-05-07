@@ -155,14 +155,14 @@ export const PatientConsultation = ({ navigation }) => {
           <Card
             navigation={navigation}
             hour={item.hour}
-            name={item.name}
+            name={item.id}
             age={item.age}
             routine={item.routine}
             url={image}
             status={item.status}
             onPressCancel={() => setShowModalCancel(true)}
             onPressAppointment={() => {
-              navigation.navigate("ViewPrescription");
+              navigation.navigate("ViewPrescription", {prescriptionId : item.id});
             }}
             onPressAppointmentCard={() =>
               setShowModal(item.status === "a" ? true : false)
