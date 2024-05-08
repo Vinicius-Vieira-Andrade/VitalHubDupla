@@ -31,25 +31,7 @@ export const PatientConsultation = ({ navigation }) => {
   const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
   const [dataConsulta, setDataConsulta] = useState("");
 
-  // async function profileLoad() {
-  //   const token = await userDecodeToken();
-
-  //   if (token) {
-  //     console.log("funcinou!");
-  //     setUser(token);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   profileLoad();
-  // }, []);
-
-  //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
-  const [selected, setSelected] = useState({
-    agendadas: true,
-    realizadas: false,
-    canceladas: false,
-  });
+  
 
 
   const [consultaState, setConsultaState] = useState("Agendadas");

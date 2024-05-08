@@ -30,12 +30,6 @@ export const DoctorConsultation = ({ navigation }) => {
   const [consultaState, setConsultaState] = useState("Agendadas");
 
 
-  //STATE PARA O ESTADO DOS CARDS FLATLIST, BOTOES FILTRO
-   const [selected, setSelected] = useState({
-     agendadas: true,
-     realizadas: false,
-     canceladas: false,
-   });
 
   const [consultaSelecionada, setConsultaSelecionada] = useState()
 
