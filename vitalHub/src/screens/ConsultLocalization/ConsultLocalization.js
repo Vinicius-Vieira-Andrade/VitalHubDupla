@@ -1,13 +1,13 @@
+import { useState, useEffect, ActivityIndicator } from "react";
 import {
   Container,
   ContainerCepCidade,
 } from "../../components/Container/StyleContainer";
 import { CardCancelLessLocal } from "../../components/Descriptions/Descriptions";
 import { AgeTextCard } from "../../components/Descriptions/StyledDescriptions";
-import { MapImage } from "../../components/Images/StyleImages";
 import { InputBox } from "../../components/InputBox/InputBox";
 import Maps from "../../components/Maps/Maps";
-import { Title, TitleLocalization } from "../../components/Title/StyleTitle";
+import { TitleLocalization } from "../../components/Title/StyleTitle";
 
 export const ConsultLocalization = ({ navigation, route }) => {
   const [clinicaSelecionada, setClinicaSelecionada] = useState(null);
@@ -48,7 +48,6 @@ export const ConsultLocalization = ({ navigation, route }) => {
               placeholderTextColor={"#33303E"}
               textLabel={"Endereço"}
               placeholder={"Ex. Rua Vicenso Silva, 58"}
-              // keyboardType="numeric"
               editable={true}
               fieldWidth={90}
               fieldValue={clinicaSelecionada.endereco.logradouro}

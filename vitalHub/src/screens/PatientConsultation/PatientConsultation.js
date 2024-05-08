@@ -139,9 +139,8 @@ export const PatientConsultation = ({ navigation }) => {
           item.situacao.situacao == consultaState && (
             <Card
               navigation={navigation}
-              hour={moment().format("LT")}
+              hour={"14:00"}
               name={item.medicoClinica.medico.idNavigation.nome}
-              // date={item.dataConsulta}
               age={item.medicoClinica.medico.crm}
               routine={item.situacao.situacao}
               url={image}
@@ -154,6 +153,8 @@ export const PatientConsultation = ({ navigation }) => {
                 });
                 console.log("item" + item.receita);
               }}
+
+
               onPressAppointmentCard={() => {
                 setConsultaSelecionada(item.medicoClinica);
                 setShowModal(

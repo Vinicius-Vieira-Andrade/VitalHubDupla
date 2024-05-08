@@ -8,7 +8,6 @@ import {
   ScrollContainer,
 } from "../../components/Container/StyleContainer";
 import { TitleSelect } from "../../components/Title/StyleTitle";
-import { CancelLessMargin } from "../../components/Descriptions/StyledDescriptions";
 import { CardCancelLess } from "../../components/Descriptions/Descriptions";
 import { useEffect, useState } from "react";
 import api from "../../services/Services";
@@ -37,16 +36,7 @@ export const SelectCLinic = ({ navigation, route }) => {
   }, [route]); // vendo se recebemos os dados do route, do modal que guardamos os dados de agendamento
 
   useEffect(() => {
-     const getCityAndClinics = async () => {
-       try {
-         const cidade = await AsyncStorage.getItem('selectedCity');
-         getAllClinics(cidade);
-       } catch (error) {
-         console.error(error);
-       }
-     };
- 
-     getCityAndClinics();
+     getAllClinics();
   }, []);
 
   // ARMAZENA O ID DA CLINICA SELECIONADA PELO USUARIO

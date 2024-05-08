@@ -43,8 +43,6 @@ export const PatientProfile = ({ navigation }) => {
 
   const [user, setUser] = useState({});
 
-  const [photoo, setPhotoo] = useState(null);
-
   const [uriCameraCapture, setUriCameraCapture] = useState("")
   const [showCameraModal, setShowCameraModal] = useState(false)
 
@@ -62,20 +60,28 @@ export const PatientProfile = ({ navigation }) => {
     }
   }
 
-  const [userPut, setUserPut] = useState({})
-  async function PutUser() {
-    try {
-      const token = await userDecodeToken();
-      if (token.role != null) {
-        const url = await token.role === "Medico" ? "Medicos" : "Pacientes"
-        const response = await api.put(`${url}=${token.id}`);
-        setUserPut(response.data)
-      } else {
-        console.error('ELSE', 'Put Erro ao buscar dados do usuário:', error);
-      }
-    } catch (error) {
-      console.error('ELSE', 'Put Erro ao buscar dados do usuário:', error);
-    }
+
+  async function PutPaciente() {
+
+    await api.put(`/Pacientes?idUsuario=${user.id}`, {
+      dataNascimento: user.dataNascimento,
+      cpf: user.cpf,
+      logradouro,
+      numero: 0,
+      cep,
+    })
+
+
+  }
+
+  async function PutMedico() {
+    await api.put(`/Medicos?idUsuario=${user.id}`, {
+      dataNascimento: user.dataNascimento,
+      crm: user.medico.crm,
+      logradouro,
+      numero: 0,
+      cep,
+    })
   }
 
   async function GetUser() {
@@ -85,10 +91,8 @@ export const PatientProfile = ({ navigation }) => {
       if (token.role != null) {
         // console.log("Deu Certo!", token);
         const url = await token.role === "medico" ? "Medicos" : "Pacientes";
-        const response = await api.get(`${url}/BuscarPorId?id=${token.id}`);
+        const response = await api.get(`${url}/BuscarPorId?id=${token.user}`);
         setUser(response.data);
-      } else {
-        console.error('ELSE', 'Erro ao buscar dados do usuário:', error);
       }
     } catch (error) {
       console.error('Erro ao buscar dados do usuário:', error);
@@ -159,6 +163,9 @@ export const PatientProfile = ({ navigation }) => {
     console.log(user.role);
   }, [])
 
+
+
+
   return (
     <ScrollContainer>
       <Container>
@@ -188,8 +195,8 @@ export const PatientProfile = ({ navigation }) => {
           <>
             <InputBoxGray
               placeholderTextColor={"#A1A1A1"}
-              textLabel={"Data de nascimento:"}
-              placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
+              textLabel={user.role == 'medico' ? "Especialidade" : "Data de nascimento"}
+              placeholder={user.role == 'medico' ? user.especialidade : moment(user.dataNascimento).format("DD/MM/YYYY")}
               keyboardType="numeric"
               editable={false}
               fieldWidth={90}
@@ -197,8 +204,8 @@ export const PatientProfile = ({ navigation }) => {
             <InputBoxGray
 
               placeholderTextColor={"#A1A1A1"}
-              textLabel={"CPF"}
-              placeholder={user.role == 'Medico' ? user.crm : user.cpf}
+              textLabel={user.role == 'medico' ? 'CRM' : 'CPF'}
+              placeholder={user.role == 'medico' ? user.crm : user.cpf}
               keyboardType="numeric"
               maxLength={11}
               editable={false}
@@ -238,9 +245,8 @@ export const PatientProfile = ({ navigation }) => {
           <>
             <InputBox
               placeholderTextColor={"#49B3BA"}
-              // style={{borderRadius : 5, borderColor : '#49B3BA'}}
-              textLabel={"Data de nascimento:"}
-              placeholder={moment(user.dataNascimento).format("DD/MM/YYYY")}
+              textLabel={user && user.role == 'medico' ? "Especialidade" : "Data de nascimento"}
+              placeholder={user && user.role == 'medico' ? user.especialidade : moment(user.dataNascimento).format("DD/MM/YYYY")}
               keyboardType="numeric"
               editable={true}
               fieldWidth={90}
@@ -248,9 +254,9 @@ export const PatientProfile = ({ navigation }) => {
             <InputBox
 
               placeholderTextColor={"#49B3BA"}
-              style={{borderRadius : 5, borderColor : '#49B3BA'}}
-              textLabel={"CPF"}
-              placeholder={user.role == 'Medico' ? user.crm : user.cpf}
+              style={{ borderRadius: 5, borderColor: '#49B3BA' }}
+              textLabel={user.role == 'medico' ? 'CRM' : 'CPF'}
+              placeholder={user.role == 'medico' ? user.crm : user.cpf}
               keyboardType="numeric"
               maxLength={11}
               editable={true}
@@ -259,7 +265,7 @@ export const PatientProfile = ({ navigation }) => {
 
             <InputBox
               placeholderTextColor={"#49B3BA"}
-              style={{borderRadius : 5, borderColor : '#49B3BA'}}
+              style={{ borderRadius: 5, borderColor: '#49B3BA' }}
               textLabel={"Endereço"}
               placeholder={user && user.endereco ? user.endereco.logradouro : 'endereço não encontrado!'}
               editable={true}
@@ -269,7 +275,7 @@ export const PatientProfile = ({ navigation }) => {
             <ContainerCepCidade>
               <InputBox
                 placeholderTextColor={"#49B3BA"}
-                style={{borderRadius : 5, borderColor : '#49B3BA'}}
+                style={{ borderRadius: 5, borderColor: '#49B3BA' }}
                 textLabel={"CEP"}
                 placeholder={user && user.endereco ? user.endereco.cep : 'Cep não encontrado!'}
                 maxLength={8}
@@ -280,7 +286,7 @@ export const PatientProfile = ({ navigation }) => {
               />
               <InputBox
                 placeholderTextColor={"#49B3BA"}
-                style={{borderRadius : 5, border: 'solid 2px #49B3BA',}}
+                style={{ borderRadius: 5, border: 'solid 2px #49B3BA', }}
                 placeholder={user.endereco ? user.endereco.cidade : 'Cidade não encontrada!'}
                 textLabel={"Cidade"}
                 editable={true}
@@ -291,7 +297,7 @@ export const PatientProfile = ({ navigation }) => {
           </>
         )}
 
-        <ButtonLarge text={"Salvar"} onPress={PutUser()}/>
+        <ButtonLarge text={"Salvar"} onPress={() => { user.role == 'medico' ? PutMedico() : PutPaciente() }} />
 
         {edit == false ? (
           <ButtonNormal onPress={() => { edit == false ? (setEdit(true)) : (setEdit(false)) }} text={"Editar"} />

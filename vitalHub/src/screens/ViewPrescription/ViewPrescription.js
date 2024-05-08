@@ -38,6 +38,25 @@ import { ActivityIndicator } from "react-native";
 
 export const ViewPrescription = ({ navigation, route }) => {
   const [consultaSelecionada, setConsultaSelecionada] = useState(null);
+  const [prescription, setPrescription] = useState({})
+  const [descricaoExame, setDescricaoExame] = useState()
+  const [uriCameraCapture, setUriCameraCapture] = useState("")
+
+  async function profileLoad() {
+    const token = await userDecodeToken();
+
+    if (token !== null) {
+      setPrescription(token);
+    }
+
+    else {
+      console.error(error, "Function Profile Load");
+    }
+  }
+
+  useEffect(() => {
+    profileLoad();
+  }, []);
 
   async function BuscarProntuario() {
     await api
@@ -51,6 +70,31 @@ export const ViewPrescription = ({ navigation, route }) => {
       });
   }
 
+
+  // Inserir imagem no prontuário
+  async function InserirExame() {
+    const formData = new FormData()
+    formData.append("ConsultaId", prescription.id)
+    formData.append("Image", {
+      uri: uriCameraCapture,
+      name: `image.${uriCameraCapture.split('.').pop()}`,
+      type: `image/${uriCameraCapture.split('.').pop()}`,
+    });
+
+    await api.post('/Exame', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }).then(response => {
+      setDescricaoExame(descricaoExame + "/n" + response.data.descricao)
+
+      console.log(descricaoExame + "/n" + response.data.descricao)
+    }).catch(error => {
+      console.log(error, 'Falha ao Inserir');
+    })
+  }
+
+
   useEffect(() => {
     console.log(`consulta:  ${consultaSelecionada}`);
     console.log(`route ${route.params}`);
@@ -62,6 +106,12 @@ export const ViewPrescription = ({ navigation, route }) => {
       BuscarProntuario();
     }
   }, [consultaSelecionada]);
+
+  useEffect(() => {
+    if (uriCameraCapture) {
+      InserirExame();
+    }
+  }, [uriCameraCapture])
 
   return (
     <>

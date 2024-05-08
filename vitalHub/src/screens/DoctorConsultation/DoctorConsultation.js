@@ -29,8 +29,6 @@ export const DoctorConsultation = ({ navigation }) => {
   const [schedule, setSchedule] = useState([]);
   const [consultaState, setConsultaState] = useState("Agendadas");
 
-
-
   const [consultaSelecionada, setConsultaSelecionada] = useState()
 
   const image = require("../../assets/ImageCard.png");
@@ -39,11 +37,29 @@ export const DoctorConsultation = ({ navigation }) => {
   async function profileLoad() {
     const token = await userDecodeToken();
 
-    console.log("BANANAAA!");
+    console.log("boa");
     if (token) {
-      console.log(token.name);
+      console.log(token);
+      setUser(token);
+      setDataConsulta(moment().format("YYYY-MM-DD"));
     }
   }
+
+
+
+  async function GetSchedule() {
+    await api
+      .get(`/Medicos/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
+      .then((response) => {
+        setSchedule(response.data);
+
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 
   useEffect(() => {
     profileLoad();
@@ -74,7 +90,7 @@ export const DoctorConsultation = ({ navigation }) => {
           <BoxDataHome>
             <WelcomeTitle textTitle={"Bem vindo"} />
 
-            <NameTitle textTitle={"Dr. Claudio"} />
+            <NameTitle textTitle={user.name} />
           </BoxDataHome>
         </BoxHome>
 
@@ -88,25 +104,25 @@ export const DoctorConsultation = ({ navigation }) => {
       <ButtonHomeContainer>
         <FilterButton
           onPress={() => {
-            setSelected({ agendadas: true });
+            setConsultaState("Agendadas");
           }}
-          selected={selected.agendadas}
+          selected={consultaState == "Agendadas" ? true : false}
           text={"Agendadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setSelected({ realizadas: true });
+            setConsultaState("Realizadas");
           }}
-          selected={selected.realizadas}
+          selected={consultaState == "Realizadas" ? true : false}
           text={"Realizadas"}
         />
 
         <FilterButton
           onPress={() => {
-            setSelected({ canceladas: true });
+            setConsultaState("Canceladas");
           }}
-          selected={selected.canceladas}
+          selected={consultaState == "Canceladas" ? true : false}
           text={"Canceladas"}
         />
       </ButtonHomeContainer>
