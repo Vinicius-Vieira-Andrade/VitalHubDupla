@@ -26,7 +26,7 @@ import axios from "axios";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { ButtonCamera, ViewImageProfile } from "./style";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { CameraModal } from "../../components/Camera/CameraModal";
 
 import moment from "moment";
@@ -45,6 +45,7 @@ export const PatientProfile = ({ navigation }) => {
 
   const [uriCameraCapture, setUriCameraCapture] = useState("")
   const [showCameraModal, setShowCameraModal] = useState(false)
+  const [role, setRole] = useState()
 
 
   //funcao q guarda e carrega os dados trazidos da api
@@ -63,24 +64,28 @@ export const PatientProfile = ({ navigation }) => {
 
   async function PutPaciente() {
 
-    await api.put(`/Pacientes?idUsuario=${user.id}`, {
-      dataNascimento: user.dataNascimento,
-      cpf: user.cpf,
+    await api.put(`/Pacientes?idUsuario=${user.option.id}`, {
+      dataNascimento: user.option.dataNascimento,
+      cpf: user.option.cpf,
       logradouro,
-      numero: 0,
+      numero,
       cep,
+      cidade
+    }).then(response => {
+      alert('Alterações salvas com sucesso!!')
     })
-
-
   }
 
   async function PutMedico() {
-    await api.put(`/Medicos?idUsuario=${user.id}`, {
-      dataNascimento: user.dataNascimento,
-      crm: user.medico.crm,
+    await api.put(`/Medicos?idUsuario=${user.option.id}`, {
+      especialidade: user.option.especialidade,
+      crm: user.option.crm,
       logradouro,
-      numero: 0,
+      numero,
+      cidade,
       cep,
+    }).then(response => {
+      alert('Alterações salvas com sucesso!!')
     })
   }
 
@@ -89,10 +94,11 @@ export const PatientProfile = ({ navigation }) => {
       const token = await userDecodeToken();
       // console.log(token.role)
       if (token.role != null) {
+        setRole(token)
         // console.log("Deu Certo!", token);
         const url = await token.role === "medico" ? "Medicos" : "Pacientes";
         const response = await api.get(`${url}/BuscarPorId?id=${token.user}`);
-        setUser(response.data);
+        setUser({ ...user, option: response.data });
       }
     } catch (error) {
       console.error('Erro ao buscar dados do usuário:', error);
@@ -127,8 +133,19 @@ export const PatientProfile = ({ navigation }) => {
   useEffect(() => {
     profileLoad();
     GetUser();
-    console.log(user.role);
+    // console.log(user);
   }, []);
+
+  useEffect(() => {
+    console.log();
+    console.log(`USUARIOOOOO`);
+    console.log(user);
+  }, [user])
+
+  useEffect(() => {
+    console.log("aidsssss");
+    console.log(user.id);
+  })
 
   async function AlterarFotoPerfil() {
     const formData = new FormData();
@@ -153,171 +170,181 @@ export const PatientProfile = ({ navigation }) => {
     });
   }
 
-  useEffect(() => {
-    if (uriCameraCapture !== null) {
-      AlterarFotoPerfil();
-    }
-  }, [uriCameraCapture]);
-
-  useEffect(() => {
-    console.log(user.role);
-  }, [])
+  // useEffect(() => {
+  //   if (uriCameraCapture !== null) {
+  //     AlterarFotoPerfil();
+  //   }
+  // }, [uriCameraCapture]);
 
 
 
 
   return (
     <ScrollContainer>
-      <Container>
 
-        <CameraModal
-          getMediaLibrary={true}
-          visible={showCameraModal}
-          setUriCameraCapture={setUriCameraCapture}
-          setShowModalCancel={setShowCameraModal}
-        />
+      {user.option != null ? (
+        <Container>
+          <CameraModal
+            getMediaLibrary={true}
+            visible={showCameraModal}
+            setUriCameraCapture={setUriCameraCapture}
+            setShowModalCancel={setShowCameraModal}
+          />
 
-        <ViewImageProfile>
-          <ImagemPerfilPaciente source={{ uri: user && user.idNavigation ? user.idNavigation.foto : 'Foto não encontrada!' }} />
+          <ViewImageProfile>
+            <ImagemPerfilPaciente source={{ uri: user && user.option.idNavigation ? user.option.idNavigation.foto : 'Foto não encontrada!' }} />
 
-          <ButtonCamera onPress={() => setShowCameraModal(true)}>
-            <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB' />
-          </ButtonCamera>
-        </ViewImageProfile>
+            <ButtonCamera onPress={() => setShowCameraModal(true)}>
+              <MaterialCommunityIcons name="camera-plus" size={20} color='#FBFBFB' />
+            </ButtonCamera>
+          </ViewImageProfile>
 
 
 
-        <TitleProfile>{user && user.idNavigation ? user.idNavigation.nome : 'Nome não encontrado!'}</TitleProfile>
+          <TitleProfile>{user && user.option.idNavigation ? user.option.idNavigation.nome : 'Nome não encontrado!'}</TitleProfile>
 
-        <DescriptionPassword description={user && user.idNavigation ? user.idNavigation.email : 'Email não encontrado!'} />
+          <DescriptionPassword description={user && user.option.idNavigation ? user.option.idNavigation.email : 'Email não encontrado!'} />
 
-        {edit == false ? (
-          <>
-            <InputBoxGray
-              placeholderTextColor={"#A1A1A1"}
-              textLabel={user.role == 'medico' ? "Especialidade" : "Data de nascimento"}
-              placeholder={user.role == 'medico' ? user.especialidade : moment(user.dataNascimento).format("DD/MM/YYYY")}
-              keyboardType="numeric"
-              editable={false}
-              fieldWidth={90}
-            />
-            <InputBoxGray
-
-              placeholderTextColor={"#A1A1A1"}
-              textLabel={user.role == 'medico' ? 'CRM' : 'CPF'}
-              placeholder={user.role == 'medico' ? user.crm : user.cpf}
-              keyboardType="numeric"
-              maxLength={11}
-              editable={false}
-              fieldWidth={90}
-            />
-
-            <InputBoxGray
-              placeholderTextColor={"#A1A1A1"}
-              textLabel={"Endereço"}
-              placeholder={user && user.endereco ? user.endereco.logradouro : 'endereço não encontrado!'}
-              editable={false}
-              fieldWidth={90}
-            />
-
-            <ContainerCepCidade>
+          {edit == false ? (
+            <>
               <InputBoxGray
                 placeholderTextColor={"#A1A1A1"}
-                textLabel={"CEP"}
-                placeholder={user && user.endereco ? user.endereco.cep : 'Cep não encontrado!'}
-                maxLength={8}
-                onChangeText={(text) => setCep(text)}
+                textLabel={role.role == 'medico' ? "Especialidade" : "Data de nascimento"}
+                placeholder={role.role == 'medico' ? user.option.especialidade.especialidade1 : moment(user.option.dataNascimento).format("DD/MM/YYYY")}
+                fieldValue={role.role == 'medico' ? user.option.especialidade.especialidade1 : moment(user.option.dataNascimento).format("DD/MM/YYYY")}
                 keyboardType="numeric"
                 editable={false}
-                fieldWidth={40}
+                fieldWidth={90}
               />
               <InputBoxGray
+
                 placeholderTextColor={"#A1A1A1"}
-                placeholder={user.endereco ? user.endereco.cidade : 'Cidade não encontrada!'}
-                textLabel={"Cidade"}
+                textLabel={role.role == 'medico' ? 'CRM' : 'CPF'}
+                placeholder={role.role == 'medico' ? user.option.crm : user.option.cpf}
+                fieldValue={role.role == 'medico' ? user.option.crm : user.option.cpf}
+                keyboardType="numeric"
+                maxLength={11}
                 editable={false}
-                fieldWidth={40}
-              // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}
+                fieldWidth={90}
               />
-            </ContainerCepCidade>
-          </>
-        ) : (
-          <>
-            <InputBox
-              placeholderTextColor={"#49B3BA"}
-              textLabel={user && user.role == 'medico' ? "Especialidade" : "Data de nascimento"}
-              placeholder={user && user.role == 'medico' ? user.especialidade : moment(user.dataNascimento).format("DD/MM/YYYY")}
-              keyboardType="numeric"
-              editable={true}
-              fieldWidth={90}
-            />
-            <InputBox
 
-              placeholderTextColor={"#49B3BA"}
-              style={{ borderRadius: 5, borderColor: '#49B3BA' }}
-              textLabel={user.role == 'medico' ? 'CRM' : 'CPF'}
-              placeholder={user.role == 'medico' ? user.crm : user.cpf}
-              keyboardType="numeric"
-              maxLength={11}
-              editable={true}
-              fieldWidth={90}
-            />
+              <InputBoxGray
+                placeholderTextColor={"#A1A1A1"}
+                textLabel={"Endereço"}
+                placeholder={user && user.option.endereco ? user.option.endereco.logradouro : 'endereço não encontrado!'}
+                fieldValue={user && user.option.endereco ? user.option.endereco.logradouro : 'endereço não encontrado!'}
+                editable={false}
+                fieldWidth={90}
+              />
 
-            <InputBox
-              placeholderTextColor={"#49B3BA"}
-              style={{ borderRadius: 5, borderColor: '#49B3BA' }}
-              textLabel={"Endereço"}
-              placeholder={user && user.endereco ? user.endereco.logradouro : 'endereço não encontrado!'}
-              editable={true}
-              fieldWidth={90}
-            />
+              <ContainerCepCidade>
+                <InputBoxGray
+                  placeholderTextColor={"#A1A1A1"}
+                  textLabel={"CEP"}
+                  placeholder={user && user.option.endereco ? user.option.endereco.cep : 'Cep não encontrado!'}
+                  fieldValue={user && user.option.endereco ? user.option.endereco.cep : 'Cep não encontrado!'}
+                  maxLength={8}
+                  onChangeText={(text) => setCep(text)}
+                  keyboardType="numeric"
+                  editable={false}
+                  fieldWidth={40}
+                />
+                <InputBoxGray
+                  placeholderTextColor={"#A1A1A1"}
+                  placeholder={user.option.endereco ? user.option.endereco.cidade : 'Cidade não encontrada!'}
+                  fieldValue={user.option.endereco ? user.option.endereco.cidade : 'Cidade não encontrada!'}
+                  textLabel={"Cidade"}
+                  editable={false}
+                  fieldWidth={40}
+                // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}
+                />
+              </ContainerCepCidade>
+            </>
+          ) : (
+            <>
+              <InputBox
+                placeholderTextColor={"#49B3BA"}
+                textLabel={role.role == 'medico' ? "Especialidade" : "Data de nascimento"}
+                placeholder={"Insira sua data de nascimento"}
 
-            <ContainerCepCidade>
+                keyboardType="numeric"
+                editable={true}
+                fieldWidth={90}
+              />
+              <InputBox
+
+                placeholderTextColor={"#49B3BA"}
+                style={{ borderRadius: 5, borderColor: '#49B3BA' }}
+                textLabel={role.role == 'medico' ? 'CRM' : 'CPF'}
+                placeholder={"insira seu CPF"}
+
+                keyboardType="numeric"
+                maxLength={11}
+                editable={true}
+                fieldWidth={90}
+              />
+
               <InputBox
                 placeholderTextColor={"#49B3BA"}
                 style={{ borderRadius: 5, borderColor: '#49B3BA' }}
-                textLabel={"CEP"}
-                placeholder={user && user.endereco ? user.endereco.cep : 'Cep não encontrado!'}
-                maxLength={8}
-                onChangeText={(text) => setCep(text)}
-                keyboardType="numeric"
-                editable={true}
-                fieldWidth={40}
-              />
-              <InputBox
-                placeholderTextColor={"#49B3BA"}
-                style={{ borderRadius: 5, border: 'solid 2px #49B3BA', }}
-                placeholder={user.endereco ? user.endereco.cidade : 'Cidade não encontrada!'}
-                textLabel={"Cidade"}
-                editable={true}
-                fieldWidth={40}
-              // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}
-              />
-            </ContainerCepCidade>
-          </>
-        )}
+                textLabel={"Endereço"}
+                placeholder={"Insira seu endereço"}
 
-        <ButtonLarge text={"Salvar"} onPress={() => { user.role == 'medico' ? PutMedico() : PutPaciente() }} />
+                editable={true}
+                fieldWidth={90}
+              />
 
-        {edit == false ? (
-          <ButtonNormal onPress={() => { edit == false ? (setEdit(true)) : (setEdit(false)) }} text={"Editar"} />
-        ) : (
-          <BlockedButton onPress={() => { setEdit(false) }}
-            text={"Editar"}
+              <ContainerCepCidade>
+                <InputBox
+                  placeholderTextColor={"#49B3BA"}
+                  style={{ borderRadius: 5, borderColor: '#49B3BA' }}
+                  textLabel={"CEP"}
+                  placeholder={"Insira seu CEP"}
+
+                  maxLength={8}
+                  onChangeText={(text) => setCep(text)}
+                  keyboardType="numeric"
+                  editable={true}
+                  fieldWidth={40}
+                />
+                <InputBox
+                  placeholderTextColor={"#49B3BA"}
+                  style={{ borderRadius: 5, border: 'solid 2px #49B3BA', }}
+                  placeholder={"Insira sua cidade"}
+                  textLabel={"Cidade"}
+                  editable={true}
+                  fieldWidth={40}
+                // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}
+                />
+              </ContainerCepCidade>
+            </>
+          )}
+
+          <ButtonLarge text={"Salvar"} onPress={() => { user.option.role == 'medico' ? PutMedico() : PutPaciente() }} />
+
+          {edit == false ? (
+            <ButtonNormal onPress={() => { edit == false ? (setEdit(true)) : (setEdit(false)) }} text={"Editar"} />
+          ) : (
+            <BlockedButton onPress={() => { setEdit(false) }}
+              text={"Editar"}
+            />
+          )}
+
+
+          {/* <ButtonLarge text={"Editar"} onPress={() => { EditProfile() }} /> */}
+
+          <BlockedSmallButton
+            text={"Sair do app"}
+            onPress={() => {
+              userTokenLogout();
+              navigation.replace("Login");
+            }} //rodando a funcao de logout presente no arquivo "Auth" e voltando para tela de login
           />
-        )}
+        </Container>
+      ) : (
+        <ActivityIndicator />
+      )}
 
-
-        {/* <ButtonLarge text={"Editar"} onPress={() => { EditProfile() }} /> */}
-
-        <BlockedSmallButton
-          text={"Sair do app"}
-          onPress={() => {
-            userTokenLogout();
-            navigation.replace("Login");
-          }} //rodando a funcao de logout presente no arquivo "Auth" e voltando para tela de login
-        />
-      </Container>
     </ScrollContainer>
   );
 };

@@ -15,7 +15,7 @@ export const InputBox = ({
     keyboardType = "default",
     style,
     maxLength,
-    placeholderTextColor
+    placeholderTextColor,
 }) => {
     return (
 

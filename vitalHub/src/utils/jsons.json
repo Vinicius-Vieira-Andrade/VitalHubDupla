@@ -1,0 +1,118 @@
+//medico
+{
+    "option": {
+        "crm": "123456",
+        "endereco": {
+            "cep": "23444323",
+            "cidade": "Sao Paulo",
+            "clinicas": [Array
+            ],
+            "id": "a7353f3e-7f77-4347-b10a-dba0874627d7",
+            "latitude": -23.581558,
+            "logradouro": "rua elba",
+            "longitude": -46.599139,
+            "medicos": [Array
+            ],
+            "numero": 54,
+            "pacientes": [Array
+            ]
+        },
+        "enderecoId": "a7353f3e-7f77-4347-b10a-dba0874627d7",
+        "especialidade": {
+            "especialidade1": "Urologista",
+            "id": "7ec2273f-f5c9-42e5-a8b4-abfdab035f02",
+            "medicos": [Array
+            ]
+        },
+        "especialidadeId": "7ec2273f-f5c9-42e5-a8b4-abfdab035f02",
+        "id": "20adeba5-300e-4479-bc64-01584caff270",
+        "idNavigation": {
+            "email": "matheus@gmail.com",
+            "foto": "https://vitalmikaelg10.blob.core.windows.net/containervitalg10/04f5d4c774a74cd285982c368f2594de.exp",
+            "id": "20adeba5-300e-4479-bc64-01584caff270",
+            "nome": "Matheus",
+            "senha": "$2a$11$z7oDSouvoKdTOlC4IQkdmem/BDBL0cOj221UVij3tdVGLRzIGTQ.q",
+            "tipoUsuarioId": "274f89c1-795e-4ff0-b7dd-5c39bafe8b35"
+        },
+        "medicosClinicas": []
+    }
+}
+//paciente
+{
+    "option": {
+        "consulta": [],
+        "cpf": "43288885749",
+        "dataNascimento": "2003-10-06T00:00:00",
+        "endereco": {
+            "cep": "060202",
+            "cidade": "Sao Paulo",
+            "clinicas": [Array
+            ],
+            "id": "9be1730b-ae40-4def-b9d2-1d7bb1c0b3ce",
+            "latitude": -23.581558,
+            "logradouro": "",
+            "longitude": -46.599139,
+            "medicos": [Array
+            ],
+            "numero": 0,
+            "pacientes": [Array
+            ]
+        },
+        "enderecoId": "9be1730b-ae40-4def-b9d2-1d7bb1c0b3ce",
+        "id": "91a65bfe-4413-450f-b063-7d8247311076",
+        "idNavigation": {
+            "email": "vini@gmail.com",
+            "foto": "https://vitalmikaelg10.blob.core.windows.net/containervitalg10/38b0d5398bf549f8b966dc5c27e08ff0.exp",
+            "id": "91a65bfe-4413-450f-b063-7d8247311076",
+            "nome": "vinicius",
+            "senha": "$2a$11$b6g.z1zX/Yl4D3q.bF.XvObL.xHDP7oGgbPhwsQK.4pl6ro.UKUJm",
+            "tipoUsuarioId": "aaeb024b-c861-41b3-8603-878f3c70a241"
+        },
+        "rg": "234543459"
+    }
+}
+
+
+
+
+
+
+
+{
+    "option": {
+        "crm": "123456",
+        "endereco": {
+            "cep": "23444323",
+            "cidade": "Sao Paulo",
+            "clinicas": [Array
+            ],
+            "id": "a7353f3e-7f77-4347-b10a-dba0874627d7",
+            "latitude": -23.581558,
+            "logradouro": "rua elba",
+            "longitude": -46.599139,
+            "medicos": [Array
+            ],
+            "numero": 54,
+            "pacientes": [Array
+            ]
+        },
+        "enderecoId": "a7353f3e-7f77-4347-b10a-dba0874627d7",
+        "especialidade": {
+            "especialidade1": "Urologista",
+            "id": "7ec2273f-f5c9-42e5-a8b4-abfdab035f02",
+            "medicos": [Array
+            ]
+        },
+        "especialidadeId": "7ec2273f-f5c9-42e5-a8b4-abfdab035f02",
+        "id": "20adeba5-300e-4479-bc64-01584caff270",
+        "idNavigation": {
+            "email": "matheus@gmail.com",
+            "foto": "https://vitalmikaelg10.blob.core.windows.net/containervitalg10/04f5d4c774a74cd285982c368f2594de.exp",
+            "id": "20adeba5-300e-4479-bc64-01584caff270",
+            "nome": "Matheus",
+            "senha": "$2a$11$z7oDSouvoKdTOlC4IQkdmem/BDBL0cOj221UVij3tdVGLRzIGTQ.q",
+            "tipoUsuarioId": "274f89c1-795e-4ff0-b7dd-5c39bafe8b35"
+        },
+        "medicosClinicas": []
+    }
+}
