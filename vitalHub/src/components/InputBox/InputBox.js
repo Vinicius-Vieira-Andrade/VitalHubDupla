@@ -1,243 +1,249 @@
-import { InputTextLargeGray } from "../Input/StyleInput"
-import { HighInput, HighInputGrey, LargeInput, ProfileInput, ProfileInputGray } from "../Input/Input"
-import { Label } from "../Label/Label"
-import { BoxInput } from "./StyleInputBox"
-
+import { InputTextLargeGray } from "../Input/StyleInput";
+import {
+  HighInput,
+  HighInputGrey,
+  LargeInput,
+  ProfileInput,
+  ProfileInputGray,
+} from "../Input/Input";
+import { Label } from "../Label/Label";
+import { BoxInput } from "./StyleInputBox";
 
 export const InputBox = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    style,
-    maxLength,
-    placeholderTextColor,
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  style,
+  maxLength,
+  placeholderTextColor,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <ProfileInput
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-            />
-
-        </BoxInput>
-
-    )
-}
+      <ProfileInput
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </BoxInput>
+  );
+};
 
 export const InputBoxGray = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    style,
-    maxLength,
-    placeholderTextColor
+  ref,
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  style,
+  maxLength,
+  placeholderTextColor,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <ProfileInputGray
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-            />
-
-        </BoxInput>
-
-    )
-}
+      <ProfileInputGray
+        ref={ref}
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </BoxInput>
+  );
+};
 
 export const HighInputBox = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    maxLength,
-    placeholderTextColor,
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  maxLength,
+  placeholderTextColor,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <HighInput
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-
-            />
-
-        </BoxInput>
-
-    )
-}
+      <HighInput
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </BoxInput>
+  );
+};
 
 export const HighInputBoxGrey = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    maxLength,
-    placeholderTextColor
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  maxLength,
+  placeholderTextColor,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <HighInputGrey
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-            />
-
-        </BoxInput>
-
-    )
-}
+      <HighInputGrey
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </BoxInput>
+  );
+};
 
 export const LargeInputTextBox = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    maxLength,
-    placeholderTextColor,
-    isInsertedInputValid = true
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  maxLength,
+  placeholderTextColor,
+  isInsertedInputValid = true,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <LargeInput
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-                isInsertedInputValid={isInsertedInputValid}
-            />
-
-        </BoxInput>
-
-    )
-}
-
+      <LargeInput
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+        isInsertedInputValid={isInsertedInputValid}
+      />
+    </BoxInput>
+  );
+};
 
 export const LargeInputGray = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    maxLength,
-    placeholderTextColor,
-    isInsertedInputValid = true
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  maxLength,
+  placeholderTextColor,
+  isInsertedInputValid = true,
 }) => {
-    return (
-    <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <Label textLabel={textLabel} />
-
-        <InputTextLargeGray
-            placeholder={placeholder}
-            editable={editable}
-            keyboardType={keyboardType}
-            maxLength={maxLength}
-            fieldValue={fieldValue}
-            onChangeText={onChangeText}
-            placeholderTextColor={placeholderTextColor}
-            isInsertedInputValid={isInsertedInputValid}
-        />
-
+      <InputTextLargeGray
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+        isInsertedInputValid={isInsertedInputValid}
+      />
     </BoxInput>
-    )
-}
-
+  );
+};
 
 export const LargeInputTextBoxStet = ({
-    fieldWidth = 100,
-    fieldHeight = 90,
-    editable = false,
-    textLabel,
-    placeholder,
-    fieldValue = null,
-    onChangeText = null,
-    keyboardType = "default",
-    maxLength,
-    placeholderTextColor
+  fieldWidth = 100,
+  fieldHeight = 90,
+  editable = false,
+  textLabel,
+  placeholder,
+  fieldValue = null,
+  onChangeText = null,
+  keyboardType = "default",
+  maxLength,
+  placeholderTextColor,
 }) => {
-    return (
+  return (
+    <BoxInput
+      fieldWidth={fieldWidth}
+      fieldHeight={fieldHeight}
+      textLabel={textLabel}
+    >
+      <Label textLabel={textLabel} />
 
-        <BoxInput fieldWidth={fieldWidth} fieldHeight={fieldHeight} textLabel={textLabel}>
-
-            <Label textLabel={textLabel} />
-
-            <LargeInput
-                placeholder={placeholder}
-                editable={editable}
-                keyboardType={keyboardType}
-                maxLength={maxLength}
-                fieldValue={fieldValue}
-                onChangeText={onChangeText}
-                placeholderTextColor={placeholderTextColor}
-            />
-
-        </BoxInput>
-
-    )
-}
+      <LargeInput
+        placeholder={placeholder}
+        editable={editable}
+        keyboardType={keyboardType}
+        maxLength={maxLength}
+        fieldValue={fieldValue}
+        onChangeText={onChangeText}
+        placeholderTextColor={placeholderTextColor}
+      />
+    </BoxInput>
+  );
+};

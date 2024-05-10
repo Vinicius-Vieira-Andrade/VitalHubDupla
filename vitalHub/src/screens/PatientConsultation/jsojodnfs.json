@@ -1,0 +1,134 @@
+[
+    {
+        "dataConsulta": "2024-05-09T20:27:03.11",
+        "descricao": "consulta dor de cabeca",
+        "diagnostico": "dor de cabeca",
+        "exames": [],
+        "id": "0dacf95d-a37f-45ad-b554-6b6b51df4dd5",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medico": [Object
+            ],
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "prioridade": 1
+        },
+        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "4d314e66-7334-4f41-b99d-846a6bf8f7f9",
+            "situacao": "Agendadas"
+        },
+        "situacaoId": "4d314e66-7334-4f41-b99d-846a6bf8f7f9"
+    },
+    {
+        "dataConsulta": "2024-05-09T20:27:03.11",
+        "descricao": "consulta dor de cabeca",
+        "diagnostico": "dor de cabeca",
+        "exames": [],
+        "id": "2912649f-c668-43a1-9b96-904e76a1a372",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medico": [Object
+            ],
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "prioridade": 1
+        },
+        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "3f549cc9-1ffa-45bb-852f-f57949c699b4",
+            "situacao": "Canceladas"
+        },
+        "situacaoId": "3f549cc9-1ffa-45bb-852f-f57949c699b4"
+    },
+    {
+        "dataConsulta": "2024-05-09T20:27:03.11",
+        "descricao": "pica inflamada",
+        "diagnostico": "piroca inflamada",
+        "exames": [],
+        "id": "da1a9351-40d2-4e29-b8c9-be4e882ecb96",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medico": [Object
+            ],
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+            "prioridade": 2
+        },
+        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "receitaId": "08b91ac4-e766-475a-8523-2abd244bb04b",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "a1b44600-ea61-4f99-bd68-772316505491",
+            "situacao": "Realizadas"
+        },
+        "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
+    },
+    {
+        "dataConsulta": "2024-05-09T20:27:03.11",
+        "descricao": "consulta bolada",
+        "diagnostico": "dor de calvice",
+        "exames": [],
+        "id": "4ab91d07-1cea-47e5-80ca-eead688c6f1b",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medico": [Object
+            ],
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+            "prioridade": 2
+        },
+        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "a1b44600-ea61-4f99-bd68-772316505491",
+            "situacao": "Realizadas"
+        },
+        "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
+    }
+]

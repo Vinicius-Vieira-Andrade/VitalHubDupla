@@ -26,6 +26,7 @@ import {
   HighInputBox,
   HighInputBoxGrey,
   InputBox,
+  InputBoxGray,
   LargeInputTextBox,
 } from "../../components/InputBox/InputBox";
 import { Label } from "../../components/Label/Label";
@@ -35,12 +36,17 @@ import { ImportImages, Line, TitleImage } from "./Style";
 import * as MediaLibrary from "expo-media-library";
 import api from "../../services/Services";
 import { ActivityIndicator } from "react-native";
+import { userDecodeToken } from "../../utils/Auth";
 
 export const ViewPrescription = ({ navigation, route }) => {
   const [consultaSelecionada, setConsultaSelecionada] = useState(null);
   const [prescription, setPrescription] = useState({})
   const [descricaoExame, setDescricaoExame] = useState()
   const [uriCameraCapture, setUriCameraCapture] = useState("")
+  const [descriptionValue, setDescriptionValue] = useState(route.params.consulta.descricao)
+  const [diagnosticValue, setDiagnosticValue] = useState(route.params.consulta.diagnostico)
+  const [prescriptionValue, setPrescriptionValue] = useState()
+  
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -57,6 +63,11 @@ export const ViewPrescription = ({ navigation, route }) => {
   useEffect(() => {
     profileLoad();
   }, []);
+
+  useEffect(() => {
+    console.log("aaaaaaaaaaaaa");
+    console.log( prescription);
+  })
 
   async function BuscarProntuario() {
     await api
@@ -142,16 +153,20 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholder={"Descricão"}
               editable={true}
               fieldWidth={90}
-              fieldValue={route.params.consulta.descricao}
+              onChangeText={(txt) => setDescriptionValue(txt)}
+              fieldValue={descriptionValue}
+              // fieldValue={route.params.consulta.descricao}
             />
 
-            <InputBox
+            <InputBoxGray
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Diagnóstico do paciente"}
               placeholder={"Diagnóstico"}
               editable={true}
               fieldWidth={90}
-              fieldValue={route.params.consulta.diagnostico}
+              onChangeText={(txt) => setDiagnosticValue(txt)}
+              fieldValue={diagnosticValue}
+              // fieldValue={route.params.consulta.diagnostico}
             />
 
             <HighInputBoxGrey
@@ -161,7 +176,9 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholder={"Prescrição"}
               editable={true}
               fieldWidth={90}
-              fieldValue={"dipirona"}
+              onChangeText={(txt) => setPrescriptionValue(txt)}
+              fieldValue={prescriptionValue}
+              // fieldValue={"dipirona"}
             />
 
             <BoxViewImageImport>

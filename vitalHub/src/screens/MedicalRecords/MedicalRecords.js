@@ -41,6 +41,11 @@ export const MedicalRecords = ({ navigation, route }) => {
     }, [route])
 
     useEffect(() => {
+        console.log("etaaaaaaa");
+        console.log(consultaSelecionada);
+    })
+
+    useEffect(() => {
         if (route.params) {
             setConsultaSelecionada(route.params.consultaSelecionada)
         }

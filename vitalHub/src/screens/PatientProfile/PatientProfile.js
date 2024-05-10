@@ -63,12 +63,10 @@ export const PatientProfile = ({ navigation }) => {
 
 
   async function PutPaciente() {
-
     await api.put(`/Pacientes?idUsuario=${user.option.id}`, {
       dataNascimento: user.option.dataNascimento,
       cpf: user.option.cpf,
       logradouro,
-      numero,
       cep,
       cidade
     }).then(response => {
@@ -81,7 +79,6 @@ export const PatientProfile = ({ navigation }) => {
       especialidade: user.option.especialidade,
       crm: user.option.crm,
       logradouro,
-      numero,
       cidade,
       cep,
     }).then(response => {
@@ -170,11 +167,11 @@ export const PatientProfile = ({ navigation }) => {
     });
   }
 
-  // useEffect(() => {
-  //   if (uriCameraCapture !== null) {
-  //     AlterarFotoPerfil();
-  //   }
-  // }, [uriCameraCapture]);
+  useEffect(() => {
+    if (uriCameraCapture !== null) {
+      AlterarFotoPerfil();
+    }
+  }, [uriCameraCapture]);
 
 
 
@@ -251,7 +248,7 @@ export const PatientProfile = ({ navigation }) => {
                 />
                 <InputBoxGray
                   placeholderTextColor={"#A1A1A1"}
-                  placeholder={user.option.endereco ? user.option.endereco.cidade : 'Cidade não encontrada!'}
+                  placeholder={user.role === "medico" && user.option.endereco ? user.option.endereco.cidade : 'Cidade não encontrada!'}
                   fieldValue={user.option.endereco ? user.option.endereco.cidade : 'Cidade não encontrada!'}
                   textLabel={"Cidade"}
                   editable={false}
@@ -320,7 +317,7 @@ export const PatientProfile = ({ navigation }) => {
             </>
           )}
 
-          <ButtonLarge text={"Salvar"} onPress={() => { user.option.role == 'medico' ? PutMedico() : PutPaciente() }} />
+          <ButtonLarge text={"Salvar"} onPress={() => { role.role == 'medico' ? PutMedico() : PutPaciente() }} />
 
           {edit == false ? (
             <ButtonNormal onPress={() => { edit == false ? (setEdit(true)) : (setEdit(false)) }} text={"Editar"} />

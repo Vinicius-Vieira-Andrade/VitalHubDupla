@@ -5,7 +5,7 @@ export const LinkAccount = ({
     onPress
 }) => {
     return (
-        <ViewLink>
+        <ViewLink style={{marginTop: 10, marginBottom: 0 }}>
             <TextLink>Não tem uma conta? <TextLinkAccount onPress={onPress}>Crie uma conta agora!</TextLinkAccount></TextLink>
         </ViewLink>
     )

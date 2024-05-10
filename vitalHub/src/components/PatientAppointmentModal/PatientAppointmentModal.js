@@ -31,7 +31,7 @@ export const PatientAppointmentModal = ({
     navigation.replace(rota, { clinicaId: consulta.clinicaId });
   }
 
-  console.log(` deu bom?${consulta}`);
+  // console.log(` deu bom?${consulta}`);
 
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">

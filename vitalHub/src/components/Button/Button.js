@@ -9,7 +9,7 @@ export const ButtonNormal = ({
     text
 }) => {
     return (
-        <NormalButton
+        <NormalButton style={{marginTop: 0, marginBottom: 0}}
             onPress={onPress}>
             <ButtonText>{text}</ButtonText>
             {/* metodo de disable Button */}
@@ -37,7 +37,7 @@ export const ButtonGoogle = ({
     text
 }) => {
     return (
-        <GoogleButton
+        <GoogleButton style={{marginTop: 0, marginBottom: 0 }}
             onPress={onPress}>
             <AntDesign name="google" size={18} color="#496BBA" />
             <ButtonTextGoogle>{text}</ButtonTextGoogle>
@@ -86,7 +86,7 @@ export const BlockedSmallButton = ({
     text
 }) => {
     return (
-        <SmallButtonBlocked
+        <SmallButtonBlocked style={{marginTop:40}}
             onPress={onPress}>
             <ButtonText>{text}</ButtonText>
         </SmallButtonBlocked>

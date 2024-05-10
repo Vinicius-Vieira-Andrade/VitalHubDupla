@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { ActivityIndicator, StatusBar } from "react-native";
 import {
   BoxDataHome,
   BoxHome,
@@ -28,11 +28,11 @@ export const DoctorConsultation = ({ navigation }) => {
   const [dataConsulta, setDataConsulta] = useState("");
   const [schedule, setSchedule] = useState([]);
   const [consultaState, setConsultaState] = useState("Agendadas");
-
-  const [consultaSelecionada, setConsultaSelecionada] = useState()
+  const [photo, setPhoto] = useState();
+  const [role, setRole] = useState();
+  const [consultaSelecionada, setConsultaSelecionada] = useState();
 
   const image = require("../../assets/ImageCard.png");
-
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -45,7 +45,20 @@ export const DoctorConsultation = ({ navigation }) => {
     }
   }
 
-
+  async function GetUser() {
+    try {
+      const token = await userDecodeToken();
+      // console.log(token.role)
+      if (token.role != null) {
+        setRole(token);
+        const url = (await token.role) === "medico" ? "Medicos" : "Pacientes";
+        const response = await api.get(`${url}/BuscarPorId?id=${token.user}`);
+        setPhoto(response.data.idNavigation.foto);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados do usuário:", error);
+    }
+  }
 
   async function GetSchedule() {
     await api
@@ -60,8 +73,8 @@ export const DoctorConsultation = ({ navigation }) => {
       });
   }
 
-
   useEffect(() => {
+    console.log("profileLoad");
     profileLoad();
   }, []);
 
@@ -71,33 +84,51 @@ export const DoctorConsultation = ({ navigation }) => {
     }
   }, [dataConsulta]);
 
+  useEffect(() => {
+    console.log("consuultaSelecionada");
+    console.log(consultaSelecionada);
+  }, [consultaSelecionada]);
+
+  useEffect(() => {
+    GetUser();
+  }, []);
+
+  useEffect(() => {
+    console.log("user?");
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("Photo?");
+    console.log(photo);
+  }, [photo]);
+
   // STATES PARA OS MODAIS
 
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
 
-
   // RETURN
 
   return (
     <Container>
-
       <StatusBar translucent backgroundColor="transparent" />
-      <Header>
-        <BoxHome>
-          <ImagemHome source={require("../../assets/DoctorImage.png")} />
+      {user != null ? (
+        <Header>
+          <BoxHome>
+            <ImagemHome source={{ uri: photo }} />
+            <BoxDataHome>
+              <WelcomeTitle textTitle={"Bem vindo"} />
 
-          <BoxDataHome>
-            <WelcomeTitle textTitle={"Bem vindo"} />
+              <NameTitle textTitle={user.name} />
+            </BoxDataHome>
+          </BoxHome>
 
-            <NameTitle textTitle={user.name} />
-          </BoxDataHome>
-        </BoxHome>
-
-        <MoveIconBell>
-          <Ionicons name="notifications" size={25} color="white" />
-        </MoveIconBell>
-      </Header>
+          <MoveIconBell>
+            <Ionicons name="notifications" size={25} color="white" />
+          </MoveIconBell>
+        </Header>
+      ) : null}
 
       <Calendar setDataConsulta={setDataConsulta} />
 
@@ -135,14 +166,21 @@ export const DoctorConsultation = ({ navigation }) => {
               navigation={navigation}
               hour={"14:00"}
               name={item.paciente.idNavigation.nome}
-              age={item.paciente.dataNascimento != null ? `${moment().diff(item.paciente.dataNascimento, 'years')} anos` : "--"}
+              age={
+                item.paciente.dataNascimento != null
+                  ? `${moment().diff(
+                      item.paciente.dataNascimento,
+                      "years"
+                    )} anos`
+                  : "--"
+              }
               routine={item.situacao.situacao}
-              url={image}
+              url={item.paciente.idNavigation.foto}
               status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
               onPressAppointment={() => {
-                setConsultaSelecionada(item)
-                setShowModalAppointment(true)
+                setConsultaSelecionada(item);
+                setShowModalAppointment(true);
                 console.log("oi" + item);
                 console.log(consultaSelecionada);
               }}

@@ -12,6 +12,7 @@ export const Container = styled.SafeAreaView`
 export const ViewBoxMedium = styled.SafeAreaView`
   width: 80%;
   align-items: flex-start;
+  margin-bottom: 25px;
 `;
 export const BoxNumeric = styled.SafeAreaView`
   width: 90%;

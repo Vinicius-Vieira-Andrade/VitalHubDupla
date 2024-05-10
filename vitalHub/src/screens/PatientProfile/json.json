@@ -1,0 +1,35 @@
+{
+    "option": {
+        "crm": "029345",
+        "endereco": {
+            "cep": "02857070",
+            "clinicas": [Array
+            ],
+            "id": "da9b750d-efd2-4a8b-8c0b-09df4d6bef0d",
+            "logradouro": "rua b",
+            "medicos": [Array
+            ],
+            "numero": 32,
+            "pacientes": [Array
+            ]
+        },
+        "enderecoId": "da9b750d-efd2-4a8b-8c0b-09df4d6bef0d",
+        "especialidade": {
+            "especialidade1": "Cardiologista",
+            "id": "b0cf5a49-d0fc-4245-8403-245e4592b62a",
+            "medicos": [Array
+            ]
+        },
+        "especialidadeId": "b0cf5a49-d0fc-4245-8403-245e4592b62a",
+        "id": "46099739-d501-4721-863e-d091ba64d78f",
+        "idNavigation": {
+            "email": "matheus@gmail.com",
+            "foto": "https://vitahubg10.blob.core.windows.net/images-vitalhub/c06fff1d38184790b19ffa2d1176ac50.jpg",
+            "id": "46099739-d501-4721-863e-d091ba64d78f",
+            "nome": "matheus",
+            "senha": "$2a$11$h4lvhaaavBl8zFU7knzKv.l2Xi.BMilcZwLPSYOLBwTpoAGkM9kQa",
+            "tipoUsuarioId": "1ba258a3-66e3-42ae-95f9-443edeb131a0"
+        },
+        "medicosClinicas": []
+    }
+}

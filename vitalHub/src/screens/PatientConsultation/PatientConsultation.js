@@ -31,26 +31,33 @@ export const PatientConsultation = ({ navigation }) => {
   const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
   const [dataConsulta, setDataConsulta] = useState("");
 
-  
-
-
   const [consultaState, setConsultaState] = useState("Agendadas");
 
   const [schedule, setSchedule] = useState([]);
 
-  const image = require("../../assets/CardDoctorImage.png");
+  
 
   // STATES PARA OS MODAIS
 
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
   const [showModalStethoscope, setShowModalStethoscope] = useState(false);
-
+  const [photo, setPhoto] = useState();
+  const [role, setRole] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [docPhoto, setDocPhoto] = useState();
 
+
+  // talvez n seja necessario esse metodo
+  // async function GetPatientById(idUser) {
+  //   const response = await api
+  //     .get(`/Pacientes/BuscarPorId?id=${idUser.id}`)
+  //     .then(response => {
+  //       setDocPhoto(response.data);
+  //     });
+  // }
 
   async function GetSchedule() {
-
     await api
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
@@ -74,6 +81,21 @@ export const PatientConsultation = ({ navigation }) => {
     }
   }
 
+  async function GetUser() {
+    try {
+      const token = await userDecodeToken();
+      // console.log(token.role)
+      if (token.role != null) {
+        setRole(token);
+        const url = (await token.role) === "medico" ? "Medicos" : "Pacientes";
+        const response = await api.get(`${url}/BuscarPorId?id=${token.user}`);
+        setPhoto(response.data.idNavigation.foto);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados do usuário:", error);
+    }
+  }
+
   useEffect(() => {
     ProfileLoad();
   }, []);
@@ -85,27 +107,46 @@ export const PatientConsultation = ({ navigation }) => {
     }
   }, [dataConsulta]);
 
+  useEffect(() => {
+    console.log("user?");
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("Poto?");
+    console.log(photo);
+  }, [photo]);
+
+  useEffect(() => {
+    GetUser();
+  }, []);
+
+  useEffect(() => {
+    console.log("scheudle");
+    console.log(schedule);
+  }, [schedule]);
+
+
   return (
     <Container>
-      <Header>
-        <StatusBar translucent backgroundColor="transparent" />
+      {user != null ? (
+        <Header>
+          <BoxHome>
+            <ImagemHome source={{ uri: photo }} />
+            <BoxDataHome>
+              <WelcomeTitle textTitle={"Bem vindo"} />
 
-        <BoxHome>
-          <ImagemHome source={require("../../assets/PatientHomeImage.png")} />
+              <NameTitle textTitle={user.name} />
+            </BoxDataHome>
+          </BoxHome>
 
-          <BoxDataHome>
-            <WelcomeTitle textTitle={"Bem vindo"} />
+          <MoveIconBell>
+            <Ionicons name="notifications" size={25} color="white" />
+          </MoveIconBell>
+        </Header>
+      ) : null}
 
-            <NameTitle textTitle={user.name} />
-          </BoxDataHome>
-        </BoxHome>
-
-        <MoveIconBell>
-          <Ionicons name="notifications" size={25} color="white" />
-        </MoveIconBell>
-      </Header>
-
-      <Calendar setDataConsulta={setDataConsulta}/>
+      <Calendar setDataConsulta={setDataConsulta} />
 
       <ButtonHomeContainer>
         <FilterButton
@@ -117,11 +158,11 @@ export const PatientConsultation = ({ navigation }) => {
         />
 
         <FilterButton
-         onPress={() => {
-          setConsultaState("Realizadas");
-        }}
-        selected={consultaState == "Realizadas" ? true : false}
-        text={"Realizadas"}
+          onPress={() => {
+            setConsultaState("Realizadas");
+          }}
+          selected={consultaState == "Realizadas" ? true : false}
+          text={"Realizadas"}
         />
 
         <FilterButton
@@ -143,18 +184,18 @@ export const PatientConsultation = ({ navigation }) => {
               name={item.medicoClinica.medico.idNavigation.nome}
               age={item.medicoClinica.medico.crm}
               routine={item.situacao.situacao}
-              url={image}
+              url={item.medicoClinica.medico.idNavigation.foto}
               status={consultaState}
               onPressCancel={() => setShowModalCancel(true)}
               onPressAppointment={() => {
-                setConsultaSelecionada(item.medicoClinica)
+                setConsultaSelecionada(item.medicoClinica);
                 navigation.navigate("ViewPrescription", {
-                  consultaId: item.id, consultaMedico: item.medicoClinica.medico, consulta: item
+                  consultaId: item.id,
+                  consultaMedico: item.medicoClinica.medico,
+                  consulta: item,
                 });
                 console.log("item" + item.receita);
               }}
-
-
               onPressAppointmentCard={() => {
                 setConsultaSelecionada(item.medicoClinica);
                 setShowModal(

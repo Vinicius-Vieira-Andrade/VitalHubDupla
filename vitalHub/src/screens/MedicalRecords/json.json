@@ -1,0 +1,60 @@
+{
+    "dataConsulta": "2024-05-09T20:27:03.11",
+    "descricao": "pica inflamada",
+    "diagnostico": "piroca inflamada",
+    "exames": [],
+    "id": "da1a9351-40d2-4e29-b8c9-be4e882ecb96",
+    "medicoClinica": {
+        "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+        "consulta": [],
+        "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "medico": {
+            "crm": "654321",
+            "enderecoId": "a621f4c7-3705-415c-8d78-70a090f40342",
+            "especialidade": [Object
+            ],
+            "especialidadeId": "212e51ce-c72e-44da-bbda-705702d052a0",
+            "id": "025afd49-c195-4b7a-8cb1-843613c8cac8",
+            "idNavigation": [Object
+            ],
+            "medicosClinicas": [Array
+            ]
+        },
+        "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+    },
+    "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+    "paciente": {
+        "consulta": [],
+        "cpf": "34804449203",
+        "dataNascimento": "2003-02-11T00:00:00",
+        "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+        "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "idNavigation": {
+            "email": "vini@gmail.com",
+            "foto": "string",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "nome": "vinicius",
+            "senha": "$2a$11$mjf/vKsLGOwfEpoooEKsIeKzWyTiTXb9PpiJNeSzHjR0ZBfxE43PG",
+            "tipoUsuarioId": "97e4a35a-5cfd-4ac3-aec0-bc240da1e392"
+        },
+        "rg": "123453213"
+    },
+    "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+    "prioridade": {
+        "consulta": [],
+        "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "prioridade": 2
+    },
+    "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+    "receita": {
+        "consulta": [],
+        "id": "08b91ac4-e766-475a-8523-2abd244bb04b"
+    },
+    "receitaId": "08b91ac4-e766-475a-8523-2abd244bb04b",
+    "situacao": {
+        "consulta": [],
+        "id": "a1b44600-ea61-4f99-bd68-772316505491",
+        "situacao": "Realizadas"
+    },
+    "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
+}
