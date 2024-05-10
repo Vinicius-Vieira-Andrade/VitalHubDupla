@@ -8,6 +8,7 @@ import { AgeTextCard } from "../../components/Descriptions/StyledDescriptions";
 import { InputBox } from "../../components/InputBox/InputBox";
 import Maps from "../../components/Maps/Maps";
 import { TitleLocalization } from "../../components/Title/StyleTitle";
+import api from "../../services/Services";
 
 export const ConsultLocalization = ({ navigation, route }) => {
   const [clinicaSelecionada, setClinicaSelecionada] = useState(null);

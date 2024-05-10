@@ -1,134 +1,68 @@
 [
     {
-        "dataConsulta": "2024-05-09T20:27:03.11",
-        "descricao": "consulta dor de cabeca",
-        "diagnostico": "dor de cabeca",
+        "dataConsulta": "2024-05-10T14:36:02.893",
+        "descricao": "dor de penis",
+        "diagnostico": "pen",
         "exames": [],
-        "id": "0dacf95d-a37f-45ad-b554-6b6b51df4dd5",
+        "id": "c55266df-9f14-4585-9dc4-51240d832ca0",
         "medicoClinica": {
-            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "clinicaId": "3a34320c-0b11-4210-9894-8dc2e4d9d06b",
             "consulta": [Array
             ],
-            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "id": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
             "medico": [Object
             ],
-            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+            "medicoId": "20adeba5-300e-4479-bc64-01584caff270"
         },
-        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "medicoClinicaId": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
+        "pacienteId": "91a65bfe-4413-450f-b063-7d8247311076",
         "prioridade": {
             "consulta": [Array
             ],
-            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "id": "93d3c848-0005-411a-96f2-782c3cc5fac1",
             "prioridade": 1
         },
-        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
-        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "prioridadeId": "93d3c848-0005-411a-96f2-782c3cc5fac1",
+        "receitaId": "72f3660e-606a-41ed-b2af-46f34128060a",
         "situacao": {
             "consulta": [Array
             ],
-            "id": "4d314e66-7334-4f41-b99d-846a6bf8f7f9",
+            "id": "800cb32e-7b2d-4a19-afae-ae8a8ab19200",
             "situacao": "Agendadas"
         },
-        "situacaoId": "4d314e66-7334-4f41-b99d-846a6bf8f7f9"
+        "situacaoId": "800cb32e-7b2d-4a19-afae-ae8a8ab19200"
     },
     {
-        "dataConsulta": "2024-05-09T20:27:03.11",
-        "descricao": "consulta dor de cabeca",
-        "diagnostico": "dor de cabeca",
+        "dataConsulta": "2024-05-10T14:36:02.893",
+        "descricao": "dor craniano ",
+        "diagnostico": "dor no crânio ",
         "exames": [],
-        "id": "2912649f-c668-43a1-9b96-904e76a1a372",
+        "id": "84a508ff-4611-4c15-9529-b567a9216fd1",
         "medicoClinica": {
-            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "clinicaId": "3a34320c-0b11-4210-9894-8dc2e4d9d06b",
             "consulta": [Array
             ],
-            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "id": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
             "medico": [Object
             ],
-            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+            "medicoId": "20adeba5-300e-4479-bc64-01584caff270"
         },
-        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "medicoClinicaId": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
+        "pacienteId": "91a65bfe-4413-450f-b063-7d8247311076",
         "prioridade": {
             "consulta": [Array
             ],
-            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "id": "93d3c848-0005-411a-96f2-782c3cc5fac1",
             "prioridade": 1
         },
-        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
-        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "prioridadeId": "93d3c848-0005-411a-96f2-782c3cc5fac1",
+        "receitaId": "72f3660e-606a-41ed-b2af-46f34128060a",
         "situacao": {
             "consulta": [Array
             ],
-            "id": "3f549cc9-1ffa-45bb-852f-f57949c699b4",
-            "situacao": "Canceladas"
-        },
-        "situacaoId": "3f549cc9-1ffa-45bb-852f-f57949c699b4"
-    },
-    {
-        "dataConsulta": "2024-05-09T20:27:03.11",
-        "descricao": "pica inflamada",
-        "diagnostico": "piroca inflamada",
-        "exames": [],
-        "id": "da1a9351-40d2-4e29-b8c9-be4e882ecb96",
-        "medicoClinica": {
-            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
-            "consulta": [Array
-            ],
-            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-            "medico": [Object
-            ],
-            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
-        },
-        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
-        "prioridade": {
-            "consulta": [Array
-            ],
-            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
-            "prioridade": 2
-        },
-        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
-        "receitaId": "08b91ac4-e766-475a-8523-2abd244bb04b",
-        "situacao": {
-            "consulta": [Array
-            ],
-            "id": "a1b44600-ea61-4f99-bd68-772316505491",
+            "id": "b95a1627-d4a6-4b23-a7f2-898a4103fe5e",
             "situacao": "Realizadas"
         },
-        "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
-    },
-    {
-        "dataConsulta": "2024-05-09T20:27:03.11",
-        "descricao": "consulta bolada",
-        "diagnostico": "dor de calvice",
-        "exames": [],
-        "id": "4ab91d07-1cea-47e5-80ca-eead688c6f1b",
-        "medicoClinica": {
-            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
-            "consulta": [Array
-            ],
-            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-            "medico": [Object
-            ],
-            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
-        },
-        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
-        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
-        "prioridade": {
-            "consulta": [Array
-            ],
-            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
-            "prioridade": 2
-        },
-        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
-        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
-        "situacao": {
-            "consulta": [Array
-            ],
-            "id": "a1b44600-ea61-4f99-bd68-772316505491",
-            "situacao": "Realizadas"
-        },
-        "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
+        "situacaoId": "b95a1627-d4a6-4b23-a7f2-898a4103fe5e"
     }
 ]

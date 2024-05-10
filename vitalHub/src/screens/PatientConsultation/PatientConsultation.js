@@ -35,8 +35,6 @@ export const PatientConsultation = ({ navigation }) => {
 
   const [schedule, setSchedule] = useState([]);
 
-  
-
   // STATES PARA OS MODAIS
 
   const [showModalCancel, setShowModalCancel] = useState(false);
@@ -46,7 +44,20 @@ export const PatientConsultation = ({ navigation }) => {
   const [role, setRole] = useState();
   const [showModal, setShowModal] = useState(false);
   const [docPhoto, setDocPhoto] = useState();
+  const [scheduleUser, setScheduleUser] = useState([]);
 
+  async function GetScheduleById() {
+    await api
+      .get(`/Consultas/BuscarPorId?id=c55266df-9f14-4585-9dc4-51240d832ca0`)
+      .then((response) => {
+        setSchedule({ ...user, user: response.data });
+        console.log("ById foiiiiii");
+        console.log(schedule);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   // talvez n seja necessario esse metodo
   // async function GetPatientById(idUser) {
@@ -62,8 +73,6 @@ export const PatientConsultation = ({ navigation }) => {
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
         setSchedule(response.data);
-
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -122,10 +131,26 @@ export const PatientConsultation = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log("scheudle");
-    console.log(schedule);
+    if (schedule != null) {
+      console.log("SCHEDULE");
+      console.log(schedule);
+    }
   }, [schedule]);
 
+  useEffect(() => {
+    if (schedule != null) {
+      GetScheduleById();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("scheduleUser");
+    console.log(scheduleUser);
+  }, [scheduleUser]);
+
+  useEffect(() => {
+    console.log(schedule.id);
+  }, [schedule]);
 
   return (
     <Container>
