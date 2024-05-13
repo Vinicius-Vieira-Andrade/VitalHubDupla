@@ -1,0 +1,41 @@
+{
+    "clinicaId": "3a34320c-0b11-4210-9894-8dc2e4d9d06b",
+    "clinicaLabel": "HashyClinic",
+    "dataConsulta": "2024-05-14 17",
+    "especialidade": "Urologista",
+    "localizacao": "Sao paulo",
+    "medicoClinicaId": undefined,
+    "medicoId": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
+    "medicoLabel": "Matheus",
+    "pacienteId": "91a65bfe-4413-450f-b063-7d8247311076",
+    "prioridadeId": "93D3C848-0005-411A-96F2-782C3CC5FAC1",
+    "prioridadeLabel": "Exame",
+    "situacaoId": "A1B44600-EA61-4F99-BD68-772316505491"
+}
+
+
+{
+    // "situacaoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    // "pacienteId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    // "medicoClinicaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "receitaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    // "prioridadeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    // "dataConsulta": "2024-05-13T19:18:36.028Z",
+    "descricao": "string",
+    "diagnostico": "string"
+}
+
+
+  {
+    "clinicaId": "3a34320c-0b11-4210-9894-8dc2e4d9d06b",
+    "clinicaLabel": "HashyClinic",
+    "dataConsulta": "2024-05-15 18:00",
+    "especialidade": "Urologista",
+    "localizacao": "Sao paulo",
+    "medicoClinicaId": "d0129cd7-5771-43f4-a8e6-b0e74fc5aed7",
+    "medicoLabel": "Matheus",
+    "pacienteId": "91a65bfe-4413-450f-b063-7d8247311076",
+    "prioridadeId": "93D3C848-0005-411A-96F2-782C3CC5FAC1",
+    "prioridadeLabel": "Exame",
+    "situacaoId": "A1B44600-EA61-4F99-BD68-772316505491"
+}

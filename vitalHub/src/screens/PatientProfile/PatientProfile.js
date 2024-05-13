@@ -58,47 +58,46 @@ export const PatientProfile = ({ navigation }) => {
     }
   }
 
-  async function PutPaciente() {
-    console.log({
-      dataNascimento: datanascimento,
-      cpf: cpf,
-      logradouro,
-      cep,
-      cidade,
-    });
-    console.log(user.option.especialidade);
-    await api
-      .put(`/Pacientes?idUsuario=${user.option.id}`, {
-        dataNascimento: datanascimento,
-        cpf: cpf,
-        logradouro,
-        cep,
-        cidade,
-      })
-      .then((response) => {
-        alert("Alterações salvas com sucesso!!");
-        GetUser();
-        setEdit(false);
-      })
-      .catch((error) => console.log(error));
-  }
+  // async function PutPaciente() {
+  //   console.log({
+  //     dataNascimento: datanascimento,
+  //     cpf: cpf,
+  //     logradouro,
+  //     cep,
+  //     cidade,
+  //   });
+  //   console.log(user.option.especialidade);
+  //   await api
+  //     .put(`/Pacientes?idUsuario=${user.option.id}`, {
+  //       dataNascimento: datanascimento,
+  //       cpf: cpf,
+  //       logradouro,
+  //       cep,
+  //       cidade,
+  //     })
+  //     .then((response) => {
+  //       alert("Alterações salvas com sucesso!!");
+  //       GetUser();
+  //       setEdit(false);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
-  async function PutMedico() {
-    await api
-      .put(`/Medicos?idUsuario=${user.option.id}`, {
-        crm: crm,
-        logradouro,
-        cidade,
-        cep,
-      })
-      .then((response) => {
-        alert("Alterações salvas com sucesso!!");
-        viaCep();
-        GetUser();
-        setEdit(false);
-      })
-      .catch((error) => console.log(error));
-  }
+  // async function PutMedico() {
+  //   await api
+  //     .put(`/Medicos`, {
+  //       crm: crm,
+  //       logradouro,
+  //       cidade,
+  //       cep,
+  //     })
+  //     .then((response) => {
+  //       alert("Alterações salvas com sucesso!!");
+  //       GetUser();
+  //       setEdit(false);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
   async function GetUser() {
     try {
@@ -116,7 +115,7 @@ export const PatientProfile = ({ navigation }) => {
     }
   }
 
-  // Função responsavel por liberar para que o usuário edite os dados pessoais
+  // state responsavel por liberar para que o usuário edite os dados pessoais
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -179,6 +178,39 @@ export const PatientProfile = ({ navigation }) => {
       .catch((error) => {
         console.log(error, "Não funcionou!");
       });
+  }
+
+  async function PutProfile() {
+    {
+      role.role === "paciente"
+        ? await api
+            .put(`/Pacientes?idUsuario=${user.option.id}`, {
+              dataNascimento: datanascimento,
+              cpf: cpf,
+              logradouro,
+              cep,
+              cidade,
+            })
+            .then((response) => {
+              alert("Alterações salvas com sucesso!!");
+              GetUser();
+              setEdit(false);
+            })
+            .catch((error) => console.log(error))
+        : await api
+            .put(`/Medicos`, {
+              crm: crm,
+              logradouro,
+              cidade,
+              cep,
+            })
+            .then((response) => {
+              alert("Alterações salvas com sucesso!!");
+              GetUser();
+              setEdit(false);
+            })
+            .catch((error) => console.log(error));
+    }
   }
 
   useEffect(() => {
@@ -399,12 +431,18 @@ export const PatientProfile = ({ navigation }) => {
             </>
           )}
 
-          <ButtonLarge
+          {/* <ButtonLarge
             text={"Salvar"}
             onPress={() => {
               role.role == "medico"
                 ? (PutMedico(), GetUser())
                 : (PutPaciente(), GetUser());
+            }}
+          /> */}
+          <ButtonLarge
+            text={"Salvar"}
+            onPress={() => {
+              PutProfile();
             }}
           />
 

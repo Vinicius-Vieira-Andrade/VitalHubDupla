@@ -16,7 +16,7 @@ export const CreateAccount = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState("");
   const [user, setUser] = useState({
     //id do tipo usuario paciente cadastrado no banco
-    idTipoUsuario: "97E4A35A-5CFD-4AC3-AEC0-BC240DA1E392",
+    idTipoUsuario: "AAEB024B-C861-41B3-8603-878F3C70A241",
     nome: "",
     email: "",
     senha: "",
@@ -71,12 +71,10 @@ export const CreateAccount = ({ navigation }) => {
         console.log(response);
         navigation.replace("Login");
       })
-      .catch((error) => console.log("Erro de validação", error));
-    Alert.alert(
-      "Erro de Cadastro",
-      "Por favor, verifique os campos e tente novamente.",
-      [{ text: "OK" }]
-    );
+      .catch((error) => {
+        console.log("Erro de validação", error);
+        navigation.replace("Login");
+      });
   }
 
   return (

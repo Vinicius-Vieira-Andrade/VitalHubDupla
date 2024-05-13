@@ -24,12 +24,17 @@ export const SelectDate = ({ navigation, route }) => {
   }, [route]);
 
   async function handleContinue() {
+    console.log(`${dataSelecionada} ${horaSelecionada}`);
     setAgendamento({
       ...route.params.agendamento,
       dataConsulta: `${dataSelecionada} ${horaSelecionada}`,
     });
     setShowModal(true);
   }
+
+  // useEffect(() => {
+  //   console.log(horaSelecionada);
+  // }, [horaSelecionada]);
 
   return (
     <Container>

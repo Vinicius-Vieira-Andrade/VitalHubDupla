@@ -93,7 +93,8 @@ export const Card = ({
   return (
     <CardContainer onPress={onPressAppointmentCard}>
       <BoxCard>
-        <ImageCard source={url} />
+        {/* esse erro na uri que deu pal aaaaaaaaa pra n aparecer a imagem nos cards */}
+        <ImageCard source={{ uri: url }} /> 
 
         <BoxTextCard>
           <NameCard>{name}</NameCard>
@@ -113,28 +114,30 @@ export const Card = ({
   );
 };
 
-export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedico}) => {
-  
+export const CardSelectDoctor = ({
+  doctor,
+  selectedCardId,
+  onCardPress,
+  setMedico,
+}) => {
   useEffect(() => {
     console.log("doctor");
     console.log(doctor);
-  }, [doctor])
+  }, [doctor]);
   return (
     <CardContainerClinic
       isSelected={selectedCardId == doctor.id ? true : false} //se o id do medico bater com o id passado ao clicar no card do medico, retorna true, se n false
-      
       onPress={() => {
         setMedico({
-          medicoId: doctor.id,
-          medicoClinicaId: doctor.medicoClinicaId,
+          medicoClinicaId: doctor.id,
           medicoLabel: doctor.idNavigation.nome,
-          especialidade: doctor.especialidade.especialidade1
-        })
+          especialidade: doctor.especialidade.especialidade1,
+        });
         onCardPress(doctor.id, doctor.idNavigation.nome);
       }}
     >
       <BoxCardDoctor>
-        <ImageCard source={{uri: doctor.idNavigation.foto}} />
+        <ImageCard source={{ uri: doctor.idNavigation.foto }} />
 
         <BoxCard>
           <BoxTextDoctorCard>
@@ -148,18 +151,22 @@ export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedic
   );
 };
 
-export const CardSelectClinic = ({ clinic, selectedCardId, onCardPress, setClinica }) => {
+export const CardSelectClinic = ({
+  clinic,
+  selectedCardId,
+  onCardPress,
+  setClinica,
+}) => {
   return (
     <CardContainerClinic
       isSelected={selectedCardId == clinic.id ? true : false}
       onPress={() => {
         setClinica({
           clinicaId: clinic.id,
-          clinicaLabel: clinic.nomeFantasia
-        })
-          //funfando select card
-         onCardPress(clinic.id, clinic.nomeFantasia);
-        
+          clinicaLabel: clinic.nomeFantasia,
+        });
+        //funfando select card
+        onCardPress(clinic.id, clinic.nomeFantasia);
       }}
     >
       <BoxCard>
@@ -170,7 +177,6 @@ export const CardSelectClinic = ({ clinic, selectedCardId, onCardPress, setClini
         </BoxTextClinicCard>
 
         <BoxRateTime>
-
           <ConsultDate>
             <MaterialCommunityIcons
               name="calendar-outline"

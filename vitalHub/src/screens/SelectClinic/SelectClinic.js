@@ -36,11 +36,11 @@ export const SelectCLinic = ({ navigation, route }) => {
   }, [route]); // vendo se recebemos os dados do route, do modal que guardamos os dados de agendamento
 
   useEffect(() => {
-     getAllClinics();
+    getAllClinics();
   }, []);
 
   // ARMAZENA O ID DA CLINICA SELECIONADA PELO USUARIO
-  const [selectedCardId, setSelectedCardId] = useState(); 
+  const [selectedCardId, setSelectedCardId] = useState();
 
   // funcao q guarda o id da clínica selecionada no state
   const handleSelectedCard = (id) => {
@@ -54,9 +54,13 @@ export const SelectCLinic = ({ navigation, route }) => {
       agendamento: {
         ...route.params.agendamento,
         ...clinica,
-      }
+      },
     });
   }
+
+  useEffect(() => {
+    console.log(route.params.agendamento);
+  }, [route]);
 
   return (
     <Container>

@@ -110,32 +110,6 @@ export const PatientConsultation = ({ navigation }) => {
     GetUser();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("user?");
-  //   console.log(user);
-  // }, [user]);
-
-  // useEffect(() => {
-  //   console.log("Poto?");
-  //   console.log(photo);
-  // }, [photo]);
-
-  useEffect(() => {
-    if (schedule) {
-      console.log("logui");
-      console.log(schedule[0]);
-    }
-  }, [schedule]);
-
-  useEffect(() => {
-    console.log("PORAAAAAAAAAAAAAAAA");
-    console.log(scheduleUser);
-  }, [scheduleUser]);
-
-  // useEffect(() => {
-  //   console.log("SCHEDULE");
-  //   console.log(schedule);
-  // }, [schedule]);
 
   return (
     <Container>

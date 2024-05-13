@@ -71,7 +71,7 @@ export const ConfirmAppointmentModal = ({
     console.log({
       ...agendamento,
       pacienteId: profilePacient.user,
-      situacaoId: "A1B44600-EA61-4F99-BD68-772316505491",
+      situacaoId: "800CB32E-7B2D-4A19-AFAE-AE8A8AB19200",
       // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
     });
     await api
@@ -79,12 +79,12 @@ export const ConfirmAppointmentModal = ({
         ...agendamento,
         pacienteId: profilePacient.user,
         //senai
-        situacaoId: "A1B44600-EA61-4F99-BD68-772316505491",
+        situacaoId: "800CB32E-7B2D-4A19-AFAE-AE8A8AB19200",
         //casa
         // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
       })
-      .then(async () => {
-        await setShowModal(false);
+      .then(() => {
+        setShowModal(false);
         navigation.replace("Main");
       })
       .catch((error) => {
@@ -107,7 +107,8 @@ export const ConfirmAppointmentModal = ({
               <LabelDescription>Data da consulta</LabelDescription>
 
               <DescripritionModalSmall
-                text={moment(agendamento.data).format("DD/MM/YYYY  HH:mm")}
+                // text={moment(agendamento.dataConsulta).format("DD/MM/YYYY  HH:mm")}
+                text={agendamento.dataConsulta}
               />
 
               <LabelDescription>Médico(a) da consulta</LabelDescription>

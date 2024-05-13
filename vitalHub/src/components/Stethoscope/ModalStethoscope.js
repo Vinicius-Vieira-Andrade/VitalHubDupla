@@ -61,6 +61,8 @@ export const ModalStethoscope = ({
     navigation.replace("SelectClinic", { agendamento: agendamento }); // passando os dados de agendamento para a proxima tela
   }
 
+  console.log();
+
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <StethoscopeModal>
