@@ -35,6 +35,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { endEvent } from "react-native/Libraries/Performance/Systrace";
+import { useEffect } from "react";
 
 export const Card = ({
   url,
@@ -113,6 +114,11 @@ export const Card = ({
 };
 
 export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedico}) => {
+  
+  useEffect(() => {
+    console.log("doctor");
+    console.log(doctor);
+  }, [doctor])
   return (
     <CardContainerClinic
       isSelected={selectedCardId == doctor.id ? true : false} //se o id do medico bater com o id passado ao clicar no card do medico, retorna true, se n false
@@ -120,6 +126,7 @@ export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedic
       onPress={() => {
         setMedico({
           medicoId: doctor.id,
+          medicoClinicaId: doctor.medicoClinicaId,
           medicoLabel: doctor.idNavigation.nome,
           especialidade: doctor.especialidade.especialidade1
         })
@@ -127,7 +134,7 @@ export const CardSelectDoctor = ({ doctor, selectedCardId, onCardPress, setMedic
       }}
     >
       <BoxCardDoctor>
-        <ImageCard source={require("../../assets/ImageCard.png")} />
+        <ImageCard source={{uri: doctor.idNavigation.foto}} />
 
         <BoxCard>
           <BoxTextDoctorCard>

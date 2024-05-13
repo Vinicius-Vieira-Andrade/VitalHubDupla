@@ -10,41 +10,73 @@ import { Title } from "../../components/Title/StyleTitle";
 import { LogoCreateAccount } from "../../components/Images/StyleImages";
 import { useState } from "react";
 import api from "../../services/Services";
+import * as yup from "yup";
 
 export const CreateAccount = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [nome, setNome] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [user, setUser] = useState({
+    //id do tipo usuario paciente cadastrado no banco
+    idTipoUsuario: "97E4A35A-5CFD-4AC3-AEC0-BC240DA1E392",
+    nome: "",
+    email: "",
+    senha: "",
+  });
 
-  const [tipoUser, setTipoUser] = useState(
-    "AAEB024B-C861-41B3-8603-878F3C70A241"
-  );
+  //senai
+  // const [tipoUser, setTipoUser] = useState(
+  //   "AAEB024B-C861-41B3-8603-878F3C70A241"
+  // );
+  //casa
+  // const [tipoUser, setTipoUser] = useState(
+  //   "97E4A35A-5CFD-4AC3-AEC0-BC240DA1E392"
+  // );
+
+  const schema = yup.object().shape({
+    senha: yup
+      .string()
+      .min(6, "A senha deve ter no mínimo 6 caracteres")
+      .required("A senha é obrigatória"),
+    confirmPass: yup
+      .string()
+      .oneOf([yup.ref("senha"), null], "As senhas devem coincidir")
+      .required("A confirmação de senha é obrigatória"),
+  });
 
   async function Cadastrar() {
+    console.log(user);
+
+    var form = new FormData();
+    form.append("idTipoUsuario", user.idTipoUsuario);
+    form.append("nome", user.nome);
+    form.append("email", user.email);
+    form.append("senha", user.senha);
+    // form.append("dataNascimento", user.dataNascimento);
+    // form.append("rg", user.rg);
+    // form.append("cpf", user.cpf);
+
+    await schema.validate(
+      { senha: user.senha, confirmPass },
+      { abortEarly: false }
+    );
+    // await schema.validate({ senha: user.senha }, { abortEarly: false });
+
     await api
-      .post(
-        `/Pacientes`,
-        {
-          email: email,
-          senha: senha,
-          nome: nome,
-          idTipoUsuario: tipoUser,
+      .post("/Pacientes", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      })
       .then((response) => {
-        console.log(response.data);
-        alert("cadastrado com sucesso!");
+        console.log("Sucesso!");
+        console.log(response);
         navigation.replace("Login");
       })
-      .catch((error) => {
-        console.log("error no post:", error);
-      });
+      .catch((error) => console.log("Erro de validação", error));
+    Alert.alert(
+      "Erro de Cadastro",
+      "Por favor, verifique os campos e tente novamente.",
+      [{ text: "OK" }]
+    );
   }
 
   return (
@@ -68,23 +100,22 @@ export const CreateAccount = ({ navigation }) => {
       <Input
         placeholder={"Nome"}
         placeholderTextColor={"#49B3BA"}
-        onChangeText={(txt) => setNome(txt)}
-        fieldValue={nome}
+        onChangeText={(txt) => setUser({ ...user, nome: txt })}
       />
 
       <Input
         placeholder={"Usuário ou E-mail"}
         placeholderTextColor={"#49B3BA"}
-        onChangeText={(txt) => setEmail(txt)}
-        fieldValue={email}
+        onChangeText={(txt) => setUser({ ...user, email: txt })}
       />
+
       <Input
         placeholder={"Senha"}
         placeholderTextColor={"#49B3BA"}
         secureTextEntry={true}
-        onChangeText={(txt) => setSenha(txt)}
-        fieldValue={senha}
+        onChangeText={(txt) => setUser({ ...user, senha: txt })}
       />
+
       <Input
         placeholder={"Confirmar senha"}
         placeholderTextColor={"#49B3BA"}
@@ -92,17 +123,22 @@ export const CreateAccount = ({ navigation }) => {
         onChangeText={(txt) => {
           setConfirmPass(txt);
         }}
-        fieldValue={confirmPass}
       />
 
       <ButtonNormal
         onPress={() => {
-          senha === confirmPass && senha !== null && confirmPass !== null
-            ? Cadastrar()
-            : Alert.alert(
-                "Erro de Autenticação!",
-                "As senha não coincidem. Por favor, verifique-as e tente novamente."
-              );
+          if (
+            user.senha === confirmPass &&
+            user.senha !== null &&
+            confirmPass !== null
+          ) {
+            Cadastrar();
+          } else {
+            Alert.alert(
+              "Erro de Autenticação!",
+              "As senhas não coincidem. Por favor, verifique-as e tente novamente."
+            );
+          }
         }}
         text={"Cadastrar"}
       />

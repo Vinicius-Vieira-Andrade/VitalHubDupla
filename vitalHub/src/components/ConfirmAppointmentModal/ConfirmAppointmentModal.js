@@ -39,38 +39,52 @@ export const ConfirmAppointmentModal = ({
   setShowModal = null,
   ...rest
 }) => {
-
   const [profilePacient, setProfilePacient] = useState(null);
 
   async function loadProfilePatient() {
-    const token = userDecodeToken();
+    const token = await userDecodeToken();
     setProfilePacient(token);
   }
 
-
   useEffect(() => {
+    console.log("paciente");
     console.log(profilePacient);
-  })
+  }, [profilePacient]);
 
   useEffect(() => {
+    console.log("metodo do token");
     loadProfilePatient();
-  }, [])
+  }, []);
+
+
+
+
+
+  //continuando logica
+
+
+
+
+  
 
   async function handleConfirmSchedule() {
     console.log({
       ...agendamento,
       pacienteId: profilePacient.user,
       situacaoId: "A1B44600-EA61-4F99-BD68-772316505491",
+      // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
     });
     await api
       .post(`/Consultas/Cadastrar`, {
         ...agendamento,
         pacienteId: profilePacient.user,
+        //senai
         situacaoId: "A1B44600-EA61-4F99-BD68-772316505491",
+        //casa
+        // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
       })
       .then(async () => {
         await setShowModal(false);
-
         navigation.replace("Main");
       })
       .catch((error) => {
@@ -93,7 +107,7 @@ export const ConfirmAppointmentModal = ({
               <LabelDescription>Data da consulta</LabelDescription>
 
               <DescripritionModalSmall
-                 text={moment(agendamento.data).format("DD/MM/YYYY  HH:mm")}
+                text={moment(agendamento.data).format("DD/MM/YYYY  HH:mm")}
               />
 
               <LabelDescription>Médico(a) da consulta</LabelDescription>

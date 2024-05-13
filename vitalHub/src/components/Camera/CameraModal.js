@@ -39,7 +39,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
    const [openVideoModal, setOpenVideoModal] = useState( false )
  
    // CAMERA FRONTAL
-   const [tipoCamera, setTipoCamera] = useState( CameraType.front )
+   const [tipoCamera, setTipoCamera] = useState( 'front' )
  
    const [cameraKey, setCameraKey] = useState(0);
 
@@ -47,7 +47,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
 
    // FLASH DA CAMERA
    // FUNCIONA AO CAPTURAR A FOTO
-   const [ flash, setFlash ] = useState( FlashMode.off )
+    const [ flash, setFlash ] = useState( 'off' )
 
  
    // RECARREGAR AUTO FOCUS
@@ -58,10 +58,10 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
  
    function FlashCamera() {
      if ( flash === FlashMode.off ) {
-       setFlash( FlashMode.on );
+       setFlash('on');
        alert("Flash On");
      } else {
-       setFlash( FlashMode.off );
+       setFlash( 'off' );
        alert("Flash Off");
      }
    }
@@ -214,7 +214,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
   
   <TouchableOpacity style={ styles.btnFlip} 
   // TROCA A DIREÇÃO DA CAMERA DE FRONTAL PRA TRASEIRA
-  onPress={ () => setTipoCamera( tipoCamera == CameraType.front ? CameraType.back : CameraType.front)}> 
+  onPress={ () => setTipoCamera( tipoCamera === 'front' ? 'back' : 'front')}> 
     <Text style={ styles.txtFlip }>Trocar</Text>
   </TouchableOpacity>
 

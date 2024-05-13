@@ -26,7 +26,7 @@ export const SelectDate = ({ navigation, route }) => {
   async function handleContinue() {
     setAgendamento({
       ...route.params.agendamento,
-      data: `${dataSelecionada} ${horaSelecionada}`,
+      dataConsulta: `${dataSelecionada} ${horaSelecionada}`,
     });
     setShowModal(true);
   }

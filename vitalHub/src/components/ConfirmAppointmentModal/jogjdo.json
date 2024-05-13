@@ -1,0 +1,50 @@
+{
+    "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+    "clinicaLabel": "Hospital Beneficencia Portuguesa",
+    "data": "2024-05-13 24",
+    "especialidade": "Cardiologista",
+    "localizacao": "Sao paulo",
+    "medicoId": "4f57e587-df9b-41e0-ba86-8cc8588435ca",
+    "medicoLabel": "matheus",
+    "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+    "prioridadeId": "93D3C848-0005-411A-96F2-782C3CC5FAC1",
+    "prioridadeLabel": "Exame",
+    "situacaoId": "4D314E66-7334-4F41-B99D-846A6BF8F7F9"
+}
+
+
+doctor log
+{
+    "crm": "029345",
+    "especialidade": {
+        "especialidade1": "Cardiologista",
+        "id": "b0cf5a49-d0fc-4245-8403-245e4592b62a",
+        "medicos": []
+    },
+    "id": "4f57e587-df9b-41e0-ba86-8cc8588435ca",
+    "idNavigation": {
+        "email": "matheus@gmail.com",
+        "foto": "https://vitahubg10.blob.core.windows.net/images-vitalhub/c06fff1d38184790b19ffa2d1176ac50.jpg",
+        "id": "46099739-d501-4721-863e-d091ba64d78f",
+        "nome": "matheus"
+    },
+    "medicosClinicas": []
+}
+
+
+{
+    "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+    "clinicaLabel": "Hospital Beneficencia Portuguesa",
+    "dataConsulta": "2024-05-23 6",
+    "especialidade": "Urologista",
+    "localizacao": "Sao paulo",
+    "medicoClinicaId": undefined,
+    "medicoId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+    "medicoLabel": "Lucas",
+    "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+    "prioridadeId": "93D3C848-0005-411A-96F2-782C3CC5FAC1",
+    "prioridadeLabel": "Exame",
+    "situacaoId": "4D314E66-7334-4F41-B99D-846A6BF8F7F9"
+}
+ LOG  [AxiosError: Request failed with status code 400
+]

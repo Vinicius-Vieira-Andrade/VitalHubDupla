@@ -46,25 +46,14 @@ export const PatientConsultation = ({ navigation }) => {
   const [docPhoto, setDocPhoto] = useState();
   const [scheduleUser, setScheduleUser] = useState([]);
 
-  async function GetScheduleById() {
-    await api
-      .get(`/Consultas/BuscarPorId?id=c55266df-9f14-4585-9dc4-51240d832ca0`)
-      .then((response) => {
-        setSchedule({ ...user, user: response.data });
-        console.log("ById foiiiiii");
-        console.log(schedule);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  // talvez n seja necessario esse metodo
-  // async function GetPatientById(idUser) {
-  //   const response = await api
-  //     .get(`/Pacientes/BuscarPorId?id=${idUser.id}`)
-  //     .then(response => {
-  //       setDocPhoto(response.data);
+  // async function GetScheduleById() {
+  //   await api
+  //     .get(`/Consultas/BuscarPorId?id=${schedule.id}`)
+  //     .then((response) => {
+  //       setSchedule(...schedule, response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
   //     });
   // }
 
@@ -73,6 +62,7 @@ export const PatientConsultation = ({ navigation }) => {
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
         setSchedule(response.data);
+        setScheduleUser(response.data.medicoClinica.medico);
       })
       .catch((error) => {
         console.log(error);
@@ -117,40 +107,35 @@ export const PatientConsultation = ({ navigation }) => {
   }, [dataConsulta]);
 
   useEffect(() => {
-    console.log("user?");
-    console.log(user);
-  }, [user]);
-
-  useEffect(() => {
-    console.log("Poto?");
-    console.log(photo);
-  }, [photo]);
-
-  useEffect(() => {
     GetUser();
   }, []);
 
+  // useEffect(() => {
+  //   console.log("user?");
+  //   console.log(user);
+  // }, [user]);
+
+  // useEffect(() => {
+  //   console.log("Poto?");
+  //   console.log(photo);
+  // }, [photo]);
+
   useEffect(() => {
-    if (schedule != null) {
-      console.log("SCHEDULE");
-      console.log(schedule);
+    if (schedule) {
+      console.log("logui");
+      console.log(schedule[0]);
     }
   }, [schedule]);
 
   useEffect(() => {
-    if (schedule != null) {
-      GetScheduleById();
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log("scheduleUser");
+    console.log("PORAAAAAAAAAAAAAAAA");
     console.log(scheduleUser);
   }, [scheduleUser]);
 
-  useEffect(() => {
-    console.log(schedule.id);
-  }, [schedule]);
+  // useEffect(() => {
+  //   console.log("SCHEDULE");
+  //   console.log(schedule);
+  // }, [schedule]);
 
   return (
     <Container>
