@@ -47,7 +47,7 @@ export const PatientProfile = ({ navigation }) => {
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [role, setRole] = useState();
 
-  //funcao q guarda e carrega os dados trazidos da api
+  //funcao q guarda e carrega os dados trazidos da apii
   async function profileLoad() {
     const token = await userDecodeToken();
 
