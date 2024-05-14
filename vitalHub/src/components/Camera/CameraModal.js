@@ -10,7 +10,7 @@
 
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // REACT NATIVE
 
-import { Camera, CameraType, FlashMode} from 'expo-camera'; // EXPO CAMERA
+import { CameraView, useCameraPermissions } from 'expo-camera'; // EXPO CAMERA
 
 import * as MediaLibrary from 'expo-media-library' // MEDIA LIBRARY
 
@@ -48,6 +48,8 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
    // FLASH DA CAMERA
    // FUNCIONA AO CAPTURAR A FOTO
     const [ flash, setFlash ] = useState( 'off' )
+
+    const [permission, requestPermission] = useCameraPermissions();
 
  
    // RECARREGAR AUTO FOCUS
@@ -102,10 +104,13 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
    useEffect(() => {
      (async () => {
        // PERMIÇÃO USO DE CAMERA
-       const { status : cameraStatus } = await Camera.requestCameraPermissionsAsync()
+      //  const { status : cameraStatus } = await Camera.requestCameraPermissionsAsync()
+      if (permission && !permission.granted) {
+        await requestPermission()
+      }
  
        // PERMISSÃO DE GRAVAR ÁUDIO
-       const { status : microphoneStatus } = await Camera.requestMicrophonePermissionsAsync()
+      //  const { status : microphoneStatus } = await Camera.requestMicrophonePermissionsAsync()
 
        // PERMISSÃO DE ARMAZENAR FOTO
        const { status : mediaStatus } = await MediaLibrary.requestPermissionsAsync()
@@ -202,13 +207,13 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
         <View style={styles.container}>
 
 {/* CAMERA */}
-<Camera
+<CameraView
   key={cameraKey}
   ref={cameraRef}
   style={ styles.camera}
   ratio='16:9'
-  type={tipoCamera}
-  flashMode={flash}
+  facing={tipoCamera}
+  flash={flash}
 >
   <View style={ styles.viewFlip}/>
   
@@ -230,7 +235,7 @@ export const CameraModal = ({navigation, visible, setUriCameraCapture, setShowMo
 </LastTouchable>
 
   
-</Camera>
+</CameraView>
 
 {/* BOTÃO DE AUTO FOCUS */}
 <TouchableOpacity style={ styles.reloadIcon} onPress={ () => reloadAutoFocus() }>

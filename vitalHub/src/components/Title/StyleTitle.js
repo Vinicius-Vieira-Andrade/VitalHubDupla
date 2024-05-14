@@ -31,7 +31,7 @@ export const TitleProfile = styled(Title)`
 export const TitleName = styled.Text`
     font-family: MontserratAlternates_600SemiBold;
     align-self: flex-start;
-    font-size: 16px;
+    font-size: 13px;
     color: #FBFBFB;
 `
 

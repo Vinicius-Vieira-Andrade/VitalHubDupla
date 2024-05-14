@@ -58,46 +58,46 @@ export const PatientProfile = ({ navigation }) => {
     }
   }
 
-  // async function PutPaciente() {
-  //   console.log({
-  //     dataNascimento: datanascimento,
-  //     cpf: cpf,
-  //     logradouro,
-  //     cep,
-  //     cidade,
-  //   });
-  //   console.log(user.option.especialidade);
-  //   await api
-  //     .put(`/Pacientes?idUsuario=${user.option.id}`, {
-  //       dataNascimento: datanascimento,
-  //       cpf: cpf,
-  //       logradouro,
-  //       cep,
-  //       cidade,
-  //     })
-  //     .then((response) => {
-  //       alert("Alterações salvas com sucesso!!");
-  //       GetUser();
-  //       setEdit(false);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
+  async function PutPaciente() {
+    console.log({
+      dataNascimento: datanascimento,
+      cpf: cpf,
+      logradouro,
+      cep,
+      cidade,
+    });
+    console.log(user.option.especialidade);
+    await api
+      .put(`/Pacientes?idUsuario=${user.option.id}`, {
+        dataNascimento: datanascimento,
+        cpf: cpf,
+        logradouro,
+        cep,
+        cidade,
+      })
+      .then((response) => {
+        alert("Alterações salvas com sucesso!!");
+        GetUser();
+        setEdit(false);
+      })
+      .catch((error) => console.log(error));
+  }
 
-  // async function PutMedico() {
-  //   await api
-  //     .put(`/Medicos`, {
-  //       crm: crm,
-  //       logradouro,
-  //       cidade,
-  //       cep,
-  //     })
-  //     .then((response) => {
-  //       alert("Alterações salvas com sucesso!!");
-  //       GetUser();
-  //       setEdit(false);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
+  async function PutMedico() {
+    await api
+      .put(`/Medicos`, {
+        crm: crm,
+        logradouro,
+        cidade,
+        cep,
+      })
+      .then((response) => {
+        alert("Alterações salvas com sucesso!!");
+        GetUser();
+        setEdit(false);
+      })
+      .catch((error) => console.log(error));
+  }
 
   async function GetUser() {
     try {
@@ -163,7 +163,7 @@ export const PatientProfile = ({ navigation }) => {
     });
 
     await api
-      .put(`/Usuario/AlterarFotoPerfil?id=${user.id}`, formData, {
+      .put(`/Usuario/AlterarFotoPerfil?id=${user.option.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -174,44 +174,45 @@ export const PatientProfile = ({ navigation }) => {
           ...user,
           foto: uriCameraCapture,
         });
+        GetUser()
       })
       .catch((error) => {
         console.log(error, "Não funcionou!");
       });
   }
 
-  async function PutProfile() {
-    {
-      role.role === "paciente"
-        ? await api
-            .put(`/Pacientes?idUsuario=${user.option.id}`, {
-              dataNascimento: datanascimento,
-              cpf: cpf,
-              logradouro,
-              cep,
-              cidade,
-            })
-            .then((response) => {
-              alert("Alterações salvas com sucesso!!");
-              GetUser();
-              setEdit(false);
-            })
-            .catch((error) => console.log(error))
-        : await api
-            .put(`/Medicos`, {
-              crm: crm,
-              logradouro,
-              cidade,
-              cep,
-            })
-            .then((response) => {
-              alert("Alterações salvas com sucesso!!");
-              GetUser();
-              setEdit(false);
-            })
-            .catch((error) => console.log(error));
-    }
-  }
+  // async function PutProfile() {
+  //   {
+  //     role.role === "paciente"
+  //       ? await api
+  //           .put(`/Pacientes?idUsuario=${user.option.id}`, {
+  //             dataNascimento: datanascimento,
+  //             cpf: cpf,
+  //             logradouro,
+  //             cep,
+  //             cidade,
+  //           })
+  //           .then((response) => {
+  //             alert("Alterações salvas com sucesso!!");
+  //             GetUser();
+  //             setEdit(false);
+  //           })
+  //           .catch((error) => console.log(error))
+  //       : await api
+  //           .put(`/Medicos`, {
+  //             crm: crm,
+  //             logradouro,
+  //             cidade,
+  //             cep,
+  //           })
+  //           .then((response) => {
+  //             alert("Alterações salvas com sucesso!!");
+  //             GetUser();
+  //             setEdit(false);
+  //           })
+  //           .catch((error) => console.log(error));
+  //   }
+  // }
 
   useEffect(() => {
     if (uriCameraCapture !== null) {
@@ -273,12 +274,16 @@ export const PatientProfile = ({ navigation }) => {
                 placeholder={
                   role.role == "medico"
                     ? user.option.especialidade.especialidade1
-                    : moment(user.option.dataNascimento).format("DD/MM/YYYY")
+                    : user.option.dataNascimento != null
+                    ? moment(user.option.dataNascimento).format("DD/MM/YYYY")
+                    : ""
                 }
                 fieldValue={
                   role.role == "medico"
                     ? user.option.especialidade.especialidade1
-                    : moment(user.option.dataNascimento).format("DD/MM/YYYY")
+                    : user.option.dataNascimento != null
+                    ? moment(user.option.dataNascimento).format("DD/MM/YYYY")
+                    : ""
                 }
                 keyboardType={role.role === "medico" ? "default" : "numeric"}
                 editable={false}
@@ -442,7 +447,9 @@ export const PatientProfile = ({ navigation }) => {
           <ButtonLarge
             text={"Salvar"}
             onPress={() => {
-              PutProfile();
+              {
+                role.role === "medico" ? PutMedico() : PutPaciente();
+              }
             }}
           />
 

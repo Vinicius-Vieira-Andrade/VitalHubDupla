@@ -94,7 +94,7 @@ export const Card = ({
     <CardContainer onPress={onPressAppointmentCard}>
       <BoxCard>
         {/* esse erro na uri que deu pal aaaaaaaaa pra n aparecer a imagem nos cards */}
-        <ImageCard source={{ uri: url }} /> 
+        <ImageCard source={{ uri: url }} />
 
         <BoxTextCard>
           <NameCard>{name}</NameCard>
