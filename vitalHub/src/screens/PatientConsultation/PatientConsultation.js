@@ -164,7 +164,7 @@ export const PatientConsultation = ({ navigation }) => {
           item.situacao.situacao == consultaState && (
             <Card
               navigation={navigation}
-              hour={"14:00"}
+              hour={moment(item.dataConsulta).format('HH:mm')}
               name={item.medicoClinica.medico.idNavigation.nome}
               age={item.medicoClinica.medico.crm}
               routine={item.situacao.situacao}
