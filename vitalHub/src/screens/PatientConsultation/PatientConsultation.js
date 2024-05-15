@@ -30,6 +30,7 @@ export const PatientConsultation = ({ navigation }) => {
   const [user, setUser] = useState({});
   const [ConsultaSelecionada, setConsultaSelecionada] = useState(null);
   const [dataConsulta, setDataConsulta] = useState("");
+  const [consultId, setConsultId] = useState();
 
   const [consultaState, setConsultaState] = useState("Agendadas");
 
@@ -62,10 +63,28 @@ export const PatientConsultation = ({ navigation }) => {
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
       .then((response) => {
         setSchedule(response.data);
-        setScheduleUser(response.data.medicoClinica.medico);
-      })
-      .catch((error) => {
-        console.log(error);
+        // setScheduleUser(response.data.medicoClinica.medico);
+
+        // Muda o status da consulta para 'realizada', se a data já tiver passado
+        response.data
+          .forEach((consult) => {
+            const currentHourDate = new Date();
+            const currentHourDateFormated = currentHourDate.toISOString();
+
+            if (consult.situacaoId != "B95A1627-D4A6-4B23-A7F2-898A4103FE5E") {
+              if (consult.dataConsulta < currentHourDateFormated) {
+                api
+                  .put(`/Consultas/Status`, {
+                    id: consult.id,
+                    situacaoId: "B95A1627-D4A6-4B23-A7F2-898A4103FE5E",
+                  })
+                  .catch((error) => console.log(error));
+              }
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
   }
 
@@ -109,7 +128,6 @@ export const PatientConsultation = ({ navigation }) => {
   useEffect(() => {
     GetUser();
   }, []);
-
 
   return (
     <Container>
@@ -164,13 +182,16 @@ export const PatientConsultation = ({ navigation }) => {
           item.situacao.situacao == consultaState && (
             <Card
               navigation={navigation}
-              hour={moment(item.dataConsulta).format('HH:mm')}
+              hour={moment(item.dataConsulta).format("HH:mm")}
               name={item.medicoClinica.medico.idNavigation.nome}
               age={item.medicoClinica.medico.crm}
               routine={item.situacao.situacao}
               url={item.medicoClinica.medico.idNavigation.foto}
               status={consultaState}
-              onPressCancel={() => setShowModalCancel(true)}
+              onPressCancel={() => {
+                setShowModalCancel(true);
+                setConsultId(item.id);
+              }}
               onPressAppointment={() => {
                 setConsultaSelecionada(item.medicoClinica);
                 navigation.navigate("ViewPrescription", {
@@ -200,6 +221,7 @@ export const PatientConsultation = ({ navigation }) => {
       <CancellationModal
         visible={showModalCancel}
         setShowModalCancel={setShowModalCancel}
+        consultId={consultId}
       />
 
       <ModalStethoscope

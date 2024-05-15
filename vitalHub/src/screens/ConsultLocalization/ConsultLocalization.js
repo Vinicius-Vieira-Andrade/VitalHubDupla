@@ -1,4 +1,5 @@
-import { useState, useEffect, ActivityIndicator } from "react";
+import { useState, useEffect } from "react";
+import { ActivityIndicator } from "react-native";
 import {
   Container,
   ContainerCepCidade,

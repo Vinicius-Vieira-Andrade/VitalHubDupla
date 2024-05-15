@@ -1,51 +1,51 @@
-import { StatusBar } from "react-native"
-import { ButtonNormal } from "../../components/Button/Button"
-import { Container } from "../../components/Container/StyleContainer"
-import { DescriptionPassword } from "../../components/Descriptions/Descriptions"
-import { Input } from "../../components/Input/Input"
-import { Logo, Seta } from "../../components/Images/StyleImages"
-import { Title } from "../../components/Title/StyleTitle"
-import { useState } from "react"
+import { StatusBar } from "react-native";
+import { ButtonNormal } from "../../components/Button/Button";
+import { Container } from "../../components/Container/StyleContainer";
+import { DescriptionPassword } from "../../components/Descriptions/Descriptions";
+import { Input } from "../../components/Input/Input";
+import { Logo, Seta } from "../../components/Images/StyleImages";
+import { Title } from "../../components/Title/StyleTitle";
+import { useState } from "react";
 
-import api from '../../services/Services'
+import api from "../../services/Services";
 
 export const ForgotPassword = ({ navigation }) => {
-    const [email, setEmail] = useState('')
+  const [email, setEmail] = useState("");
 
-    async function EnviarEmail() {
-        await api.post(`/RecuperarSenha?email=${email}`)
-        .then(() => {
-            navigation.replace("CheckEmail", { "emailRecuperacao" : email })
-        }).catch(error => {
-            console.log(error)
-        })
-    }
-    
-    return (
+  async function EnviarEmail() {
+    await api
+      .post(`/RecuperarSenha?email=${email}`)
+      .then(() => {
+        navigation.replace("CheckEmail", { emailRecuperacao: email });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-        <Container>
+  return (
+    <Container>
+      {/* <Seta source={require('../../assets/Seta.png')} /> */}
 
-            {/* <Seta source={require('../../assets/Seta.png')} /> */}
+      <Logo source={require("../../assets/VitalHub_Logo1.png")} />
 
-            <Logo source={require('../../assets/VitalHub_Logo1.png')} />
+      <Title>Recuperar senha</Title>
 
-            <Title>Recuperar senha</Title>
+      <DescriptionPassword
+        description={
+          "Digite abaixo seu email cadastrado que enviaremos um link para recuperação de senha"
+        }
+      />
 
-            <DescriptionPassword description={"Digite abaixo seu email cadastrado que enviaremos um link para recuperação de senha"} />
+      <Input
+        placeholder={"Usuário ou E-mail"}
+        placeholderTextColor={"#49B3BA"}
+        // Acho que está certo
+        value={email}
+        onChangeText={(txt) => setEmail(txt)}
+      />
 
-            <Input
-                placeholder={"Usuário ou E-mail"}
-                placeholderTextColor={'#49B3BA'}
-                // Acho que está certo
-                value={email}
-                onChangeText={(txt) => setEmail(txt)}
-            />
-
-            <ButtonNormal text={"Continuar"} onPress={() => EnviarEmail()} />
-
-
-        </Container>
-
-    )
-
-}
+      <ButtonNormal text={"Continuar"} onPress={() => EnviarEmail()} />
+    </Container>
+  );
+};

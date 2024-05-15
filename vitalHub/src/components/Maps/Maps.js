@@ -1,46 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useState, useRef } from 'react';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import { StatusBar } from "expo-status-bar";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState, useRef } from "react";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import {
   requestForegroundPermissionsAsync, //solicitar a permissão de localização
-
   getCurrentPositionAsync, //Captura a localização atual
-
   watchPositionAsync, //Captura em tempos a localização
+  LocationAccuracy, //Precisão da captura
+} from "expo-location";
 
-  LocationAccuracy //Precisão da captura
+import { useColorScheme } from "react-native";
 
-} from 'expo-location'
+import MapViewDirections from "react-native-maps-directions";
 
+import { mapsKey } from "../../utils/MapsKey";
 
-import { useColorScheme } from 'react-native';
-
-
-import MapViewDirections from 'react-native-maps-directions';
-
-
-import { mapsKey } from '../../utils/MapsKey';
-
-
-export default function Maps({latitude, longitude}) {
-
+export default function Maps({ latitude, longitude }) {
   const colorScheme = useColorScheme();
 
   const mapReference = useRef(null);
   const [initialPosition, setInitialPosition] = useState(null);
   const [finalPosition, setFinalPosition] = useState({
-    latitude,
-    longitude,
-  })
+    latitude: latitude,
+    longitude: longitude,
+  });
 
   async function CapturarLocalizacao() {
-    const { granted } = await requestForegroundPermissionsAsync()
+    const { granted } = await requestForegroundPermissionsAsync();
 
     if (granted) {
-      const currentPosition = await getCurrentPositionAsync()
+      const currentPosition = await getCurrentPositionAsync();
 
-      setInitialPosition(currentPosition)
+      setInitialPosition(currentPosition);
 
       console.log(initialPosition);
     }
@@ -50,20 +41,25 @@ export default function Maps({latitude, longitude}) {
     if (mapReference.current && initialPosition) {
       await mapReference.current.fitToCoordinates(
         [
-          { latitude: initialPosition.coords.latitude, longitude: initialPosition.coords.longitude },
-          { latitude: finalPosition.latitude, longitude: finalPosition.longitude }
+          {
+            latitude: initialPosition.coords.latitude,
+            longitude: initialPosition.coords.longitude,
+          },
+          {
+            latitude: finalPosition.latitude,
+            longitude: finalPosition.longitude,
+          },
         ],
         {
           edgePadding: { top: 60, right: 60, bottom: 60, left: 60 },
-          animated: true
+          animated: true,
         }
-      )
+      );
     }
   }
 
   useEffect(() => {
-
-    CapturarLocalizacao()
+    CapturarLocalizacao();
 
     // //Capturar local em tempo real
     // watchPositionAsync({
@@ -81,77 +77,67 @@ export default function Maps({latitude, longitude}) {
     //     center : response.coords
     //   })
     // })
-
-  }, [100000])
+  }, [100000]);
 
   useEffect(() => {
-    RecarregarVizualizacaoMapa()
-  }, [initialPosition])
+    RecarregarVizualizacaoMapa();
+  }, [initialPosition]);
 
   return (
     <View style={styles.container}>
+      {initialPosition != null ? (
+        <MapView
+          ref={mapReference}
+          initialRegion={{
+            latitude: initialPosition.coords.latitude,
+            longitude: initialPosition.coords.longitude,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+          }}
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          customMapStyle={colorScheme === "dark" ? grayMapStyle : whiteMapStyle}
+        >
+          <Marker
+            coordinate={{
+              latitude: initialPosition.coords.latitude,
+              longitude: initialPosition.coords.longitude,
+            }}
+            title="Exemplo de  outro local"
+            description="Qualquer lugar no meu mapa"
+            pinColor="#77CACF"
+          />
 
-      {
-        initialPosition != null
-          ? (
-            <MapView
-              ref={mapReference}
-              initialRegion={{
-                latitude: initialPosition.coords.latitude,
-                longitude: initialPosition.coords.longitude,
-                latitudeDelta: 0.001,
-                longitudeDelta: 0.001
-              }}
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              customMapStyle={colorScheme === 'dark' ? grayMapStyle : whiteMapStyle}
-            >
+          <MapViewDirections
+            origin={initialPosition.coords}
+            destination={{
+              latitude: finalPosition.latitude,
+              longitude: finalPosition.longitude,
+              latitudeDelta: 0.001,
+              longitudeDelta: 0.001,
+            }}
+            apikey={mapsKey}
+            strokeWidth={5}
+            strokeColor="#49B3BA"
+          />
 
-              <Marker
-                coordinate={{
-                  latitude: initialPosition.coords.latitude,
-                  longitude: initialPosition.coords.longitude
-                }}
-                title='Exemplo de  outro local'
-                description='Qualquer lugar no meu mapa'
-                pinColor='#77CACF'
-              />
+          <Marker
+            coordinate={{
+              latitude: finalPosition.latitude,
+              longitude: finalPosition.longitude,
+            }}
+            title="Exemplo de  outro local"
+            description="Qualquer lugar no meu mapa"
+            pinColor="hotpink"
+          />
+        </MapView>
+      ) : (
+        <>
+          <Text>Carregando localização ! </Text>
 
-              <MapViewDirections
-                origin={initialPosition.coords}
-                destination={{
-                  latitude: finalPosition,
-                  longitude: finalPosition,
-                  latitudeDelta: 0.001,
-                  longitudeDelta: 0.001
-                }}
-                apikey={mapsKey}
-                strokeWidth={5}
-                strokeColor='#49B3BA'
-              />
-
-              <Marker
-                coordinate={{
-                  latitude: finalPosition.latitude,
-                  longitude: finalPosition.longitude
-                }}
-                title='Exemplo de  outro local'
-                description='Qualquer lugar no meu mapa'
-                pinColor='hotpink'
-              />
-
-            </MapView>
-          ) : (
-
-            <>
-              <Text>Carregando localização ! </Text>
-
-              <ActivityIndicator />
-
-            </>
-          )
-      }
-
+          <ActivityIndicator />
+        </>
+      )}
     </View>
   );
 }
@@ -159,15 +145,15 @@ export default function Maps({latitude, longitude}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%'
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
 
   map: {
     flex: 1,
-    width: '100%'
+    width: "100%",
   },
 });
 
@@ -391,229 +377,231 @@ const whiteMapStyle = [
         color: "#fbfbfb",
       },
     ],
-  },]
+  },
+];
 
-  const grayMapStyle = [
-    {
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#E1E0E7",
-        },
-      ],
-    },
-    {
-      elementType: "geometry.fill",
-      stylers: [
-        {
-          saturation: -5,
-        },
-        {
-          lightness: -5,
-        },
-      ],
-    },
-    {
-      elementType: "labels.icon",
-      stylers: [
-        {
-          visibility: "on",
-        },
-      ],
-    },
-    {
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#FBFBFB",
-        },
-      ],
-    },
-    {
-      elementType: "labels.text.stroke",
-      stylers: [
-        {
-          color: "#33303E",
-        },
-      ],
-    },
-    {
-      featureType: "administrative",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "administrative.country",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "administrative.land_parcel",
-      stylers: [
-        {
-          visibility: "on",
-        },
-      ],
-    },
-    {
-      featureType: "administrative.locality",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "poi",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "poi.business",
-      stylers: [
-        {
-          visibility: "on",
-        },
-      ],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#66DA9F",
-        },
-      ],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "labels.text",
-      stylers: [
-        {
-          visibility: "on",
-        },
-      ],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "poi.park",
-      elementType: "labels.text.stroke",
-      stylers: [
-        {
-          color: "#1B1B1B",
-        },
-      ],
-    },
-    {
-      featureType: "road",
-      stylers: [
-        {
-          visibility: "on",
-        },
-      ],
-    },
-    {
-      featureType: "road",
-      elementType: "geometry.fill",
-      stylers: [
-        {
-          color: "#C6C5CE",
-        },
-      ],
-    },
-    {
-      featureType: "road",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#FBFBFB",
-        },
-      ],
-    },
-    {
-      featureType: "road.arterial",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#ACABB7",
-        },
-      ],
-    },
-    {
-      featureType: "road.highway",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#8C8A97",
-        },
-      ],
-    },
-    {
-      featureType: "road.highway.controlled_access",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#8C8A97",
-        },
-      ],
-    },
-    {
-      featureType: "road.local",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "transit",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#8EA5D9",
-        },
-      ],
-    },
-    {
-      featureType: "water",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#fbfbfb",
-        },
-      ],
-    },]
+const grayMapStyle = [
+  {
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#E1E0E7",
+      },
+    ],
+  },
+  {
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        saturation: -5,
+      },
+      {
+        lightness: -5,
+      },
+    ],
+  },
+  {
+    elementType: "labels.icon",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#FBFBFB",
+      },
+    ],
+  },
+  {
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#33303E",
+      },
+    ],
+  },
+  {
+    featureType: "administrative",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.country",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.land_parcel",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.locality",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#66DA9F",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#1B1B1B",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#C6C5CE",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#FBFBFB",
+      },
+    ],
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#ACABB7",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#8C8A97",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway.controlled_access",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#8C8A97",
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#8EA5D9",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#fbfbfb",
+      },
+    ],
+  },
+];
 
 // const mapStyleDark = [
 //   {

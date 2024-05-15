@@ -39,7 +39,7 @@ export const PatientAppointmentModal = ({
         <PatientModal>
           <ModalContent>
             <ImageModalRecord
-              source={require("../../assets/CardRecordPatient(doctorImage).png")}
+              source={{uri : consulta.medico.idNavigation.foto}}
             />
 
             <TitleModalRecord>
@@ -49,7 +49,7 @@ export const PatientAppointmentModal = ({
             <BoxAgeEmailModal>
               <DescriptionModalRecord>{consulta.medico.especialidade.especialidade1}</DescriptionModalRecord>
               <DescriptionModalRecord>
-                {consulta.medico.crm}
+                CRM: {consulta.medico.crm}
               </DescriptionModalRecord>
             </BoxAgeEmailModal>
 
