@@ -73,6 +73,16 @@ export const DoctorConsultation = ({ navigation }) => {
       });
   }
 
+
+
+  async function ChangeStatusSchedule() {
+    await api.put(`/Consultas/Status?idConsulta=${consultaSelecionada.id}&status=${consultaSelecionada.situacao}`)
+    .then((response) => {
+      console.log(response.data)
+
+    })
+  }
+
   useEffect(() => {
     console.log("profileLoad");
     profileLoad();
@@ -177,7 +187,7 @@ export const DoctorConsultation = ({ navigation }) => {
               routine={item.situacao.situacao}
               url={item.paciente.idNavigation.foto}
               status={consultaState}
-              onPressCancel={() => setShowModalCancel(true)}
+              onPressCancel={() => {setShowModalCancel(true)}}
               onPressAppointment={() => {
                 setConsultaSelecionada(item);
                 setShowModalAppointment(true);

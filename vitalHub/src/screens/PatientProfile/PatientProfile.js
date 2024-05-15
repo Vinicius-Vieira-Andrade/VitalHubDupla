@@ -85,7 +85,7 @@ export const PatientProfile = ({ navigation }) => {
 
   async function PutMedico() {
     await api
-      .put(`/Medicos`, {
+      .put(`/Medicos?idUsuario=${user.option.id}`, {
         crm: crm,
         logradouro,
         cidade,

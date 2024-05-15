@@ -22,13 +22,18 @@ export const AppointmentModal = ({
 }) => {
   const [consultaAtt, setConsultaAtt] = useState();
 
+  useEffect(() => {
+    console.log("consulta");
+    console.log(consultaSelecionada);
+  }, [consultaSelecionada]);
+
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       {consultaSelecionada != null && (
         <PatientModal>
           <ModalContent>
             <ImageModalRecord
-              source={require("../../assets/ImageModalRecord.png")}
+              source={{ uri: consultaSelecionada.paciente.idNavigation.foto }}
             />
 
             <TitleModalRecord>
