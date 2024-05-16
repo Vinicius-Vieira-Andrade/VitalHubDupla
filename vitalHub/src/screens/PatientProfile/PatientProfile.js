@@ -28,6 +28,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ButtonCamera, ViewImageProfile } from "./style";
 import { ActivityIndicator, View } from "react-native";
 import { CameraModal } from "../../components/Camera/CameraModal";
+import { mask } from 'remask'
 
 import moment from "moment";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
@@ -46,6 +47,7 @@ export const PatientProfile = ({ navigation }) => {
   const [uriCameraCapture, setUriCameraCapture] = useState("");
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [role, setRole] = useState();
+  const born = '99/99/9999'
 
   //funcao q guarda e carrega os dados trazidos da apii
   async function profileLoad() {

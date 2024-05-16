@@ -16,16 +16,22 @@ export const CancellationModal = ({
   setShowModalCancel = null,
   ...rest
 }) => {
-  // Setta o status da consulta para "cancelado"
+  // Seta o status da consulta para "cancelado"
   async function cancelConsult() {
-    await api
-      .put(`/Consultas/Status`, {
-        id: consultId,
-        situacaoId: "82BF29CA-72B4-4AF0-8D0B-FC391DB60E95",
+    console.log(
+      `/Consultas/Status?idConsulta=${consultId}&status=Canceladas`
+    );
+     await api
+    //   .put(`/Consultas/Status`, {
+    //     idConsulta: consultId,
+    //     status: "Canceladas",
+    //   })
+      .put(`/Consultas/Status?idConsulta=${consultId}&status=Canceladas`)
+      .then((response) => {
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
-
 
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">

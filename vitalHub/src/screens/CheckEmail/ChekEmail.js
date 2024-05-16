@@ -38,11 +38,11 @@ export const CheckEmail = ({ navigation, route }) => {
 
   async function ValidarCodigo() {
     console.log(
-      `/RecuperarSenha/Confirmar Codigo?email=${route.params.emailRecuperacao}&codigo=${codigo}`
+      `/RecuperarSenha/ConfirmarCodigo?email=${route.params.emailRecuperacao}&codigo=${codigo}`
     );
     await api
       .post(
-        `/RecuperarSenha/CodePasswordValidate?email=${route.params.emailRecuperacao}&codigo=${codigo}`
+        `/RecuperarSenha/ConfirmarCodigo?email=${route.params.emailRecuperacao}&codigo=${codigo}`
       )
       .then(() => {
         navigation.replace("RedefinePassword", {

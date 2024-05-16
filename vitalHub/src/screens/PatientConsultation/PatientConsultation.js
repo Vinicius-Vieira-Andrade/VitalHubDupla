@@ -58,6 +58,50 @@ export const PatientConsultation = ({ navigation }) => {
   //     });
   // }
 
+
+
+  function isDateTimePassed(dateTime) {
+    // Convertendo a string de data/hora para um objeto Date
+    const timestamp = new Date(Date.parse(dateTime));
+
+    // Obter o momento atual
+    const now = new Date();
+
+    // Subtrair o valor DateTime fornecido do momento atual
+    const differenceInMilliseconds = now.getTime() - timestamp.getTime();
+
+    // Verificar se o valor DateTime fornecido é anterior ao momento atual
+    if (differenceInMilliseconds > 0) {
+      return true; // O valor DateTime já passou
+    }
+
+    // Se o valor DateTime é o mesmo dia, verificar o horário
+    if (differenceInMilliseconds === 0) {
+      const nowHour = now.getHours();
+      const nowMinutes = now.getMinutes();
+      const nowSeconds = now.getSeconds();
+      const dateTimeHour = timestamp.getHours();
+      const dateTimeMinutes = timestamp.getMinutes();
+      const dateTimeSeconds = timestamp.getSeconds();
+
+      // Comparar os horários
+      if (
+        nowHour >
+        dateTimeHour(nowHour === dateTimeHour && nowMinutes > dateTimeMinutes)(
+          nowHour === dateTimeHour &&
+            nowMinutes === dateTimeMinutes &&
+            nowSeconds >= dateTimeSeconds
+        )
+      ) {
+        return true; // O horário já passou
+      }
+    }
+
+    return false; // O valor DateTime não passou
+  }
+
+
+
   async function GetSchedule() {
     await api
       .get(`/Pacientes/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
@@ -68,16 +112,12 @@ export const PatientConsultation = ({ navigation }) => {
         // Muda o status da consulta para 'realizada', se a data já tiver passado
         response.data
           .forEach((consult) => {
-            const currentHourDate = new Date();
-            const currentHourDateFormated = currentHourDate.toISOString();
+            console.log(consult.dataConsulta);
 
             if (consult.situacaoId != "B95A1627-D4A6-4B23-A7F2-898A4103FE5E") {
-              if (consult.dataConsulta < currentHourDateFormated) {
+              if (isDateTimePassed(consult.dataConsulta)) {
                 api
-                  .put(`/Consultas/Status`, {
-                    id: consult.id,
-                    situacaoId: "B95A1627-D4A6-4B23-A7F2-898A4103FE5E",
-                  })
+                  .put(`/Consultas/Status?idConsulta=${consult.id}&status=Realizadas`)
                   .catch((error) => console.log(error));
               }
             }

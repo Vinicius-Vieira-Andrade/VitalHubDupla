@@ -72,16 +72,14 @@ export const ConfirmAppointmentModal = ({
       ...agendamento,
       pacienteId: profilePacient.user,
       situacaoId: "800CB32E-7B2D-4A19-AFAE-AE8A8AB19200",
-      // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
+      // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9", id de casa, o de cima é do senai kkkk
     });
     await api
       .post(`/Consultas/Cadastrar`, {
         ...agendamento,
         pacienteId: profilePacient.user,
-        //senai
         situacaoId: "800CB32E-7B2D-4A19-AFAE-AE8A8AB19200",
-        //casa
-        // situacaoId: "4D314E66-7334-4F41-B99D-846A6BF8F7F9",
+ 
       })
       .then(() => {
         setShowModal(false);

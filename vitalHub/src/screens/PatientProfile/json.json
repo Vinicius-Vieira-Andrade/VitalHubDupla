@@ -1,35 +1,231 @@
 {
-    "option": {
-        "crm": "029345",
-        "endereco": {
-            "cep": "02857070",
-            "clinicas": [Array
-            ],
-            "id": "da9b750d-efd2-4a8b-8c0b-09df4d6bef0d",
-            "logradouro": "rua b",
-            "medicos": [Array
-            ],
-            "numero": 32,
-            "pacientes": [Array
-            ]
-        },
-        "enderecoId": "da9b750d-efd2-4a8b-8c0b-09df4d6bef0d",
-        "especialidade": {
-            "especialidade1": "Cardiologista",
-            "id": "b0cf5a49-d0fc-4245-8403-245e4592b62a",
-            "medicos": [Array
-            ]
-        },
-        "especialidadeId": "b0cf5a49-d0fc-4245-8403-245e4592b62a",
-        "id": "46099739-d501-4721-863e-d091ba64d78f",
-        "idNavigation": {
-            "email": "matheus@gmail.com",
-            "foto": "https://vitahubg10.blob.core.windows.net/images-vitalhub/c06fff1d38184790b19ffa2d1176ac50.jpg",
-            "id": "46099739-d501-4721-863e-d091ba64d78f",
-            "nome": "matheus",
-            "senha": "$2a$11$h4lvhaaavBl8zFU7knzKv.l2Xi.BMilcZwLPSYOLBwTpoAGkM9kQa",
-            "tipoUsuarioId": "1ba258a3-66e3-42ae-95f9-443edeb131a0"
-        },
-        "medicosClinicas": []
-    }
+    "nome": "joao",
+    "email": "joao@gmail.com",
+    "senha": "Senai@134",
+    "foto": "string",
+    "cep": "23456767",
+    "logradouro": "rua b",
+    "numero": 34,
+    "cidade": "Santos",
+    "especialidadeId": "B0CF5A49-D0FC-4245-8403-245E4592B62A",
+    "crm": "123456",
+    "idTipoUsuario": "1BA258A3-66E3-42AE-95F9-443EDEB131A0"
 }
+
+
+
+
+
+
+  [
+    {
+        "dataConsulta": "2024-05-14T22:18:46.7",
+        "descricao": "consulta dor de cabeca",
+        "diagnostico": "dor de cabeca",
+        "exames": [],
+        "id": "0dacf95d-a37f-45ad-b554-6b6b51df4dd5",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "paciente": {
+            "consulta": [Array
+            ],
+            "cpf": "10371365999",
+            "dataNascimento": "1994-06-05T00:00:00",
+            "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "idNavigation": [Object
+            ],
+            "rg": "123453213"
+        },
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "prioridade": 1
+        },
+        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "4d314e66-7334-4f41-b99d-846a6bf8f7f9",
+            "situacao": "Agendadas"
+        },
+        "situacaoId": "4d314e66-7334-4f41-b99d-846a6bf8f7f9"
+    },
+    {
+        "dataConsulta": "2024-05-14T22:18:46.7",
+        "descricao": "dor de ouvido",
+        "diagnostico": "dores fortes no timpano",
+        "exames": [],
+        "id": "2e9cd1af-e294-4a17-bf41-7d188a9fab62",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "paciente": {
+            "consulta": [Array
+            ],
+            "cpf": "10371365999",
+            "dataNascimento": "1994-06-05T00:00:00",
+            "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "idNavigation": [Object
+            ],
+            "rg": "123453213"
+        },
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+            "prioridade": 2
+        },
+        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "receitaId": "ad54f666-19b6-4968-810b-d28d15bb16e4",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "4d314e66-7334-4f41-b99d-846a6bf8f7f9",
+            "situacao": "Agendadas"
+        },
+        "situacaoId": "4d314e66-7334-4f41-b99d-846a6bf8f7f9"
+    },
+    {
+        "dataConsulta": "2024-05-14T22:18:46.7",
+        "descricao": "consulta dor de cabeca",
+        "diagnostico": "dor de cabeca",
+        "exames": [],
+        "id": "2912649f-c668-43a1-9b96-904e76a1a372",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "paciente": {
+            "consulta": [Array
+            ],
+            "cpf": "10371365999",
+            "dataNascimento": "1994-06-05T00:00:00",
+            "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "idNavigation": [Object
+            ],
+            "rg": "123453213"
+        },
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+            "prioridade": 1
+        },
+        "prioridadeId": "45e8a79c-9601-4793-a1f2-29b36bf4de99",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "3f549cc9-1ffa-45bb-852f-f57949c699b4",
+            "situacao": "Canceladas"
+        },
+        "situacaoId": "3f549cc9-1ffa-45bb-852f-f57949c699b4"
+    },
+    {
+        "dataConsulta": "2024-05-14T22:18:46.7",
+        "descricao": "pica inflamada",
+        "diagnostico": "piroca inflamada",
+        "exames": [],
+        "id": "da1a9351-40d2-4e29-b8c9-be4e882ecb96",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "paciente": {
+            "consulta": [Array
+            ],
+            "cpf": "10371365999",
+            "dataNascimento": "1994-06-05T00:00:00",
+            "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "idNavigation": [Object
+            ],
+            "rg": "123453213"
+        },
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+            "prioridade": 2
+        },
+        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "receitaId": "08b91ac4-e766-475a-8523-2abd244bb04b",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "4d314e66-7334-4f41-b99d-846a6bf8f7f9",
+            "situacao": "Agendadas"
+        },
+        "situacaoId": "4d314e66-7334-4f41-b99d-846a6bf8f7f9"
+    },
+    {
+        "dataConsulta": "2024-05-14T22:18:46.7",
+        "descricao": "consulta bolada",
+        "diagnostico": "dor de calvice",
+        "exames": [],
+        "id": "4ab91d07-1cea-47e5-80ca-eead688c6f1b",
+        "medicoClinica": {
+            "clinicaId": "7f5ae2a8-86f1-44a8-bb2b-5cd5b0ca5676",
+            "consulta": [Array
+            ],
+            "id": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+            "medicoId": "025afd49-c195-4b7a-8cb1-843613c8cac8"
+        },
+        "medicoClinicaId": "cade597e-3916-4dbb-a5f1-4a50e03ddbed",
+        "paciente": {
+            "consulta": [Array
+            ],
+            "cpf": "10371365999",
+            "dataNascimento": "1994-06-05T00:00:00",
+            "enderecoId": "b6166f86-5e2b-4f88-865d-651300ab7a4f",
+            "id": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+            "idNavigation": [Object
+            ],
+            "rg": "123453213"
+        },
+        "pacienteId": "fcb94260-a63a-47d1-b5ba-3d8a27d80b2e",
+        "prioridade": {
+            "consulta": [Array
+            ],
+            "id": "0c64e546-fd08-4511-ac06-212cd5b83243",
+            "prioridade": 2
+        },
+        "prioridadeId": "0c64e546-fd08-4511-ac06-212cd5b83243",
+        "receitaId": "80fcd6ac-156d-4102-bfe5-485a91e95080",
+        "situacao": {
+            "consulta": [Array
+            ],
+            "id": "a1b44600-ea61-4f99-bd68-772316505491",
+            "situacao": "Realizadas"
+        },
+        "situacaoId": "a1b44600-ea61-4f99-bd68-772316505491"
+    }
+]

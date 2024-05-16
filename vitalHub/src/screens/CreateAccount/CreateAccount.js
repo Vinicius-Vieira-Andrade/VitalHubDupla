@@ -16,10 +16,12 @@ export const CreateAccount = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState("");
   const [user, setUser] = useState({
     //id do tipo usuario paciente cadastrado no banco
-    idTipoUsuario: "AAEB024B-C861-41B3-8603-878F3C70A241",
+    // idTipoUsuario: "AAEB024B-C861-41B3-8603-878F3C70A241",  //do banco do curso
+    idTipoUsuario: "97E4A35A-5CFD-4AC3-AEC0-BC240DA1E392", // de casa kk
     nome: "",
     email: "",
     senha: "",
+    rg: "",
   });
 
   //senai
@@ -42,110 +44,128 @@ export const CreateAccount = ({ navigation }) => {
       .required("A confirmação de senha é obrigatória"),
   });
 
-  async function Cadastrar() {
-    console.log(user);
+  // async function GetEmail() {
+  //   await api
+  //     .get(`Usuario/BuscaEmail?email=a${user.email}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(`erro ${error}`);
+  //     });
 
-    var form = new FormData();
-    form.append("idTipoUsuario", user.idTipoUsuario);
-    form.append("nome", user.nome);
-    form.append("email", user.email);
-    form.append("senha", user.senha);
-    // form.append("dataNascimento", user.dataNascimento);
-    // form.append("rg", user.rg);
-    // form.append("cpf", user.cpf);
+    async function Cadastrar() {
+      console.log(user);
 
-    await schema.validate(
-      { senha: user.senha, confirmPass },
-      { abortEarly: false }
-    );
-    // await schema.validate({ senha: user.senha }, { abortEarly: false });
+      var form = new FormData();
+      form.append("idTipoUsuario", user.idTipoUsuario);
+      form.append("nome", user.nome);
+      form.append("email", user.email);
+      form.append("senha", user.senha);
+      // form.append("dataNascimento", user.dataNascimento);
+      // form.append("rg", user.rg);
+      // form.append("cpf", user.cpf);
 
-    await api
-      .post("/Pacientes", form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log("Sucesso!");
-        console.log(response);
-        navigation.replace("Login");
-      })
-      .catch((error) => {
-        console.log("Erro de validação", error);
-        navigation.replace("Login");
-      });
-  }
+      await schema.validate(
+        { senha: user.senha, confirmPass },
+        { abortEarly: false }
+      );
+      // await schema.validate({ senha: user.senha }, { abortEarly: false });
 
-  return (
-    <Container>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="dark-content"
-      />
+      await api
+        .post("/Pacientes", form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("Sucesso!");
+          console.log(response);
+          navigation.replace("Login");
+        })
+        .catch((error) => {
+          console.log("Erro de validação", error);
+          navigation.replace("Login");
+        });
+    }
 
-      <LogoCreateAccount source={require("../../assets/VitalHub_Logo1.png")} />
+    return (
+      <Container>
+        <StatusBar
+          translucent
+          backgroundColor="transparent"
+          barStyle="dark-content"
+        />
 
-      <Title>Criar Conta</Title>
+        <LogoCreateAccount
+          source={require("../../assets/VitalHub_Logo1.png")}
+        />
 
-      <DescriptionPassword
-        description={
-          "Insira seu endereço de e-mail e senha para realizar seu cadastro."
-        }
-      />
+        <Title>Criar Conta</Title>
 
-      <Input
-        placeholder={"Nome"}
-        placeholderTextColor={"#49B3BA"}
-        onChangeText={(txt) => setUser({ ...user, nome: txt })}
-      />
-
-      <Input
-        placeholder={"Usuário ou E-mail"}
-        placeholderTextColor={"#49B3BA"}
-        onChangeText={(txt) => setUser({ ...user, email: txt })}
-      />
-
-      <Input
-        placeholder={"Senha"}
-        placeholderTextColor={"#49B3BA"}
-        secureTextEntry={true}
-        onChangeText={(txt) => setUser({ ...user, senha: txt })}
-      />
-
-      <Input
-        placeholder={"Confirmar senha"}
-        placeholderTextColor={"#49B3BA"}
-        secureTextEntry={true}
-        onChangeText={(txt) => {
-          setConfirmPass(txt);
-        }}
-      />
-
-      <ButtonNormal
-        onPress={() => {
-          if (
-            user.senha === confirmPass &&
-            user.senha !== null &&
-            confirmPass !== null
-          ) {
-            Cadastrar();
-          } else {
-            Alert.alert(
-              "Erro de Autenticação!",
-              "As senhas não coincidem. Por favor, verifique-as e tente novamente."
-            );
+        <DescriptionPassword
+          description={
+            "Insira seu endereço de e-mail e senha para realizar seu cadastro."
           }
-        }}
-        text={"Cadastrar"}
-      />
+        />
 
-      <Cancel
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-      />
-    </Container>
-  );
-};
+        <Input
+          placeholder={"Nome"}
+          placeholderTextColor={"#49B3BA"}
+          onChangeText={(txt) => setUser({ ...user, nome: txt })}
+        />
+
+        <Input
+          placeholder={"E-mail"}
+          placeholderTextColor={"#49B3BA"}
+          onChangeText={(txt) => setUser({ ...user, email: txt })}
+        />
+
+        <Input
+          placeholder={"RG"}
+          placeholderTextColor={"#49B3BA"}
+          onChangeText={(txt) => setUser({ ...user, rg: txt })}
+        />
+
+        <Input
+          placeholder={"Senha"}
+          placeholderTextColor={"#49B3BA"}
+          secureTextEntry={true}
+          onChangeText={(txt) => setUser({ ...user, senha: txt })}
+        />
+
+        <Input
+          placeholder={"Confirmar senha"}
+          placeholderTextColor={"#49B3BA"}
+          secureTextEntry={true}
+          onChangeText={(txt) => {
+            setConfirmPass(txt);
+          }}
+        />
+
+        <ButtonNormal
+          onPress={() => {
+            if (
+              user.senha === confirmPass &&
+              user.senha !== null &&
+              confirmPass !== null
+            ) {
+              Cadastrar();
+            } else {
+              Alert.alert(
+                "Erro de Autenticação!",
+                "As senhas não coincidem. Por favor, verifique-as e tente novamente."
+              );
+            }
+          }}
+          text={"Cadastrar"}
+        />
+
+        <Cancel
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        />
+      </Container>
+    );
+  };
