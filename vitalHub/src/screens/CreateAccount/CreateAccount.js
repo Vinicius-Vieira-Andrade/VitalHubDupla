@@ -16,8 +16,7 @@ export const CreateAccount = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState("");
   const [user, setUser] = useState({
     //id do tipo usuario paciente cadastrado no banco
-    // idTipoUsuario: "AAEB024B-C861-41B3-8603-878F3C70A241",  //do banco do curso
-    idTipoUsuario: "97E4A35A-5CFD-4AC3-AEC0-BC240DA1E392", // de casa kk
+    idTipoUsuario: "AAEB024B-C861-41B3-8603-878F3C70A241",
     nome: "",
     email: "",
     senha: "",

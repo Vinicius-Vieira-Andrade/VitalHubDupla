@@ -32,7 +32,10 @@ export const DoctorConsultation = ({ navigation }) => {
   const [role, setRole] = useState();
   const [consultaSelecionada, setConsultaSelecionada] = useState();
 
-  const image = require("../../assets/ImageCard.png");
+  const [consultId, setConsultId] = useState();
+
+
+  // const image = require("../../assets/ImageCard.png");
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -60,6 +63,46 @@ export const DoctorConsultation = ({ navigation }) => {
     }
   }
 
+  function isDateTimePassed(dateTime) {
+    // Convertendo a string de data/hora para um objeto Date
+    const timestamp = new Date(Date.parse(dateTime));
+
+    // Obter o momento atual
+    const now = new Date();
+
+    // Subtrair o valor DateTime fornecido do momento atual
+    const differenceInMilliseconds = now.getTime() - timestamp.getTime();
+
+    // Verificar se o valor DateTime fornecido é anterior ao momento atual
+    if (differenceInMilliseconds > 0) {
+      return true; // O valor DateTime já passou
+    }
+
+    // Se o valor DateTime é o mesmo dia, verificar o horário
+    if (differenceInMilliseconds === 0) {
+      const nowHour = now.getHours();
+      const nowMinutes = now.getMinutes();
+      const nowSeconds = now.getSeconds();
+      const dateTimeHour = timestamp.getHours();
+      const dateTimeMinutes = timestamp.getMinutes();
+      const dateTimeSeconds = timestamp.getSeconds();
+
+      // Comparar os horários
+      if (
+        nowHour >
+        dateTimeHour(nowHour === dateTimeHour && nowMinutes > dateTimeMinutes)(
+          nowHour === dateTimeHour &&
+            nowMinutes === dateTimeMinutes &&
+            nowSeconds >= dateTimeSeconds
+        )
+      ) {
+        return true; // O horário já passou
+      }
+    }
+
+    return false; // O valor DateTime não passou
+  }
+
   async function GetSchedule() {
     await api
       .get(`/Medicos/BuscarPorData?data=${dataConsulta}&id=${user.user}`)
@@ -67,20 +110,33 @@ export const DoctorConsultation = ({ navigation }) => {
         setSchedule(response.data);
 
         console.log(response.data);
+        response.data.forEach((consult) => {
+          console.log(consult.dataConsulta);
+
+          if (consult.situacaoId != "B95A1627-D4A6-4B23-A7F2-898A4103FE5E") {
+            if (isDateTimePassed(consult.dataConsulta)) {
+              api
+                .put(
+                  `/Consultas/Status?idConsulta=${consult.id}&status=Realizadas`
+                )
+                .catch((error) => console.log(error));
+            }
+          }
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-
-
   async function ChangeStatusSchedule() {
-    await api.put(`/Consultas/Status?idConsulta=${consultaSelecionada.id}&status=${consultaSelecionada.situacao}`)
-    .then((response) => {
-      console.log(response.data)
-
-    })
+    await api
+      .put(
+        `/Consultas/Status?idConsulta=${consultaSelecionada.id}&status=${consultaSelecionada.situacao}`
+      )
+      .then((response) => {
+        console.log(response.data);
+      });
   }
 
   useEffect(() => {
@@ -174,7 +230,7 @@ export const DoctorConsultation = ({ navigation }) => {
           item.situacao.situacao == consultaState && (
             <Card
               navigation={navigation}
-              hour={moment(item.dataConsulta).format('HH:mm')}
+              hour={moment(item.dataConsulta).format("HH:mm")}
               name={item.paciente.idNavigation.nome}
               age={
                 item.paciente.dataNascimento != null
@@ -187,7 +243,10 @@ export const DoctorConsultation = ({ navigation }) => {
               routine={item.situacao.situacao}
               url={item.paciente.idNavigation.foto}
               status={consultaState}
-              onPressCancel={() => {setShowModalCancel(true)}}
+              onPressCancel={() => {
+                setShowModalCancel(true);
+                setConsultId(item.id);
+              }}
               onPressAppointment={() => {
                 setConsultaSelecionada(item);
                 setShowModalAppointment(true);
@@ -204,6 +263,7 @@ export const DoctorConsultation = ({ navigation }) => {
       <CancellationModal
         visible={showModalCancel}
         setShowModalCancel={setShowModalCancel}
+        consultId={consultId}
       />
 
       <AppointmentModal

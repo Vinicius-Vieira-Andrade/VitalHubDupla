@@ -167,7 +167,7 @@ export const PatientConsultation = ({ navigation }) => {
 
   useEffect(() => {
     GetUser();
-  }, []);
+  }, [user]);
 
   return (
     <Container>

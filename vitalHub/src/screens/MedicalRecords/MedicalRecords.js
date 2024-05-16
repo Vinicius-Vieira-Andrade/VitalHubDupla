@@ -36,7 +36,7 @@ export const MedicalRecords = ({ navigation, route }) => {
     await api
       .get(`/Consultas/BuscarPorId?id=${route.params.consultaSelecionada.id}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setConsultaSelecionada(response.data);
       })
       .catch((error) => {
@@ -50,8 +50,10 @@ export const MedicalRecords = ({ navigation, route }) => {
 
   useEffect(() => {
     console.log("etaaaaaaa");
-    console.log(consultaSelecionada);
-  });
+    const medicamento = consultaSelecionada.receita.medicamento;
+    console.log(medicamento);
+    // console.log(consultaSelecionada);
+  }, [consultaSelecionada]);
 
   useEffect(() => {
     if (route.params) {
@@ -68,7 +70,7 @@ export const MedicalRecords = ({ navigation, route }) => {
         medicamento: prescription,
       })
       .then((response) => {
-        console.log(`boa: ${response}`);
+        // console.log(`boa: ${response}`);
         // setConsultaSelecionada(response.data)
       })
       .catch((error) => {
@@ -131,7 +133,7 @@ export const MedicalRecords = ({ navigation, route }) => {
                   fieldHeight={350}
                   placeholderTextColor={"#4E4B59"}
                   textLabel={"Prescrição médica"}
-                  placeholder={"Prescrição médica"}
+                  placeholder={consultaSelecionada.medicamento}
                   editable={false}
                   fieldWidth={90}
                 />
@@ -161,9 +163,10 @@ export const MedicalRecords = ({ navigation, route }) => {
                   fieldHeight={350}
                   placeholderTextColor={"#34898F"}
                   textLabel={"Prescrição médica"}
-                  placeholder={"Prescrição médica"}
+                  placeholder={consultaSelecionada.prescription}
                   editable={true}
                   fieldWidth={90}
+                  onChangeText={(p) => setPrescription(p)}
                 />
               </>
             )}

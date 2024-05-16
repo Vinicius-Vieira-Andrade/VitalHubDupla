@@ -50,7 +50,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
               placeholderTextColor={"#33303E"}
               textLabel={"Endereço"}
               placeholder={"Ex. Rua Vicenso Silva, 58"}
-              editable={true}
+              editable={false}
               fieldWidth={90}
               fieldValue={clinicaSelecionada.endereco.logradouro}
             />
@@ -61,7 +61,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
                 textLabel={"Número"}
                 placeholder={"Ex. 570"}
                 keyboardType="numeric"
-                editable={true}
+                editable={false}
                 fieldWidth={40}
                 fieldValue={`${clinicaSelecionada.endereco.numero}`}
               />
@@ -69,7 +69,7 @@ export const ConsultLocalization = ({ navigation, route }) => {
                 placeholderTextColor={"#33303E"}
                 textLabel={"Bairro"}
                 placeholder={"Ex. Vila Ema"}
-                editable={true}
+                editable={false}
                 fieldWidth={40}
                 fieldValue={clinicaSelecionada.endereco.cidade}
               />

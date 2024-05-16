@@ -37,25 +37,28 @@ import * as MediaLibrary from "expo-media-library";
 import api from "../../services/Services";
 import { ActivityIndicator } from "react-native";
 import { userDecodeToken } from "../../utils/Auth";
+import { CameraModal } from "../../components/Camera/CameraModal";
 
 export const ViewPrescription = ({ navigation, route }) => {
   const [consultaSelecionada, setConsultaSelecionada] = useState(null);
-  const [prescription, setPrescription] = useState({})
-  const [descricaoExame, setDescricaoExame] = useState()
-  const [uriCameraCapture, setUriCameraCapture] = useState("")
-  const [descriptionValue, setDescriptionValue] = useState(route.params.consulta.descricao)
-  const [diagnosticValue, setDiagnosticValue] = useState(route.params.consulta.diagnostico)
-  const [prescriptionValue, setPrescriptionValue] = useState()
-  
+  const [prescription, setPrescription] = useState({});
+  const [descricaoExame, setDescricaoExame] = useState();
+  const [uriCameraCapture, setUriCameraCapture] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState(
+    route.params.consulta.descricao
+  );
+  const [diagnosticValue, setDiagnosticValue] = useState(
+    route.params.consulta.diagnostico
+  );
+  const [prescriptionValue, setPrescriptionValue] = useState();
+  const [showCameraModal, setShowCameraModal] = useState(false);
 
   async function profileLoad() {
     const token = await userDecodeToken();
 
     if (token !== null) {
       setPrescription(token);
-    }
-
-    else {
+    } else {
       console.error(error, "Function Profile Load");
     }
   }
@@ -66,8 +69,8 @@ export const ViewPrescription = ({ navigation, route }) => {
 
   useEffect(() => {
     console.log("aaaaaaaaaaaaa");
-    console.log( prescription);
-  })
+    console.log(prescription);
+  });
 
   async function BuscarProntuario() {
     await api
@@ -81,30 +84,31 @@ export const ViewPrescription = ({ navigation, route }) => {
       });
   }
 
-
   // Inserir imagem no prontuário
   async function InserirExame() {
-    const formData = new FormData()
-    formData.append("ConsultaId", prescription.id)
+    const formData = new FormData();
+    formData.append("ConsultaId", consultaSelecionada.id);
     formData.append("Image", {
       uri: uriCameraCapture,
-      name: `image.${uriCameraCapture.split('.').pop()}`,
-      type: `image/${uriCameraCapture.split('.').pop()}`,
+      name: `image.${uriCameraCapture.split(".").pop()}`,
+      type: `image/${uriCameraCapture.split(".").pop()}`,
     });
 
-    await api.post('/Exame', formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    }).then(response => {
-      setDescricaoExame(descricaoExame + "/n" + response.data.descricao)
+    await api
+      .post("/Exame", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        setDescricaoExame(descricaoExame + "/n" + response.data.descricao);
 
-      console.log(descricaoExame + "/n" + response.data.descricao)
-    }).catch(error => {
-      console.log(error, 'Falha ao Inserir');
-    })
+        console.log(descricaoExame + "/n" + response.data.descricao);
+      })
+      .catch((error) => {
+        console.log(error, "Falha ao Inserir");
+      });
   }
-
 
   useEffect(() => {
     console.log(`consulta:  ${consultaSelecionada}`);
@@ -122,14 +126,16 @@ export const ViewPrescription = ({ navigation, route }) => {
     if (uriCameraCapture) {
       InserirExame();
     }
-  }, [uriCameraCapture])
+  }, [uriCameraCapture]);
 
   return (
     <>
       <ScrollContainer>
         {consultaSelecionada != null ? (
           <Container>
-            <ViewImage source={require("../../assets/ney.webp")} />
+            <ViewImage
+              source={{ uri: route.params.consultaMedico.idNavigation.foto }}
+            />
 
             <TitleProfile>
               {route.params.consultaMedico.idNavigation.nome}
@@ -142,7 +148,9 @@ export const ViewPrescription = ({ navigation, route }) => {
                 }
               />
               <DescriptionDoc
-                description={route.params.consulta.medicoClinica.medico.crm}
+                description={
+                  "crm" + route.params.consulta.medicoClinica.medico.crm
+                }
               />
             </BoxDescription>
 
@@ -186,17 +194,25 @@ export const ViewPrescription = ({ navigation, route }) => {
 
               <ImportImages>
                 {route.params ? (
-                  <ImagePrescription source={{ uri: route.params.photoUri }} />
+                  <ImagePrescription source={{ uri: uriCameraCapture }} />
                 ) : (
                   <TitleImage>{"[ ! ] Nenhuma foto informada"}</TitleImage>
                 )}
               </ImportImages>
             </BoxViewImageImport>
 
+            <CameraModal
+              getMediaLibrary={true}
+              visible={showCameraModal}
+              setUriCameraCapture={setUriCameraCapture}
+              // setShowCameraModal={setShowCameraModal}
+              setShowModalCancel={setShowCameraModal}
+            />
+
             <BoxBtn>
               <SendButton
                 onPress={() => {
-                  navigation.navigate("Camera");
+                  setShowCameraModal(true);
                 }}
                 text={"Enviar"}
               />
@@ -214,8 +230,9 @@ export const ViewPrescription = ({ navigation, route }) => {
               // fieldHeight={350}
               placeholderTextColor={"#A1A1A1"}
               placeholder={"Resultado do exame"}
-              editable={true}
+              editable={false}
               fieldWidth={90}
+              fieldValue={descricaoExame}
             />
 
             <CardBackLess
