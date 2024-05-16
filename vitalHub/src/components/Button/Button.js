@@ -9,7 +9,7 @@ export const ButtonNormal = ({
     text
 }) => {
     return (
-        <NormalButton style={{marginTop: 0, marginBottom: 0}}
+        <NormalButton style={{marginTop: 10, marginBottom: 0}}
             onPress={onPress}>
             <ButtonText>{text}</ButtonText>
             {/* metodo de disable Button */}

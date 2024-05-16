@@ -46,7 +46,7 @@ export const LargeButton = styled(NormalButton)`
 export const ButtonBlocked = styled(NormalButton)`
     background-color: #ACABB7;
     border-color: #ACABB7;
-    margin-top: 5px;
+    margin-top: 20px;
     margin-bottom: 15px;
 `
 export const SmallButtonBlocked = styled(NormalButton)`

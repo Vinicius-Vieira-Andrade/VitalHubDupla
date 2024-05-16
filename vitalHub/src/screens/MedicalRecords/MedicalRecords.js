@@ -37,26 +37,29 @@ export const MedicalRecords = ({ navigation, route }) => {
       .get(`/Consultas/BuscarPorId?id=${route.params.consultaSelecionada.id}`)
       .then((response) => {
         // console.log(response.data);
-        setConsultaSelecionada(response.data);
+        setConsultaSelecionada({ ...response.data, medicamento : response.data.receita.medicamento });
+        
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  useEffect(() => {
-    // BuscarProntuario()
-  }, [route]);
+  // useEffect(() => {
+
+  //   // BuscarProntuario()
+  // }, [route]);
 
   useEffect(() => {
     console.log("etaaaaaaa");
-    const medicamento = consultaSelecionada.receita.medicamento;
-    console.log(medicamento);
+    console.log(consultaSelecionada);
     // console.log(consultaSelecionada);
   }, [consultaSelecionada]);
 
   useEffect(() => {
     if (route.params) {
+      console.log("EUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+      console.log(route.params.consultaSelecionada);
       setConsultaSelecionada(route.params.consultaSelecionada);
     }
   }, [route]);
@@ -72,6 +75,7 @@ export const MedicalRecords = ({ navigation, route }) => {
       .then((response) => {
         // console.log(`boa: ${response}`);
         // setConsultaSelecionada(response.data)
+        BuscarProntuario()
       })
       .catch((error) => {
         console.log(error);
