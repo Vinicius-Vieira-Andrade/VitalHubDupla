@@ -77,7 +77,7 @@ export const ViewPrescription = ({ navigation, route }) => {
       .get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
       .then((response) => {
         console.log(response.data);
-        setConsultaSelecionada(response.data);
+        setConsultaSelecionada({...response.data, medicamento : response.data.receita.medicamento});
       })
       .catch((error) => {
         console.log(error);
@@ -159,7 +159,7 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Descrição da consulta"}
               placeholder={"Descricão"}
-              editable={true}
+              editable={false}
               fieldWidth={90}
               onChangeText={(txt) => setDescriptionValue(txt)}
               fieldValue={descriptionValue}
@@ -170,7 +170,7 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Diagnóstico do paciente"}
               placeholder={"Diagnóstico"}
-              editable={true}
+              editable={false}
               fieldWidth={90}
               onChangeText={(txt) => setDiagnosticValue(txt)}
               fieldValue={diagnosticValue}
@@ -182,10 +182,10 @@ export const ViewPrescription = ({ navigation, route }) => {
               placeholderTextColor={"#A1A1A1"}
               textLabel={"Prescrição médica"}
               placeholder={"Prescrição"}
-              editable={true}
+              editable={false}
               fieldWidth={90}
               onChangeText={(txt) => setPrescriptionValue(txt)}
-              fieldValue={prescriptionValue}
+              fieldValue={consultaSelecionada.medicamento}
               // fieldValue={"dipirona"}
             />
 

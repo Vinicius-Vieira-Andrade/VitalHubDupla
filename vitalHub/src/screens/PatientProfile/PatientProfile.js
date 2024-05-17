@@ -28,10 +28,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ButtonCamera, ViewImageProfile } from "./style";
 import { ActivityIndicator, View } from "react-native";
 import { CameraModal } from "../../components/Camera/CameraModal";
-import { mask } from 'remask'
+import { mask, unMask } from 'remask'
 
 import moment from "moment";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { cepPattern, cpfPattern } from "../../utils/masks";
+// import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const PatientProfile = ({ navigation }) => {
   const [datanascimento, setDataNascimento] = useState("");
@@ -47,7 +48,6 @@ export const PatientProfile = ({ navigation }) => {
   const [uriCameraCapture, setUriCameraCapture] = useState("");
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [role, setRole] = useState();
-  const born = '99/99/9999'
 
   //funcao q guarda e carrega os dados trazidos da apii
   async function profileLoad() {
@@ -122,9 +122,10 @@ export const PatientProfile = ({ navigation }) => {
 
   useEffect(() => {
     const GetCep = async () => {
-      if (cep !== "" && cep.length === 8) {
+      if (cep !== "" && cep.length === 9) {
+        console.log(`https://viacep.com.br/ws/${unMask(cep)}/json/`);
         await axios
-          .get(`https://viacep.com.br/ws/${cep}/json/`)
+          .get(`https://viacep.com.br/ws/${unMask(cep)}/json/`)
           .then((response) => {
             console.log("achei o ceeeppp");
             console.log(response.data);
@@ -295,13 +296,14 @@ export const PatientProfile = ({ navigation }) => {
                 placeholderTextColor={"#A1A1A1"}
                 textLabel={role.role == "medico" ? "CRM" : "CPF"}
                 placeholder={
-                  role.role == "medico" ? user.option.crm : user.option.cpf
+                  role.role == "medico" ? user.option.crm : cpfPattern(user.option.cpf)
                 }
                 fieldValue={
-                  role.role == "medico" ? user.option.crm : user.option.cpf
+                  role.role == "medico" ? user.option.crm : cpfPattern(user.option.cpf)
+
                 }
                 keyboardType="numeric"
-                maxLength={11}
+                maxLength={14}
                 editable={false}
                 fieldWidth={90}
               />
@@ -334,10 +336,10 @@ export const PatientProfile = ({ navigation }) => {
                   }
                   fieldValue={
                     user.option.endereco
-                      ? user.option.endereco.cep
+                      ? cepPattern(user.option.endereco.cep)
                       : "Cep não encontrado!"
                   }
-                  maxLength={8}
+                  maxLength={9}
                   // onChangeText={(text) => setCep(text)}
                   keyboardType="numeric"
                   editable={false}
@@ -380,6 +382,7 @@ export const PatientProfile = ({ navigation }) => {
                     ? setEspecialidade(txt)
                     : setDataNascimento(txt);
                 }}
+                fieldValue={role.role === 'medico' ? user.option.especialidade.especialidade1 : datanascimento}
                 editable={role.role === "medico" ? false : true}
                 fieldWidth={90}
               />
@@ -397,7 +400,8 @@ export const PatientProfile = ({ navigation }) => {
                 onChangeText={(txt) => {
                   role.role === "medico" ? setCrm(txt) : setCpf(txt);
                 }}
-                maxLength={role.role === "medico" ? 6 : 11}
+                fieldValue={role.role === 'medico' ? crm : cpfPattern(cpf)}
+                maxLength={role.role === "medico" ? 6 : 14}
                 editable={true}
                 fieldWidth={90}
               />
@@ -407,6 +411,7 @@ export const PatientProfile = ({ navigation }) => {
                 style={{ borderRadius: 5, borderColor: "#49B3BA" }}
                 textLabel={"Logradouro"}
                 placeholder={"Insira sua rua"}
+                fieldValue={logradouro}
                 onChangeText={(txt) => setLogradouro(txt)}
                 editable={true}
                 fieldWidth={90}
@@ -419,7 +424,8 @@ export const PatientProfile = ({ navigation }) => {
                   textLabel={"CEP"}
                   placeholder={"Insira seu CEP"}
                   onChangeText={(txt) => setCep(txt)}
-                  maxLength={8}
+                  maxLength={9}
+                  fieldValue={cepPattern(cep)}
                   keyboardType="numeric"
                   editable={true}
                   fieldWidth={40}
@@ -430,6 +436,7 @@ export const PatientProfile = ({ navigation }) => {
                   placeholder={"Insira sua cidade"}
                   textLabel={"Cidade"}
                   onChangeText={(txt) => setCidade(txt)}
+                  fieldValue={cidade}
                   editable={true}
                   fieldWidth={40}
                   // placeholder={(user.role === 'Medico') ? user.endereco? user.endereco.numero : user.endereco? user.endereco.cidade}

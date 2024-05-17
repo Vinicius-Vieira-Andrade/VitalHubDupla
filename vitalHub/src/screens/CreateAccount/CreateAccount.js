@@ -11,6 +11,7 @@ import { LogoCreateAccount } from "../../components/Images/StyleImages";
 import { useState } from "react";
 import api from "../../services/Services";
 import * as yup from "yup";
+import { rgPattern } from "../../utils/masks";
 
 export const CreateAccount = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState("");
@@ -53,101 +54,118 @@ export const CreateAccount = ({ navigation }) => {
   //       console.log(`erro ${error}`);
   //     });
 
-    async function Cadastrar() {
-      console.log(user);
+  async function Cadastrar() {
+    console.log(user);
 
-      var form = new FormData();
-      form.append("idTipoUsuario", user.idTipoUsuario);
-      form.append("nome", user.nome);
-      form.append("email", user.email);
-      form.append("senha", user.senha);
-      // form.append("dataNascimento", user.dataNascimento);
-      // form.append("rg", user.rg);
-      // form.append("cpf", user.cpf);
+    var form = new FormData();
+    form.append("idTipoUsuario", user.idTipoUsuario);
+    form.append("nome", user.nome);
+    form.append("email", user.email);
+    form.append("senha", user.senha);
+    form.append("rg", user.rg);
+    // form.append("dataNascimento", user.dataNascimento);
+    // form.append("cpf", user.cpf);
 
-      await schema.validate(
-        { senha: user.senha, confirmPass },
-        { abortEarly: false }
+    await schema.validate(
+      { senha: user.senha, confirmPass },
+      { abortEarly: false }
+    );
+    // await schema.validate({ senha: user.senha }, { abortEarly: false });
+
+    await api
+      .post("/Pacientes", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("Sucesso!");
+        console.log(response);
+        navigation.replace("Login");
+      })
+      .catch((error) => {
+        console.log("Erro de validação", error);
+        navigation.replace("Login");
+      });
+  }
+
+  const validarCampos = () => {
+    const camposPreenchidos = ["nome", "email", "rg", "senha"];
+    const camposValidos = camposPreenchidos.every(
+      (campo) => user[campo].trim() !== ""
+    );
+
+    if (!camposValidos) {
+      Alert.alert(
+        "Erro de Cadastro",
+        "Por favor, preencha todos os campos obrigatórios."
       );
-      // await schema.validate({ senha: user.senha }, { abortEarly: false });
-
-      await api
-        .post("/Pacientes", form, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log("Sucesso!");
-          console.log(response);
-          navigation.replace("Login");
-        })
-        .catch((error) => {
-          console.log("Erro de validação", error);
-          navigation.replace("Login");
-        });
+      return false; // Retorna falso para indicar que a validação falhou
     }
+    return true; // Retorna verdadeiro para indicar que a validação passou
+  };
 
-    return (
-      <Container>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle="dark-content"
-        />
+  return (
+    <Container>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
 
-        <LogoCreateAccount
-          source={require("../../assets/VitalHub_Logo1.png")}
-        />
+      <LogoCreateAccount source={require("../../assets/VitalHub_Logo1.png")} />
 
-        <Title>Criar Conta</Title>
+      <Title>Criar Conta</Title>
 
-        <DescriptionPassword
-          description={
-            "Insira seu endereço de e-mail e senha para realizar seu cadastro."
-          }
-        />
+      <DescriptionPassword
+        description={
+          "Insira seu endereço de e-mail e senha para realizar seu cadastro."
+        }
+      />
 
-        <Input
-          placeholder={"Nome"}
-          placeholderTextColor={"#49B3BA"}
-          onChangeText={(txt) => setUser({ ...user, nome: txt })}
-        />
+      <Input
+        placeholder={"Nome"}
+        placeholderTextColor={"#49B3BA"}
+        onChangeText={(txt) => setUser({ ...user, nome: txt })}
+      />
 
-        <Input
-          placeholder={"E-mail"}
-          placeholderTextColor={"#49B3BA"}
-          onChangeText={(txt) => setUser({ ...user, email: txt })}
-        />
+      <Input
+        placeholder={"E-mail"}
+        placeholderTextColor={"#49B3BA"}
+        onChangeText={(txt) => setUser({ ...user, email: txt })}
+      />
 
-        <Input
-          placeholder={"RG"}
-          placeholderTextColor={"#49B3BA"}
-          onChangeText={(txt) => setUser({ ...user, rg: txt })}
-        />
+      <Input
+        placeholder={"RG"}
+        placeholderTextColor={"#49B3BA"}
+        onChangeText={(txt) => setUser({ ...user, rg: txt })}
+        fieldValue={rgPattern(user.rg)}
+        maxLength={12}
+      />
 
-        <Input
-          placeholder={"Senha"}
-          placeholderTextColor={"#49B3BA"}
-          secureTextEntry={true}
-          onChangeText={(txt) => setUser({ ...user, senha: txt })}
-        />
+      <Input
+        placeholder={"Senha"}
+        placeholderTextColor={"#49B3BA"}
+        secureTextEntry={true}
+        onChangeText={(txt) => setUser({ ...user, senha: txt })}
+      />
 
-        <Input
-          placeholder={"Confirmar senha"}
-          placeholderTextColor={"#49B3BA"}
-          secureTextEntry={true}
-          onChangeText={(txt) => {
-            setConfirmPass(txt);
-          }}
-        />
+      <Input
+        placeholder={"Confirmar senha"}
+        placeholderTextColor={"#49B3BA"}
+        secureTextEntry={true}
+        onChangeText={(txt) => {
+          setConfirmPass(txt);
+        }}
+      />
 
-        <ButtonNormal
-          onPress={() => {
+      <ButtonNormal
+        onPress={() => {
+          if (validarCampos()) {
             if (
               user.senha === confirmPass &&
-              user.senha !== null &&
-              confirmPass !== null
+              user.senha !== "" &&
+              confirmPass !== ""
             ) {
               Cadastrar();
             } else {
@@ -156,15 +174,16 @@ export const CreateAccount = ({ navigation }) => {
                 "As senhas não coincidem. Por favor, verifique-as e tente novamente."
               );
             }
-          }}
-          text={"Cadastrar"}
-        />
+          }
+        }}
+        text={"Cadastrar"}
+      />
 
-        <Cancel
-          onPress={() => {
-            navigation.navigate("Login");
-          }}
-        />
-      </Container>
-    );
-  };
+      <Cancel
+        onPress={() => {
+          navigation.navigate("Login");
+        }}
+      />
+    </Container>
+  );
+};
