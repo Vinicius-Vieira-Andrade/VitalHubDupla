@@ -6,7 +6,9 @@ import { Input } from "../../components/Input/Input";
 import { Logo, Seta } from "../../components/Images/StyleImages";
 import { Title } from "../../components/Title/StyleTitle";
 import { useState } from "react";
+import { LogBox } from 'react-native';
 
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 import api from "../../services/Services";
 
 export const ForgotPassword = ({ navigation }) => {

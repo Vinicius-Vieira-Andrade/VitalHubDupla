@@ -12,6 +12,9 @@ import { BoxAgeEmailModal } from "./StyleAppointmentModal";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { LargeInputGray } from "../InputBox/InputBox";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const AppointmentModal = ({
   navigation,

@@ -18,6 +18,9 @@ import {
 } from "../../components/Descriptions/StyledDescriptions";
 import api from "../../services/Services";
 import { RedefinePassword } from "../RedefinePassword/RedefinePassword";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const CheckEmail = ({ navigation, route }) => {
   const [codigo, setCodigo] = useState("");

@@ -19,6 +19,9 @@ import {
 import { useState } from "react";
 import { Label } from "../Label/Label";
 import { CardCancelLess } from "../Descriptions/Descriptions";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 

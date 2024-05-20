@@ -38,6 +38,9 @@ import api from "../../services/Services";
 import { ActivityIndicator } from "react-native";
 import { userDecodeToken } from "../../utils/Auth";
 import { CameraModal } from "../../components/Camera/CameraModal";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs(); // Ignore log notification by message
 
 export const ViewPrescription = ({ navigation, route }) => {
   const [consultaSelecionada, setConsultaSelecionada] = useState(null);

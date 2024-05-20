@@ -12,6 +12,9 @@ import { useState } from "react";
 import api from "../../services/Services";
 import * as yup from "yup";
 import { rgPattern } from "../../utils/masks";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const CreateAccount = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState("");
@@ -122,6 +125,8 @@ export const CreateAccount = ({ navigation }) => {
           "Insira seu endereço de e-mail e senha para realizar seu cadastro."
         }
       />
+
+  
 
       <Input
         placeholder={"Nome"}

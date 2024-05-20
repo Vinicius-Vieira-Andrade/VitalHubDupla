@@ -16,13 +16,19 @@ import api from "../../services/Services";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userDecodeToken } from "../../utils/Auth";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
+
 // import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("stefany@gmail.com");
+  const [email, setEmail] = useState();
+  // const [email, setEmail] = useState("stefany@gmail.com");
   // const [email, setEmail] = useState("viniividrade@gmail.com");
   // const [email, setEmail] = useState("paciente@gmail.com");
-  const [senha, setSenha] = useState("Senai@134");
+  // const [senha, setSenha] = useState("Senai@134");
+  const [senha, setSenha] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isInputDataValid, setIsInputDataValid] = useState(true); // Guardo o estado do input (se estiver errado, mostrar mensagem de erro)
 
@@ -73,7 +79,7 @@ export const Login = ({ navigation }) => {
       ) : null}
 
       <Input
-        placeholder={"Usuário ou E-mail"}
+        placeholder={"E-mail"}
         placeholderTextColor={"#49B3BA"}
         fieldValue={email}
         onChangeText={(txt) => setEmail(txt)}

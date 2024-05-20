@@ -22,6 +22,9 @@ import { AppointmentModal } from "../../components/AppointmentModal/AppointmentM
 import moment from "moment";
 import { userDecodeToken } from "../../utils/Auth";
 import api from "../../services/Services";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs() // Ignore log notification by message
 
 export const DoctorConsultation = ({ navigation }) => {
   const [user, setUser] = useState([]);
@@ -158,6 +161,10 @@ export const DoctorConsultation = ({ navigation }) => {
   useEffect(() => {
     GetUser();
   }, []);
+
+  useEffect(() => {
+    GetUser();
+  }, [photo]);
 
   useEffect(() => {
     console.log("user?");

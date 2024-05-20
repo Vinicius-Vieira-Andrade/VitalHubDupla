@@ -33,6 +33,9 @@ import { mask, unMask } from 'remask'
 import moment from "moment";
 import { cepPattern, cpfPattern } from "../../utils/masks";
 // import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs() // Ignore log notification by message
 
 export const PatientProfile = ({ navigation }) => {
   const [datanascimento, setDataNascimento] = useState("");

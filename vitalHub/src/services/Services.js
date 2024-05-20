@@ -6,7 +6,7 @@ const porta = '4466';
 
 //declarar o ip da maquina 
 
-const ipSenai = '192.168.10.139';
+const ipSenai = '172.16.39.109';
 
 //definir a url padrao
 const apiUrlLocal = `http://${ipSenai}:${porta}/api`;
@@ -18,3 +18,5 @@ const api = axios.create({
 });
 
 export default api;
+
+// BANANINHA DOCE

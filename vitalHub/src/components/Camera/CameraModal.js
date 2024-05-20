@@ -29,6 +29,9 @@ import { useEffect, useState, useRef } from "react"; // REACT
 
 import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons"; // ICON CAMERA
 import { EndCamera, LastPhoto, LastTouchable } from "./styles";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const CameraModal = ({
   navigation,

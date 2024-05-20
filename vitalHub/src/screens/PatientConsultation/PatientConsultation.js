@@ -25,6 +25,9 @@ import { PatientAppointmentModal } from "../../components/PatientAppointmentModa
 import { userDecodeToken } from "../../utils/Auth";
 import api from "../../services/Services";
 import moment from "moment";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs() // Ignore log notification by message
 
 export const PatientConsultation = ({ navigation }) => {
   const [user, setUser] = useState({});

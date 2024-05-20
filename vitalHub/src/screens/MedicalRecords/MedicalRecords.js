@@ -23,6 +23,9 @@ import { ActivityIndicator, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { InputHighGrey } from "../../components/Input/StyleInput";
 import { Text } from "react-native-svg";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const MedicalRecords = ({ navigation, route }) => {
   const [user, setUser] = useState();

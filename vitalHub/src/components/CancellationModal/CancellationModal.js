@@ -7,6 +7,9 @@ import { ModalContent, PatientModal } from "./StyleCancelationModal";
 import { handleCallNotifications } from "../Notifications/Notifications";
 import api from "../../services/Services";
 import { useEffect } from "react";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const CancellationModal = ({
   navigation,

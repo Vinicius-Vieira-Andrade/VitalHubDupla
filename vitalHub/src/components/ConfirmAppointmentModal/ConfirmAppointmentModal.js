@@ -30,6 +30,9 @@ import { userDecodeToken, userTokenLogout } from "../../utils/Auth";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import api from "../../services/Services";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();  // Ignore log notification by message
 
 export const ConfirmAppointmentModal = ({
   navigation,
